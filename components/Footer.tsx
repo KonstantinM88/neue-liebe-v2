@@ -4,6 +4,7 @@ import { useLang } from '@/context/LangContext'
 
 export default function Footer() {
   const { t } = useLang()
+  const currentYear = new Date().getFullYear()
 
   const navLinks = [
     { href: '#about',       de: 'Über uns',    en: 'About' },
@@ -90,7 +91,7 @@ export default function Footer() {
         paddingTop: '2rem', flexWrap: 'wrap', gap: '1rem',
       }}>
         <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', fontWeight: 300 }}>
-          © 2024 Restaurant Neue Liebe · Nebra (Unstrut)
+          © {currentYear} Restaurant Neue Liebe · Nebra (Unstrut)
         </p>
         <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', fontWeight: 300 }}>
           {t('Impressum · Datenschutz', 'Imprint · Privacy')}
