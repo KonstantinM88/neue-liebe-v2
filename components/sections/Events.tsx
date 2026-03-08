@@ -38,7 +38,7 @@ export default function Events() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Top grid */}
-        <div className="events-top" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start', marginBottom: '5rem' }}>
+        <div className="events-top">
 
           {/* Text */}
           <div className="reveal-left">
@@ -84,7 +84,7 @@ export default function Events() {
           </div>
 
           {/* Visual */}
-          <div className="reveal-right" style={{ position: 'relative' }}>
+          <div className="events-visual reveal-right" style={{ position: 'relative' }}>
             <Image
               src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80"
               alt={t('Events Neue Liebe', 'Neue Liebe Events')}
@@ -107,7 +107,7 @@ export default function Events() {
         </div>
 
         {/* Event cards */}
-        <div className="events-grid reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
+        <div className="events-grid reveal">
           {eventCards.map((card) => (
             <div key={card.titleDe} className="event-card" style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/2', cursor: 'none' }}>
               <Image

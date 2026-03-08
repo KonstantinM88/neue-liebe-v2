@@ -55,13 +55,7 @@ export default function Experience() {
       </div>
 
       {/* Grid */}
-      <div className="experience-grid" style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '2px',
-      }}>
+      <div className="experience-grid">
         {cards.map((c) => (
           <div
             key={c.num}

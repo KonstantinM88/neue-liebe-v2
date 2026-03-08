@@ -15,11 +15,7 @@ export default function About() {
 
   return (
     <section id="about" style={{ background: 'var(--cream)', padding: 'clamp(5rem, 10vw, 10rem) 4vw' }}>
-      <div className="about-grid" style={{
-        maxWidth: 1200, margin: '0 auto',
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: '5rem', alignItems: 'center',
-      }}>
+      <div className="about-grid">
         {/* Text */}
         <div className="about-text reveal-left">
           <p className="section-label" style={{ color: 'var(--gold)' }}>

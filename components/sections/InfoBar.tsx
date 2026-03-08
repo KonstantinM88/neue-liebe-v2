@@ -13,29 +13,15 @@ export default function InfoBar() {
   ]
 
   return (
-    <div style={{
-      background: 'var(--gold)',
-      padding: '1.2rem 4vw',
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '4rem',
-      flexWrap: 'wrap',
-    }}>
-      {items.map((item, i) => (
-        <div key={i} style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.8rem',
-          fontFamily: "'Jost', sans-serif",
-          fontSize: '0.72rem',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: 'var(--charcoal)',
-        }}>
-          <span style={{ fontSize: '1rem', opacity: 0.8 }}>{item.icon}</span>
-          <span>{item.text}</span>
-        </div>
-      ))}
+    <div className="info-bar">
+      <div className="info-bar-inner">
+        {items.map((item, i) => (
+          <div key={i} className="info-bar-item">
+            <span className="info-bar-icon">{item.icon}</span>
+            <span>{item.text}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
