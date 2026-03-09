@@ -1769,10 +1769,63 @@ section { overflow: hidden; }
 }
 
 /* ─── RESERVATION FORM ─── */
+.reservation-section {
+  background:
+    radial-gradient(circle at top center, rgba(201,169,110,0.14) 0%, rgba(201,169,110,0) 34%),
+    linear-gradient(180deg, #211b15 0%, #17120f 100%);
+  padding: clamp(5rem, 10vw, 10rem) 4vw;
+}
+
+.reservation-shell {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  text-align: center;
+  border-radius: 38px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(201, 169, 110, 0.14);
+  box-shadow:
+    0 30px 72px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.reservation-shell::before {
+  content: '';
+  position: absolute;
+  inset: -20% auto auto -18%;
+  width: 42%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(201,169,110,0.12) 0%, rgba(201,169,110,0.03) 42%, rgba(201,169,110,0) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.reservation-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.reservation-lead {
+  max-width: 42rem;
+  margin: 1.35rem auto 2.8rem;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.66);
+  line-height: 1.78;
+  font-weight: 300;
+}
+
 .res-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
+}
+
+.reservation-form {
+  text-align: left;
 }
 
 .form-group { display: flex; flex-direction: column; text-align: left; }
@@ -1780,9 +1833,9 @@ section { overflow: hidden; }
 
 .form-group label {
   font-size: 0.62rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: rgba(232,213,163,0.84);
   font-weight: 400;
   margin-bottom: 0.6rem;
   font-family: 'Jost', sans-serif;
@@ -1791,27 +1844,55 @@ section { overflow: hidden; }
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+  border: 1px solid rgba(201, 169, 110, 0.14);
   color: #fff;
-  padding: 14px 16px;
+  padding: 15px 17px;
   font-family: 'Jost', sans-serif;
   font-size: 0.9rem;
   font-weight: 300;
   outline: none;
   width: 100%;
-  transition: border-color 0.3s;
+  border-radius: 18px 18px 34px 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 10px 24px rgba(0, 0, 0, 0.08);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: none;
   appearance: none;
   -webkit-appearance: none;
+  backdrop-filter: blur(10px);
 }
 
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus { border-color: var(--gold); }
+.form-group textarea:focus {
+  border-color: rgba(201, 169, 110, 0.56);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 16px 32px rgba(0, 0, 0, 0.12),
+    0 0 0 3px rgba(201,169,110,0.08);
+  transform: translateY(-1px);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,255,255,0.34);
+}
 
 .form-group select option { background: var(--charcoal); }
-.form-group textarea { height: 100px; resize: none; }
+.form-group textarea {
+  min-height: 118px;
+  resize: none;
+  line-height: 1.65;
+}
 
 .btn-submit {
   grid-column: span 2;
@@ -1820,16 +1901,35 @@ section { overflow: hidden; }
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-weight: 400;
-  background: var(--gold);
+  background: linear-gradient(180deg, #d8b879 0%, #c9a96e 100%);
   color: var(--charcoal);
-  border: none;
-  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 999px;
+  padding: 18px 24px;
   cursor: none;
   width: 100%;
-  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow:
+    0 16px 36px rgba(201,169,110,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.24);
+  transition:
+    background 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
 }
 
-.btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-submit:hover {
+  background: linear-gradient(180deg, #e2c58e 0%, #d1af73 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 40px rgba(201,169,110,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.btn-submit:disabled {
+  opacity: 0.74;
+  filter: saturate(0.8);
+}
 
 /* ─── FOOTER ─── */
 .footer-top {
@@ -2100,6 +2200,26 @@ section { overflow: hidden; }
   .event-card-title {
     font-size: 1.34rem;
   }
+  .reservation-shell {
+    padding: 1.2rem 1rem 1.1rem;
+    border-radius: 26px;
+  }
+  .reservation-lead {
+    margin: 1rem auto 2rem;
+    font-size: 0.92rem;
+  }
+  .res-form {
+    gap: 1rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 14px 15px;
+    border-radius: 16px 16px 28px 16px;
+  }
+  .btn-submit {
+    padding: 16px 18px;
+  }
   .res-form { grid-template-columns: 1fr; }
   .form-group.full, .btn-submit { grid-column: span 1; }
   .footer-top { grid-template-columns: 1fr; }
@@ -2269,5 +2389,33 @@ section { overflow: hidden; }
   }
   .event-card-title {
     font-size: 1.18rem;
+  }
+  .reservation-shell {
+    padding: 1rem 0.82rem 0.9rem;
+    border-radius: 20px;
+  }
+  .reservation-lead {
+    margin: 0.9rem auto 1.7rem;
+    font-size: 0.86rem;
+    line-height: 1.68;
+  }
+  .form-group label {
+    font-size: 0.56rem;
+    letter-spacing: 0.24em;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 13px 14px;
+    font-size: 0.86rem;
+    border-radius: 14px 14px 24px 14px;
+  }
+  .form-group textarea {
+    min-height: 106px;
+  }
+  .btn-submit {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    padding: 15px 16px;
   }
 }

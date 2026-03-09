@@ -64,22 +64,22 @@ export default function Reservation({ onToast }: ReservationProps) {
   )
 
   return (
-    <section id="reservation" style={{ background: 'var(--charcoal-mid)', padding: 'clamp(5rem, 10vw, 10rem) 4vw' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+    <section id="reservation" className="reservation-section">
+      <div className="reservation-shell">
         <p className="section-label reveal" style={{ color: 'var(--gold)' }}>
           {t('Ihren Platz sichern', 'Secure Your Seat')}
         </p>
         <h2 className="section-title reveal" style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#fff' }}>
           {t('Tisch reservieren', 'Reserve a Table')}
         </h2>
-        <p className="reveal" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', margin: '1.5rem 0 3rem', lineHeight: 1.7, fontWeight: 300 }}>
+        <p className="reservation-lead reveal">
           {t(
             'Wir freuen uns auf Ihren Besuch. Reservieren Sie jetzt Ihren Tisch und erleben Sie die Neue Liebe hautnah.',
             'We look forward to your visit. Reserve your table now and experience Neue Liebe first-hand.'
           )}
         </p>
 
-        <form className="res-form reveal" onSubmit={onSubmit}>
+        <form className="res-form reservation-form reveal" onSubmit={onSubmit}>
           {field(t('Vorname', 'First Name'),  'firstName', 'text', 'Maria')}
           {field(t('Nachname', 'Last Name'),   'lastName',  'text', 'Müller')}
           {field(t('E-Mail', 'Email'),          'email',     'email', 'maria@beispiel.de')}
