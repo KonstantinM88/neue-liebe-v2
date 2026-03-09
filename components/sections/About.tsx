@@ -1,17 +1,98 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
-export default function About() {
-  const { t } = useLang()
+type AboutStat = {
+  label: string
+  target?: number
+  suffix?: string
+  decimals?: number
+  finalText?: string
+}
 
-  const stats = [
-    { num: '15+', label: t('Jahre Erfahrung', 'Years Experience') },
-    { num: '200+', label: t('Plätze', 'Seats') },
-    { num: '4.8', label: t('Google Bewertung', 'Google Rating') },
-    { num: '∞', label: t('Leidenschaft', 'Passion') },
+function formatStat(stat: AboutStat, progress: number) {
+  if (stat.finalText) {
+    return progress >= 1 ? stat.finalText : '0+'
+  }
+
+  const target = stat.target ?? 0
+  const nextValue = stat.decimals ? target * progress : Math.round(target * progress)
+
+  if (stat.decimals) {
+    return `${nextValue.toFixed(stat.decimals)}${stat.suffix ?? ''}`
+  }
+
+  return `${nextValue}${stat.suffix ?? ''}`
+}
+
+export default function About() {
+  const { t, lang } = useLang()
+  const statsRef = useRef<HTMLDivElement | null>(null)
+  const animationFrameRef = useRef<number | null>(null)
+  const hasAnimatedRef = useRef(false)
+
+  const stats: AboutStat[] = [
+    { target: 15, suffix: '+', label: t('Jahre Erfahrung', 'Years Experience') },
+    { target: 200, suffix: '+', label: t('Plätze', 'Seats') },
+    { target: 4.8, decimals: 1, label: t('Google Bewertung', 'Google Rating') },
+    { finalText: '∞', label: t('Leidenschaft', 'Passion') },
   ]
+
+  const [displayStats, setDisplayStats] = useState(() => stats.map((stat) => formatStat(stat, 0)))
+
+  useEffect(() => {
+    setDisplayStats(stats.map((stat) => formatStat(stat, 0)))
+    hasAnimatedRef.current = false
+  }, [lang])
+
+  useEffect(() => {
+    const node = statsRef.current
+
+    if (!node) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+
+        if (!entry?.isIntersecting || hasAnimatedRef.current) {
+          return
+        }
+
+        hasAnimatedRef.current = true
+        const duration = 1800
+        const startedAt = performance.now()
+
+        const tick = (now: number) => {
+          const progress = Math.min((now - startedAt) / duration, 1)
+          const eased = 1 - Math.pow(1 - progress, 3)
+
+          setDisplayStats(stats.map((stat) => formatStat(stat, eased)))
+
+          if (progress < 1) {
+            animationFrameRef.current = requestAnimationFrame(tick)
+          }
+        }
+
+        animationFrameRef.current = requestAnimationFrame(tick)
+        observer.disconnect()
+      },
+      { threshold: 0.35 }
+    )
+
+    observer.observe(node)
+
+    return () => {
+      observer.disconnect()
+
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+    }
+  }, [lang])
 
   return (
     <section id="about" style={{ background: 'var(--cream)', padding: 'clamp(5rem, 10vw, 10rem) 4vw' }}>
@@ -43,11 +124,11 @@ export default function About() {
           </p>
 
           {/* Stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '3rem' }}>
-            {stats.map((s) => (
+          <div ref={statsRef} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '3rem' }}>
+            {stats.map((s, index) => (
               <div key={s.label} style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.2rem' }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', fontWeight: 300, color: 'var(--charcoal)', lineHeight: 1 }}>
-                  {s.num}
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.8rem', fontWeight: 300, color: 'var(--charcoal)', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+                  {displayStats[index]}
                 </div>
                 <div style={{ fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', marginTop: '0.3rem', fontWeight: 300 }}>
                   {s.label}
