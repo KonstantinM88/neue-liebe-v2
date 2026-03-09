@@ -1,5 +1,6 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
@@ -60,27 +61,16 @@ export default function Experience() {
           <div
             key={c.num}
             className="exp-card reveal"
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              aspectRatio: '3/4',
-              cursor: 'none',
-              transitionDelay: `${c.delay}s`,
-            }}
+            style={{ '--exp-delay': `${c.delay}s` } as CSSProperties}
           >
             <Image
               src={c.img}
               alt={t(c.altDe, c.altEn)}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
-              style={{ objectFit: 'cover', transition: 'transform 0.8s var(--transition)' }}
+              style={{ objectFit: 'cover' }}
             />
-            <div className="exp-overlay" style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(to top, rgba(26,23,20,0.92) 0%, rgba(26,23,20,0.2) 50%, transparent 100%)',
-              display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-              padding: '2.5rem',
-            }}>
+            <div className="exp-overlay">
               <div className="exp-num">{c.num}</div>
               <div className="exp-line" />
               <div className="exp-title">{t(c.titleDe, c.titleEn)}</div>
