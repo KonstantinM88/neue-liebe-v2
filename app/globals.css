@@ -157,6 +157,14 @@ body {
   50%  { transform: scale(1.06) translate3d(0, -1%, 0); }
   100% { transform: scale(1.01) translate3d(0, 0, 0); }
 }
+@keyframes infoIconFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.04); }
+}
+@keyframes infoIconGlow {
+  0%, 100% { box-shadow: 0 10px 22px rgba(26, 23, 20, 0.12); }
+  50% { box-shadow: 0 14px 28px rgba(26, 23, 20, 0.18); }
+}
 @keyframes scrollPulse {
   0%, 100% { opacity: 1; transform: scaleY(1); }
   50%       { opacity: 0.4; transform: scaleY(0.7); }
@@ -552,8 +560,11 @@ nav.scrolled {
 
 /* ─── INFO BAR ─── */
 .info-bar {
-  background: var(--gold);
-  padding: 1.2rem 4vw;
+  background:
+    linear-gradient(180deg, rgba(217, 185, 122, 0.98) 0%, rgba(201, 169, 110, 0.98) 100%);
+  padding: 1rem 4vw;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(26,23,20,0.08);
 }
 
 .info-bar-inner {
@@ -561,31 +572,93 @@ nav.scrolled {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem 2rem;
+  gap: 0.9rem 1.5rem;
   align-items: center;
 }
 
 .info-bar-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.95rem;
   min-width: 0;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  padding: 0.65rem 0.75rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%);
+  border: 1px solid rgba(26,23,20,0.08);
   color: var(--charcoal);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+  text-decoration: none;
+  transition: transform 0.35s var(--transition), border-color 0.35s var(--transition), background 0.35s var(--transition), box-shadow 0.35s var(--transition);
 }
 
-.info-bar-item span:last-child {
+.info-bar-item:hover,
+.info-bar-item:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(26,23,20,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.06) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 12px 24px rgba(26,23,20,0.12);
+}
+
+.info-bar-item:focus-visible {
+  outline: 2px solid rgba(26,23,20,0.28);
+  outline-offset: 2px;
+}
+
+.info-bar-text {
   min-width: 0;
-  line-height: 1.45;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.info-bar-icon-shell {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 48%, rgba(26,23,20,0.04) 100%);
+  border: 1px solid rgba(26,23,20,0.1);
+  animation: infoIconGlow 5s ease-in-out infinite;
 }
 
 .info-bar-icon {
-  font-size: 1rem;
-  opacity: 0.8;
+  width: 1.15rem;
+  height: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  color: rgba(26,23,20,0.86);
+  animation: infoIconFloat 4.5s ease-in-out infinite;
+}
+
+.info-bar-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.info-bar-item:nth-child(2) .info-bar-icon,
+.info-bar-item:nth-child(2) .info-bar-icon-shell {
+  animation-delay: 0.2s;
+}
+
+.info-bar-item:nth-child(3) .info-bar-icon,
+.info-bar-item:nth-child(3) .info-bar-icon-shell {
+  animation-delay: 0.4s;
+}
+
+.info-bar-item:nth-child(4) .info-bar-icon,
+.info-bar-item:nth-child(4) .info-bar-icon-shell {
+  animation-delay: 0.6s;
 }
 
 /* ─── SECTIONS SHARED ─── */
@@ -1074,16 +1147,28 @@ section { overflow: hidden; }
     letter-spacing: 0.24em;
   }
   .info-bar {
-    padding: 1rem 4vw;
+    padding: 0.85rem 4vw;
   }
   .info-bar-inner {
     grid-template-columns: 1fr;
-    gap: 0.85rem;
+    gap: 0.6rem;
   }
   .info-bar-item {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    align-items: flex-start;
+    padding: 0.62rem 0.7rem;
+    align-items: center;
+  }
+  .info-bar-text {
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+  }
+  .info-bar-icon-shell {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+  .info-bar-icon {
+    width: 1rem;
+    height: 1rem;
   }
   .experience-grid {
     grid-template-columns: 1fr;
