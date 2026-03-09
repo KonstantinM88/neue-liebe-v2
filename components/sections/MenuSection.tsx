@@ -1,125 +1,364 @@
 'use client'
 
-import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
 
-type Category = 'all' | 'starter' | 'main' | 'dessert'
+type Category =
+  | 'all'
+  | 'klassiker'
+  | 'pfanne-burger'
+  | 'steaks-medaillons'
+  | 'zum-bier'
+  | 'bier-drinks'
 
-const dishes = [
+type DishCategory = Exclude<Category, 'all'>
+
+interface Dish {
+  id: string
+  imgDesktop: string
+  imgMobile: string
+  tagDe: string
+  tagEn: string
+  nameDe: string
+  nameEn: string
+  descDe: string
+  descEn: string
+  price: string
+  category: DishCategory
+}
+
+const dishes: Dish[] = [
   {
-    img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
-    tagDe: 'Vorspeise', tagEn: 'Starter',
-    nameDe: 'Saison-Salat', nameEn: 'Seasonal Salad',
-    descDe: 'Frische Salatblätter mit Kirschtomaten, Walnüssen und Honig-Senf-Dressing.',
-    descEn: 'Fresh lettuce with cherry tomatoes, walnuts and honey mustard dressing.',
-    price: '9,50 €', category: 'starter' as Category,
+    id: 'bauernfruehstueck',
+    imgDesktop: '/bauernfruhstuck_desktop_1600x1200.webp',
+    imgMobile: '/bauernfruhstuck_mobile_900.webp',
+    tagDe: 'Klassiker',
+    tagEn: 'Classic',
+    nameDe: 'Bauernfrühstück',
+    nameEn: "Farmer's Breakfast",
+    descDe: 'Serviert mit Rohkostsalat und Gewürzgurke.',
+    descEn: 'Served with fresh salad and pickled cucumber.',
+    price: '12,50€',
+    category: 'klassiker',
   },
   {
-    img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80',
-    tagDe: 'Empfehlung', tagEn: "Chef's Pick",
-    nameDe: 'Rinderfilet', nameEn: 'Beef Tenderloin',
-    descDe: 'Zartes Rinderfilet mit Rotweinreduktion, Spargel und Kartoffelgratin.',
-    descEn: 'Tender beef fillet with red wine reduction, asparagus and potato gratin.',
-    price: '28,00 €', category: 'main' as Category,
+    id: 'strammer-max',
+    imgDesktop: '/strammer_max_desktop_1600x1200.webp',
+    imgMobile: '/strammer_max_mobile_900.webp',
+    tagDe: 'Klassiker',
+    tagEn: 'Classic',
+    nameDe: 'Strammer Max',
+    nameEn: 'Strammer Max',
+    descDe: 'Schwarzbrot mit Schinken, zwei Spiegeleiern, Rohkostsalat und Gewürzgurke.',
+    descEn: 'Dark bread with ham, two fried eggs, fresh salad and pickled cucumber.',
+    price: '9,50€',
+    category: 'klassiker',
   },
   {
-    img: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80',
-    tagDe: 'Hauptgericht', tagEn: 'Main',
-    nameDe: 'Gegrillter Lachs', nameEn: 'Grilled Salmon',
-    descDe: 'Atlantischer Lachs auf Safrankartoffeln mit Beurre Blanc und frischen Kräutern.',
-    descEn: 'Atlantic salmon on saffron potatoes with beurre blanc and fresh herbs.',
-    price: '22,00 €', category: 'main' as Category,
+    id: 'backfisch',
+    imgDesktop: '/backfisch_desktop_1600x1200.webp',
+    imgMobile: '/backfisch_mobile_900.webp',
+    tagDe: 'Klassiker',
+    tagEn: 'Classic',
+    nameDe: 'Backfisch',
+    nameEn: 'Fried Fish',
+    descDe: 'Serviert mit hausgemachter Remoulade und Bratkartoffeln.',
+    descEn: 'Served with homemade remoulade and fried potatoes.',
+    price: '13,50€',
+    category: 'klassiker',
   },
   {
-    img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80',
-    tagDe: 'Vegetarisch', tagEn: 'Vegetarian',
-    nameDe: 'Pilz-Risotto', nameEn: 'Mushroom Risotto',
-    descDe: 'Cremiges Risotto mit wilden Waldpilzen, Parmesan und weißem Trüffelöl.',
-    descEn: 'Creamy risotto with wild forest mushrooms, parmesan and white truffle oil.',
-    price: '18,50 €', category: 'main' as Category,
+    id: 'geschnetzeltes',
+    imgDesktop: '/geschnetzeltes_desktop_1600x1200.webp',
+    imgMobile: '/geschnetzeltes_mobile_900.webp',
+    tagDe: 'Pfanne & Burger',
+    tagEn: 'Skillet & Burger',
+    nameDe: 'Geschnetzeltes',
+    nameEn: 'Sliced Chicken in Cream Sauce',
+    descDe: 'Zarte Hähnchenbruststreifen mit cremigen Champignons, serviert mit Kroketten.',
+    descEn: 'Tender chicken breast strips with creamy mushrooms, served with croquettes.',
+    price: '18,50€',
+    category: 'pfanne-burger',
   },
   {
-    img: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=80',
-    tagDe: 'Klassiker', tagEn: 'Classic',
-    nameDe: 'Wiener Schnitzel', nameEn: 'Wiener Schnitzel',
-    descDe: 'Hausgemachtes Kalbsschnitzel mit Kartoffelsalat und frischer Zitrone.',
-    descEn: 'Homemade veal schnitzel with potato salad and fresh lemon.',
-    price: '23,00 €', category: 'main' as Category,
+    id: 'burger-st-georg',
+    imgDesktop: '/burger_st_georg_desktop_1600x1200.webp',
+    imgMobile: '/burger_st_georg_mobile_900.webp',
+    tagDe: 'Pfanne & Burger',
+    tagEn: 'Skillet & Burger',
+    nameDe: 'Burger "St. Georg"',
+    nameEn: 'Burger "St. George"',
+    descDe: 'Saftiger Rindfleisch-Burger mit Bacon, Spiegelei, Weißkrautsalat, BBQ-Sauce, Gewürzgurke und Schmorzwiebeln, serviert mit Pommes.',
+    descEn: 'Juicy beef burger with bacon, fried egg, cabbage slaw, BBQ sauce, pickled cucumber and braised onions, served with fries.',
+    price: '19,50€',
+    category: 'pfanne-burger',
   },
   {
-    img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80',
-    tagDe: 'Dessert', tagEn: 'Dessert',
-    nameDe: 'Schokoladen-Fondant', nameEn: 'Chocolate Fondant',
-    descDe: 'Warmer Schokoladenkuchen mit flüssigem Kern, Vanilleeis und Himbeeren.',
-    descEn: 'Warm chocolate cake with liquid center, vanilla ice cream and raspberries.',
-    price: '9,00 €', category: 'dessert' as Category,
+    id: 'nebraer-biersteak',
+    imgDesktop: '/nebraer_biersteak_desktop_1600x1200.webp',
+    imgMobile: '/nebraer_biersteak_mobile_900.webp',
+    tagDe: 'Steaks & Medaillons',
+    tagEn: 'Steaks & Medallions',
+    nameDe: 'Nebraer-Biersteak',
+    nameEn: 'Nebra Beer Steak',
+    descDe: 'Gebratenes Schweinenackensteak mit Schmorzwiebeln, mit Nebraer Bier abgelöscht und mit Bratkartoffeln serviert.',
+    descEn: 'Roasted pork neck steak with braised onions, finished with Nebra beer and served with fried potatoes.',
+    price: '18,50€',
+    category: 'steaks-medaillons',
   },
+  {
+    id: 'schweinemedaillons',
+    imgDesktop: '/schweinemedaillons_desktop_1600x1200.webp',
+    imgMobile: '/schweinemedaillons_mobile_900.webp',
+    tagDe: 'Steaks & Medaillons',
+    tagEn: 'Steaks & Medallions',
+    nameDe: 'Zarte Schweinemedaillons',
+    nameEn: 'Tender Pork Medallions',
+    descDe: 'Serviert mit cremigen Pilzen und Kroketten.',
+    descEn: 'Served with creamy mushrooms and croquettes.',
+    price: '19,50€',
+    category: 'steaks-medaillons',
+  },
+  {
+    id: 'zigeuner-steak',
+    imgDesktop: '/zigeuner_steak_desktop_1600x1200.webp',
+    imgMobile: '/zigeuner_steak_mobile_900.webp',
+    tagDe: 'Steaks & Medaillons',
+    tagEn: 'Steaks & Medallions',
+    nameDe: '"Zigeuner-Steak"',
+    nameEn: '"Zigeuner Steak"',
+    descDe: 'Saftig gebratenes Schweinenackensteak mit kräftiger Paprikagemüse-Sauce und Pommes.',
+    descEn: 'Juicy pork neck steak with bold pepper vegetable sauce and fries.',
+    price: '18,50€',
+    category: 'steaks-medaillons',
+  },
+  {
+    id: 'bierbrett-neue-liebe',
+    imgDesktop: '/german_snacks_desktop.webp',
+    imgMobile: '/german_snacks_mobile.webp',
+    tagDe: 'Zum Bier',
+    tagEn: 'For Beer',
+    nameDe: 'Bierbrett Neue Liebe',
+    nameEn: 'Neue Liebe Beer Board',
+    descDe: 'Kleine Auswahl aus Kaminwurst, Käsewürfeln, Gewürzgurken und kräftigem Landbrot.',
+    descEn: 'A small selection of smoked sausage, cheese cubes, pickles and hearty country bread.',
+    price: '12,90€',
+    category: 'zum-bier',
+  },
+  {
+    id: 'brezelknusper-obazda',
+    imgDesktop: '/german_snacks_desktop.webp',
+    imgMobile: '/german_snacks_mobile.webp',
+    tagDe: 'Zum Bier',
+    tagEn: 'For Beer',
+    nameDe: 'Brezelknusper mit Obazda',
+    nameEn: 'Pretzel Crisps with Obazda',
+    descDe: 'Warme Laugenbissen mit cremigem Bierkäse-Dip und roten Zwiebeln.',
+    descEn: 'Warm pretzel bites with creamy beer cheese dip and red onions.',
+    price: '6,90€',
+    category: 'zum-bier',
+  },
+  {
+    id: 'paprika-kartoffelecken',
+    imgDesktop: '/german_snacks_desktop.webp',
+    imgMobile: '/german_snacks_mobile.webp',
+    tagDe: 'Zum Bier',
+    tagEn: 'For Beer',
+    nameDe: 'Paprika-Kartoffelecken',
+    nameEn: 'Paprika Potato Wedges',
+    descDe: 'Knusprige Kartoffelecken mit Rauchpaprika und milder Kräutercreme.',
+    descEn: 'Crispy potato wedges with smoked paprika and mild herb cream.',
+    price: '7,50€',
+    category: 'zum-bier',
+  },
+  {
+    id: 'nebraer-bier-st-georg',
+    imgDesktop: '/kostritzer_desktop.webp',
+    imgMobile: '/kostritzer_mobile.webp',
+    tagDe: 'Bier & Drinks',
+    tagEn: 'Beer & Drinks',
+    nameDe: '"Nebraer Bier" St. Georg',
+    nameEn: '"Nebra Beer" St. George',
+    descDe: 'Feinmilde Bierspezialität mit malzig-süßem, vollmundigem Geschmack. 0,5L.',
+    descEn: 'A smooth beer specialty with malty-sweet, full-bodied flavor. 0.5L.',
+    price: '4,50€',
+    category: 'bier-drinks',
+  },
+  {
+    id: 'koestritzer-schwarzbier',
+    imgDesktop: '/kostritzer_desktop.webp',
+    imgMobile: '/kostritzer_mobile.webp',
+    tagDe: 'Bier & Drinks',
+    tagEn: 'Beer & Drinks',
+    nameDe: 'Köstritzer Schwarzbier',
+    nameEn: 'Köstritzer Dark Beer',
+    descDe: 'Herb-fein mit röstigen Malznoten und eleganter Tiefe. 0,5L.',
+    descEn: 'Delicately bitter with roasted malt notes and elegant depth. 0.5L.',
+    price: '4,80€',
+    category: 'bier-drinks',
+  },
+  {
+    id: 'keller-radler',
+    imgDesktop: '/kostritzer_desktop.webp',
+    imgMobile: '/kostritzer_mobile.webp',
+    tagDe: 'Bier & Drinks',
+    tagEn: 'Beer & Drinks',
+    nameDe: 'Keller-Radler',
+    nameEn: 'Cellar Radler',
+    descDe: 'Erfrischend gemischt, leicht, spritzig und ideal zum Essen. 0,5L.',
+    descEn: 'Refreshingly mixed, light, sparkling and ideal with food. 0.5L.',
+    price: '4,60€',
+    category: 'bier-drinks',
+  },
+  {
+    id: 'hausgemachte-limonade',
+    imgDesktop: '/kostritzer_desktop.webp',
+    imgMobile: '/kostritzer_mobile.webp',
+    tagDe: 'Bier & Drinks',
+    tagEn: 'Beer & Drinks',
+    nameDe: 'Hausgemachte Limonade',
+    nameEn: 'Homemade Lemonade',
+    descDe: 'Zitrone, Minze und kühler Sprudel mit frischer Note. 0,4L.',
+    descEn: 'Lemon, mint and cool sparkling water with a fresh finish. 0.4L.',
+    price: '4,90€',
+    category: 'bier-drinks',
+  },
+]
+
+const filters: { key: Category; de: string; en: string }[] = [
+  { key: 'all', de: 'Alle', en: 'All' },
+  { key: 'klassiker', de: 'Klassiker', en: 'Classics' },
+  { key: 'pfanne-burger', de: 'Pfanne & Burger', en: 'Skillet & Burger' },
+  { key: 'steaks-medaillons', de: 'Steaks & Medaillons', en: 'Steaks & Medallions' },
+  { key: 'zum-bier', de: 'Zum Bier', en: 'For Beer' },
+  { key: 'bier-drinks', de: 'Bier & Drinks', en: 'Beer & Drinks' },
 ]
 
 export default function MenuSection() {
   const { t } = useLang()
   const [active, setActive] = useState<Category>('all')
+  const gridRef = useRef<HTMLDivElement | null>(null)
 
-  const filtered = active === 'all' ? dishes : dishes.filter((d) => d.category === active)
+  const filteredDishes = active === 'all'
+    ? dishes
+    : dishes.filter((dish) => dish.category === active)
 
-  const filters: { key: Category; de: string; en: string }[] = [
-    { key: 'all',     de: 'Alle',          en: 'All' },
-    { key: 'starter', de: 'Vorspeisen',    en: 'Starters' },
-    { key: 'main',    de: 'Hauptgerichte', en: 'Main Courses' },
-    { key: 'dessert', de: 'Desserts',      en: 'Desserts' },
-  ]
+  useEffect(() => {
+    const grid = gridRef.current
+    if (!grid) return
+
+    const targets = Array.from(grid.querySelectorAll<HTMLElement>('.reveal'))
+    if (targets.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.12 }
+    )
+
+    targets.forEach((target) => observer.observe(target))
+
+    requestAnimationFrame(() => {
+      targets.forEach((target) => {
+        const rect = target.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          target.classList.add('visible')
+        }
+      })
+    })
+
+    return () => observer.disconnect()
+  }, [active])
 
   return (
     <section id="menu">
-      <div className="section-header-center reveal" style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 3rem', paddingTop: 'clamp(5rem, 10vw, 10rem)' }}>
+      <div
+        className="section-header-center reveal"
+        style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 3rem' }}
+      >
         <p className="section-label" style={{ color: 'var(--gold)' }}>
-          {t('Unsere Küche', 'Our Cuisine')}
+          {t('Aus unserer Küche', 'From Our Kitchen')}
         </p>
-        <h2 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: 'var(--charcoal)' }}>
-          {t('Signature Gerichte', 'Signature Dishes')}
+        <h2
+          className="section-title"
+          style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: 'var(--charcoal)' }}
+        >
+          {t('Unsere Speisekarte', 'Our Menu')}
         </h2>
-        <p style={{ fontSize: '0.9rem', color: 'var(--brown-light)', marginTop: '1rem', fontWeight: 300 }}>
-          {t('Frische, regionale Zutaten – täglich mit Leidenschaft zubereitet.', 'Fresh, regional ingredients – prepared daily with passion.')}
+        <p
+          style={{
+            fontSize: '0.9rem',
+            color: 'var(--brown-light)',
+            marginTop: '1rem',
+            fontWeight: 300,
+            lineHeight: 1.7,
+          }}
+        >
+          {t(
+            'Herzhafte Klassiker, Burger, Steaks und Begleiter zum Bier aus der Neuen Liebe.',
+            'Hearty classics, burgers, steaks and beer-friendly favorites from Neue Liebe.'
+          )}
         </p>
       </div>
 
-      {/* Filter */}
-      <div className="menu-filter reveal">
-        {filters.map((f) => (
+      <div
+        className="menu-filter reveal"
+        role="toolbar"
+        aria-label={t('Menükategorien', 'Menu categories')}
+      >
+        {filters.map((filter) => (
           <button
-            key={f.key}
-            className={`filter-btn${active === f.key ? ' active' : ''}`}
-            onClick={() => setActive(f.key)}
+            key={filter.key}
+            className={`filter-btn${active === filter.key ? ' active' : ''}`}
+            onClick={() => setActive(filter.key)}
+            type="button"
+            data-active={active === filter.key ? 'true' : 'false'}
+            aria-pressed={active === filter.key}
+            aria-controls="menu-grid"
           >
-            {t(f.de, f.en)}
+            {t(filter.de, filter.en)}
           </button>
         ))}
       </div>
 
-      {/* Grid */}
-      <div className="menu-grid" style={{ paddingBottom: 'clamp(5rem, 10vw, 10rem)' }}>
-        {filtered.map((d, i) => (
-          <div key={i} className="menu-card reveal" style={{ transitionDelay: `${(i % 3) * 0.1}s` }}>
+      <div
+        id="menu-grid"
+        className="menu-grid"
+        ref={gridRef}
+        style={{ paddingBottom: 'clamp(5rem, 10vw, 10rem)' }}
+      >
+        {filteredDishes.map((dish, index) => (
+          <article
+            key={dish.id}
+            className="menu-card reveal"
+            style={{ transitionDelay: `${(index % 3) * 0.1}s` }}
+          >
             <div className="menu-img">
-              <Image
-                src={d.img}
-                alt={t(d.nameDe, d.nameEn)}
-                width={600}
-                height={450}
-                style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block', aspectRatio: '4/3' }}
-              />
-              <div className="menu-tag">{t(d.tagDe, d.tagEn)}</div>
+              <picture>
+                <source media="(max-width: 768px)" srcSet={dish.imgMobile} />
+                <img
+                  src={dish.imgDesktop}
+                  alt={t(dish.nameDe, dish.nameEn)}
+                  loading="lazy"
+                />
+              </picture>
+              <div className="menu-tag">{t(dish.tagDe, dish.tagEn)}</div>
             </div>
+
             <div className="menu-body">
-              <div className="menu-name">{t(d.nameDe, d.nameEn)}</div>
-              <div className="menu-desc">{t(d.descDe, d.descEn)}</div>
+              <div className="menu-name">{t(dish.nameDe, dish.nameEn)}</div>
+              <div className="menu-desc">{t(dish.descDe, dish.descEn)}</div>
               <div className="menu-footer">
-                <span className="menu-price">{d.price}</span>
-                <button className="menu-add" aria-label="Add to order">+</button>
+                <span className="menu-price">{dish.price}</span>
+                <span className="menu-add" aria-hidden="true">+</span>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
