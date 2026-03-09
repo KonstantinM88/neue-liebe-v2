@@ -165,6 +165,24 @@ body {
   0%, 100% { box-shadow: 0 10px 22px rgba(26, 23, 20, 0.12); }
   50% { box-shadow: 0 14px 28px rgba(26, 23, 20, 0.18); }
 }
+@keyframes aboutBadgeFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.025); }
+}
+@keyframes aboutBadgeGlow {
+  0%, 100% {
+    box-shadow: 0 12px 34px rgba(201,169,110,0.35), inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+  50% {
+    box-shadow: 0 18px 42px rgba(201,169,110,0.48), inset 0 1px 0 rgba(255,255,255,0.24);
+  }
+}
+@keyframes aboutBadgeShimmer {
+  0%, 100% { transform: translateX(-165%) rotate(22deg); opacity: 0; }
+  18% { opacity: 0; }
+  34% { opacity: 0.34; }
+  52% { transform: translateX(175%) rotate(22deg); opacity: 0; }
+}
 @keyframes scrollPulse {
   0%, 100% { opacity: 1; transform: scaleY(1); }
   50%       { opacity: 0.4; transform: scaleY(0.7); }
@@ -697,6 +715,45 @@ section { overflow: hidden; }
   align-items: center;
 }
 
+.about-visual {
+  isolation: isolate;
+}
+
+.about-main-image {
+  border-radius: 34px 34px 110px 34px;
+  box-shadow: 0 28px 70px rgba(26, 23, 20, 0.18);
+}
+
+.about-img-float {
+  border-radius: 28px 28px 72px 28px;
+  box-shadow: 0 18px 42px rgba(26, 23, 20, 0.16);
+}
+
+.about-badge {
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 12px 34px rgba(201,169,110,0.35), inset 0 1px 0 rgba(255,255,255,0.18);
+  overflow: hidden;
+  isolation: isolate;
+  animation: aboutBadgeFloat 6s ease-in-out infinite, aboutBadgeGlow 6s ease-in-out infinite;
+}
+
+.about-badge::before {
+  content: '';
+  position: absolute;
+  inset: -18% auto -18% -38%;
+  width: 55%;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.34) 50%, rgba(255,255,255,0) 100%);
+  filter: blur(1px);
+  transform: translateX(-165%) rotate(22deg);
+  opacity: 0;
+  animation: aboutBadgeShimmer 6s ease-in-out infinite;
+}
+
+.about-badge > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* ─── REVEAL ANIMATIONS ─── */
 .reveal {
   opacity: 0;
@@ -1148,6 +1205,12 @@ section { overflow: hidden; }
   }
   .info-bar {
     padding: 0.85rem 4vw;
+  }
+  .about-main-image {
+    border-radius: 24px 24px 72px 24px;
+  }
+  .about-img-float {
+    border-radius: 20px 20px 50px 20px;
   }
   .info-bar-inner {
     grid-template-columns: 1fr;

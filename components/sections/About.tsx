@@ -60,6 +60,7 @@ export default function About() {
         {/* Visual */}
         <div className="about-visual reveal-right" style={{ position: 'relative' }}>
           <Image
+            className="about-main-image"
             src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=85"
             alt={t('Restaurant Neue Liebe Interieur', 'Restaurant Neue Liebe interior')}
             width={600}
@@ -79,7 +80,7 @@ export default function About() {
             }}
           />
           {/* Badge */}
-          <div style={{
+          <div className="about-badge" style={{
             position: 'absolute', top: '2rem', right: '-1rem',
             width: 100, height: 100,
             background: 'var(--gold)',
