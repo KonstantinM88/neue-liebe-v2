@@ -5,6 +5,8 @@ import { useLang } from '@/context/LangContext'
 
 type Category =
   | 'all'
+  | 'vorspeisen'
+  | 'hauptgerichte'
   | 'klassiker'
   | 'pfanne-burger'
   | 'steaks-medaillons'
@@ -27,7 +29,140 @@ interface Dish {
   category: DishCategory
 }
 
+const menuPlaceholderDesktop = '/cafe_interior_1600x1200_optimized.webp'
+const menuPlaceholderMobile = '/cafe_interior_800x600_optimized.webp'
+
 const dishes: Dish[] = [
+  {
+    id: 'soljanka',
+    imgDesktop: '/soup_1200.webp',
+    imgMobile: '/soup_800.webp',
+    tagDe: 'Vorspeise',
+    tagEn: 'Starter',
+    nameDe: 'Soljanka nach Art des Hauses',
+    nameEn: 'House-Style Solyanka',
+    descDe: 'Serviert mit Brot.',
+    descEn: 'Served with bread.',
+    price: '7,50€',
+    category: 'vorspeisen',
+  },
+  {
+    id: 'wuerzfleisch',
+    imgDesktop: '/wuerzfleisch_1200w.webp',
+    imgMobile: '/wuerzfleisch_800w.webp',
+    tagDe: 'Vorspeise',
+    tagEn: 'Starter',
+    nameDe: 'Würzfleisch',
+    nameEn: 'Wuerzfleisch',
+    descDe: 'Ragout vom Schwein, überbacken mit Käse, serviert mit Brot.',
+    descEn: 'Pork ragout baked with cheese, served with bread.',
+    price: '7,50€',
+    category: 'vorspeisen',
+  },
+  {
+    id: 'schweineschnitzel',
+    imgDesktop: '/schnitzel_1200.webp',
+    imgMobile: '/schnitzel_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Saftiges Schweineschnitzel',
+    nameEn: 'Juicy Pork Schnitzel',
+    descDe: 'Serviert mit cremigen Pilzen und Pommes.',
+    descEn: 'Served with creamy mushrooms and fries.',
+    price: '16,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'zigeuner-schnitzel',
+    imgDesktop: '/schnitzel_plate_1200.webp',
+    imgMobile: '/schnitzel_plate_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: '"Zigeuner-Schnitzel"',
+    nameEn: '"Zigeuner Schnitzel"',
+    descDe: 'Serviert mit kräftiger Paprikagemüse-Sauce und Pommes.',
+    descEn: 'Served with a bold pepper vegetable sauce and fries.',
+    price: '16,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'currywurst',
+    imgDesktop: '/sausage_plate_1200.webp',
+    imgMobile: '/sausage_plate_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Currywurst',
+    nameEn: 'Currywurst',
+    descDe: 'Serviert mit hausgemachter Sauce und Pommes.',
+    descEn: 'Served with homemade sauce and fries.',
+    price: '15,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'alt-nebraer-hacksteak',
+    imgDesktop: '/hacksteak_1200.webp',
+    imgMobile: '/hacksteak_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: '"Alt-Nebraer-Hacksteak"',
+    nameEn: '"Old Nebra Minced Steak"',
+    descDe: 'Serviert mit Zwiebel-Biergemüse und Kartoffelstampf.',
+    descEn: 'Served with onion beer vegetables and mashed potatoes.',
+    price: '14,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'pfannenschaschlik',
+    imgDesktop: '/pfannenschaschlik_1200.webp',
+    imgMobile: '/pfannenschaschlik_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Kräftiges Pfannenschaschlik',
+    nameEn: 'Hearty Skillet Shashlik',
+    descDe: 'Ragout vom Schweinenacken und Leber, verfeinert mit Gewürzgurke und Zwiebel, serviert mit Kartoffelstampf.',
+    descEn: 'Pork neck and liver ragout refined with pickled cucumber and onion, served with mashed potatoes.',
+    price: '11,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'hamburger-art-schnitzel',
+    imgDesktop: '/schnitzel_hamburger_art_1200.webp',
+    imgMobile: '/schnitzel_hamburger_art_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Schnitzel "Hamburger Art"',
+    nameEn: 'Schnitzel "Hamburg Style"',
+    descDe: 'Serviert mit Bratkartoffeln und Spiegelei.',
+    descEn: 'Served with fried potatoes and a fried egg.',
+    price: '17,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'schuesselsuelze',
+    imgDesktop: '/pork_plate_1200.webp',
+    imgMobile: '/pork_plate_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Schüsselsülze',
+    nameEn: 'Jellied Pork Bowl',
+    descDe: 'Serviert mit Bratkartoffeln und hausgemachter Remoulade.',
+    descEn: 'Served with fried potatoes and homemade remoulade.',
+    price: '13,50€',
+    category: 'hauptgerichte',
+  },
+  {
+    id: 'schnitzel-au-four',
+    imgDesktop: '/schnitzel_au_four_1200.webp',
+    imgMobile: '/schnitzel_au_four_800.webp',
+    tagDe: 'Hauptgericht',
+    tagEn: 'Main Course',
+    nameDe: 'Schnitzel "au four"',
+    nameEn: 'Schnitzel "au four"',
+    descDe: 'Gratiniert mit Würzfleisch und Käse, serviert mit Pommes.',
+    descEn: 'Gratinated with wuerzfleisch and cheese, served with fries.',
+    price: '17,50€',
+    category: 'hauptgerichte',
+  },
   {
     id: 'bauernfruehstueck',
     imgDesktop: '/bauernfruhstuck_desktop_1600x1200.webp',
@@ -227,6 +362,8 @@ const dishes: Dish[] = [
 
 const filters: { key: Category; de: string; en: string }[] = [
   { key: 'all', de: 'Alle', en: 'All' },
+  { key: 'vorspeisen', de: 'Vorspeisen', en: 'Starters' },
+  { key: 'hauptgerichte', de: 'Hauptgerichte', en: 'Main Courses' },
   { key: 'klassiker', de: 'Klassiker', en: 'Classics' },
   { key: 'pfanne-burger', de: 'Pfanne & Burger', en: 'Skillet & Burger' },
   { key: 'steaks-medaillons', de: 'Steaks & Medaillons', en: 'Steaks & Medallions' },
@@ -300,8 +437,8 @@ export default function MenuSection() {
           }}
         >
           {t(
-            'Herzhafte Klassiker, Burger, Steaks und Begleiter zum Bier aus der Neuen Liebe.',
-            'Hearty classics, burgers, steaks and beer-friendly favorites from Neue Liebe.'
+            'Vorspeisen, Hauptgerichte, herzhafte Klassiker, Burger, Steaks und Begleiter zum Bier aus der Neuen Liebe.',
+            'Starters, main courses, hearty classics, burgers, steaks and beer-friendly favorites from Neue Liebe.'
           )}
         </p>
       </div>
