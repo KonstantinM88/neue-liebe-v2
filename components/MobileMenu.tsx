@@ -14,7 +14,7 @@ export default function MobileMenu({ open, onClose }: Props) {
     { href: '#about',      de: 'Über uns',    en: 'About' },
     { href: '#experience', de: 'Erlebnisse',  en: 'Experiences' },
     { href: '#menu',       de: 'Speisekarte', en: 'Menu' },
-    { href: '#gallery',    de: 'Galerie',     en: 'Gallery' },
+    { href: '/gallery',    de: 'Galerie',     en: 'Gallery' },
     { href: '#events',     de: 'Events',      en: 'Events' },
     { href: '#contact',    de: 'Kontakt',     en: 'Contact' },
     { href: '#reservation',de: 'Reservieren', en: 'Reserve' },
