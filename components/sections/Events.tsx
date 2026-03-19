@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 const features = [
@@ -32,14 +31,14 @@ const eventCards = [
     titleEn: 'Weddings',
   },
   {
-    srcDesktop: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
-    srcMobile: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+    srcDesktop: '/firmen_1200.webp',
+    srcMobile: '/firmen_800.webp',
     titleDe: 'Firmenveranstaltungen',
     titleEn: 'Corporate Events',
   },
   {
-    srcDesktop: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',
-    srcMobile: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',
+    srcDesktop: '/events3_1200.webp',
+    srcMobile: '/events3_800.webp',
     titleDe: 'Tanz & Musik',
     titleEn: 'Dance & Music',
   },
@@ -130,13 +129,16 @@ export default function Events() {
           {/* Visual */}
           <div className="events-visual reveal-right">
             <div className="events-visual-frame">
-              <Image
-                src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80"
-                alt={t('Events Neue Liebe', 'Neue Liebe Events')}
-                width={600}
-                height={750}
-                className="events-visual-image"
-              />
+              <picture>
+                <source media="(max-width: 768px)" srcSet="/events2_800.webp" />
+                <img
+                  src="/events2_1200.webp"
+                  alt={t('Events Neue Liebe', 'Neue Liebe Events')}
+                  className="events-visual-image"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
 
             <div className="events-stat-badge">

@@ -3,7 +3,17 @@
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
-const images = [
+type GalleryItem = {
+  src: string
+  srcMobile?: string
+  altDe: string
+  altEn: string
+  labelDe: string
+  labelEn: string
+  cls: 'g1' | 'g2' | 'g3' | 'g4' | 'g5' | 'g6'
+}
+
+const images: GalleryItem[] = [
   {
     src: '/banket.webp',
     altDe: 'Bankettsaal',
@@ -13,7 +23,8 @@ const images = [
     cls: 'g1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+    src: '/kulinarik_1600.webp',
+    srcMobile: '/kulinarik_1200.webp',
     altDe: 'Feine Küche',
     altEn: 'Fine dining',
     labelDe: 'Kulinarik',
@@ -21,7 +32,8 @@ const images = [
     cls: 'g2',
   },
   {
-    src: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&q=80',
+    src: '/german_food2_1200.webp',
+    srcMobile: '/german_food2_800.webp',
     altDe: 'Interieur',
     altEn: 'Interior',
     labelDe: 'Interior',
@@ -29,7 +41,8 @@ const images = [
     cls: 'g3',
   },
   {
-    src: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&q=80',
+    src: '/momente_1200.webp',
+    srcMobile: '/momente_800.webp',
     altDe: 'Terrasse',
     altEn: 'Terrace',
     labelDe: 'Momente',
@@ -37,7 +50,7 @@ const images = [
     cls: 'g4',
   },
   {
-    src: '/terrasse.webp',
+    src: '/terasse-video.webm',
     altDe: 'Terrasse am Abend',
     altEn: 'Terrace at night',
     labelDe: 'Terrasse',
@@ -45,7 +58,8 @@ const images = [
     cls: 'g5',
   },
   {
-    src: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&q=80',
+    src: '/events_1200.webp',
+    srcMobile: '/events_800.webp',
     altDe: 'Events',
     altEn: 'Events',
     labelDe: 'Events',
@@ -70,35 +84,62 @@ export default function Gallery() {
 
       <div className="gallery-shell reveal">
         <div className="gallery-grid">
-          {images.map((img, index) => (
-            <article key={img.cls} className={`gallery-item ${img.cls}`}>
-              <Image
-                src={img.src}
-                alt={t(img.altDe, img.altEn)}
-                fill
-                priority={img.cls === 'g1'}
-                sizes={
-                  img.cls === 'g1'
-                    ? '(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1100px) 100vw, 66vw'
-                    : '(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw'
-                }
-                style={{
-                  objectFit: 'cover',
-                  objectPosition:
-                    img.cls === 'g1'
-                      ? 'center 52%'
-                      : img.cls === 'g5'
-                        ? 'center 56%'
-                        : 'center center',
-                }}
-              />
+          {images.map((img, index) => {
+            const isTerraceVideo = img.cls === 'g5'
+            const hasMobileSource = Boolean(img.srcMobile)
 
-              <div className="gallery-item-overlay" aria-hidden="true">
-                <span className="gallery-item-index">{String(index + 1).padStart(2, '0')}</span>
-                <span className="gallery-item-label">{t(img.labelDe, img.labelEn)}</span>
-              </div>
-            </article>
-          ))}
+            return (
+              <article key={img.cls} className={`gallery-item ${img.cls}`}>
+                {isTerraceVideo ? (
+                  <video
+                    src={img.src}
+                    aria-label={t(img.altDe, img.altEn)}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    poster="/terrasse.webp"
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: 'center 56%',
+                    }}
+                  />
+                ) : hasMobileSource ? (
+                  <picture>
+                    <source media="(max-width: 768px)" srcSet={img.srcMobile} />
+                    <img
+                      src={img.src}
+                      alt={t(img.altDe, img.altEn)}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                ) : (
+                  <Image
+                    src={img.src}
+                    alt={t(img.altDe, img.altEn)}
+                    fill
+                    priority={img.cls === 'g1'}
+                    sizes={
+                      img.cls === 'g1'
+                        ? '(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1100px) 100vw, 66vw'
+                        : '(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw'
+                    }
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: img.cls === 'g1' ? 'center 52%' : 'center center',
+                    }}
+                  />
+                )}
+
+                <div className="gallery-item-overlay" aria-hidden="true">
+                  <span className="gallery-item-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="gallery-item-label">{t(img.labelDe, img.labelEn)}</span>
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

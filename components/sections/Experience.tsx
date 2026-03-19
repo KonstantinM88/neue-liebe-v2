@@ -7,7 +7,8 @@ import { useLang } from '@/context/LangContext'
 const cards = [
   {
     num: '01',
-    img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&q=80',
+    video: '/terasse-video.webm',
+    poster: '/terrasse.webp',
     altDe: 'Sommeterrasse',
     altEn: 'Summer Terrace',
     titleDe: 'Sommterrasse',
@@ -18,7 +19,8 @@ const cards = [
   },
   {
     num: '02',
-    img: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80',
+    video: '/bankettsaal-video.webm',
+    poster: '/banket.webp',
     altDe: 'Bankettsaal',
     altEn: 'Banquet Hall',
     titleDe: 'Bankettsaal',
@@ -29,7 +31,8 @@ const cards = [
   },
   {
     num: '03',
-    img: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=80',
+    video: '/Evets-video.mp4',
+    poster: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=80',
     altDe: 'Tanz und Events',
     altEn: 'Dance and Events',
     titleDe: 'Tanz & Events',
@@ -63,13 +66,28 @@ export default function Experience() {
             className="exp-card reveal"
             style={{ '--exp-delay': `${c.delay}s` } as CSSProperties}
           >
-            <Image
-              src={c.img}
-              alt={t(c.altDe, c.altEn)}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              style={{ objectFit: 'cover' }}
-            />
+            {'video' in c ? (
+              <video
+                className="exp-media"
+                src={c.video}
+                aria-label={t(c.altDe, c.altEn)}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={c.poster}
+              />
+            ) : (
+              <Image
+                className="exp-media"
+                src={c.img}
+                alt={t(c.altDe, c.altEn)}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                style={{ objectFit: 'cover' }}
+              />
+            )}
             <div className="exp-overlay">
               <div className="exp-num">{c.num}</div>
               <div className="exp-line" />

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 type AboutStat = {
@@ -140,26 +139,39 @@ export default function About() {
 
         {/* Visual */}
         <div className="about-visual reveal-right" style={{ position: 'relative' }}>
-          <Image
-            className="about-main-image"
-            src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=85"
-            alt={t('Restaurant Neue Liebe Interieur', 'Restaurant Neue Liebe interior')}
-            width={600}
-            height={800}
-            style={{ width: '100%', height: 'auto', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }}
-          />
-          <Image
+          <picture style={{ display: 'block' }}>
+            <source media="(max-width: 768px)" srcSet="/german_food_800.webp" />
+            <img
+              className="about-main-image"
+              src="/german_food_1200.webp"
+              alt={t('Restaurant Neue Liebe Interieur', 'Restaurant Neue Liebe interior')}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: 'auto', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }}
+            />
+          </picture>
+          <picture
             className="about-img-float"
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=85"
-            alt={t('Kulinarische Erlebnisse', 'Culinary experiences')}
-            width={300}
-            height={300}
             style={{
-              position: 'absolute', bottom: '-2.5rem', left: '-2.5rem',
-              width: '55%', aspectRatio: '1', objectFit: 'cover',
+              position: 'absolute',
+              bottom: '-2.5rem',
+              left: '-2.5rem',
+              width: '55%',
+              aspectRatio: '1',
               border: '5px solid var(--cream)',
+              overflow: 'hidden',
+              display: 'block',
             }}
-          />
+          >
+            <source media="(max-width: 768px)" srcSet="/kulinarik_1200.webp" />
+            <img
+              src="/kulinarik_1600.webp"
+              alt={t('Kulinarische Erlebnisse', 'Culinary experiences')}
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit', display: 'block' }}
+            />
+          </picture>
           {/* Badge */}
           <div className="about-badge" style={{
             position: 'absolute', top: '2rem', right: '-1rem',
