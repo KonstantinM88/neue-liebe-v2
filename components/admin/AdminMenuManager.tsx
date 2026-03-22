@@ -510,7 +510,7 @@ export default function AdminMenuManager() {
               onChange={(event: ChangeEvent<HTMLInputElement>) => setDishPhoto(event.target.files?.[0] ?? null)}
             />
 
-            <button type="submit" className={styles.primaryAction} disabled={addingDish}>
+            <button type="submit" className={`${styles.primaryAction} ${styles.formPrimaryAction}`} disabled={addingDish}>
               {addingDish
                 ? t('Speichern...', 'Сохранение...')
                 : isEditingDish

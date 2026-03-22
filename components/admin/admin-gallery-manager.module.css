@@ -243,6 +243,24 @@
   opacity: 0.7;
 }
 
+.formPrimaryAction {
+  margin-top: 0.72rem;
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 2;
+  border-color: rgba(201,169,110,0.42);
+  background: linear-gradient(180deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 100%);
+  color: rgba(232,213,163,0.98);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.formPrimaryAction:hover:enabled {
+  transform: translateY(-1px);
+  border-color: rgba(201,169,110,0.58);
+  background: linear-gradient(180deg, rgba(201,169,110,0.24) 0%, rgba(201,169,110,0.12) 100%);
+}
+
 .uploadSection {
   position: relative;
   z-index: 20;
