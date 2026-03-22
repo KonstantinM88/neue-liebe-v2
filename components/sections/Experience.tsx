@@ -1,7 +1,6 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 const cards = [
@@ -66,28 +65,17 @@ export default function Experience() {
             className="exp-card reveal"
             style={{ '--exp-delay': `${c.delay}s` } as CSSProperties}
           >
-            {'video' in c ? (
-              <video
-                className="exp-media"
-                src={c.video}
-                aria-label={t(c.altDe, c.altEn)}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster={c.poster}
-              />
-            ) : (
-              <Image
-                className="exp-media"
-                src={c.img}
-                alt={t(c.altDe, c.altEn)}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                style={{ objectFit: 'cover' }}
-              />
-            )}
+            <video
+              className="exp-media"
+              src={c.video}
+              aria-label={t(c.altDe, c.altEn)}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={c.poster}
+            />
             <div className="exp-overlay">
               <div className="exp-num">{c.num}</div>
               <div className="exp-line" />
