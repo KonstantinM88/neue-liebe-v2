@@ -21,6 +21,7 @@ import MenuSection   from '@/components/sections/MenuSection'
 import ParallaxQuote from '@/components/sections/ParallaxQuote'
 import Gallery       from '@/components/sections/Gallery'
 import Events        from '@/components/sections/Events'
+import Reviews       from '@/components/sections/Reviews'
 import Reservation   from '@/components/sections/Reservation'
 import Contact       from '@/components/sections/Contact'
 
@@ -66,6 +67,7 @@ export default function Home() {
         <ParallaxQuote />
         <Gallery />
         <Events />
+        <Reviews />
         <Reservation onToast={setToast} />
         <Contact />
       </main>

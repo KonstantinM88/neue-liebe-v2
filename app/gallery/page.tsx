@@ -1,16 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Cursor from '@/components/Cursor'
+import GalleryMasonry from './GalleryMasonry'
 import { STATIC_GALLERY_PHOTOS } from '@/lib/gallery-static'
 import { readManagedGalleryItems } from '@/lib/gallery-store'
 import type { GalleryPhoto } from '@/lib/gallery-types'
 import styles from './gallery.module.css'
-
-const ratioClass: Record<GalleryPhoto['ratio'], string> = {
-  wide: styles.ratioWide,
-  tall: styles.ratioTall,
-  square: styles.ratioSquare,
-}
 
 export const metadata: Metadata = {
   title: 'Galerie | Neue Liebe',
@@ -83,26 +78,7 @@ export default async function GalleryPage() {
             <h2 className={styles.galleryTitle}>Restaurant, Küche, Events</h2>
           </div>
 
-          <div className={styles.masonry}>
-            {photos.map((photo, index) => (
-              <article key={photo.desktop} className={`${styles.card} ${ratioClass[photo.ratio]}`}>
-                <picture>
-                  <source media="(max-width: 768px)" srcSet={photo.mobile} />
-                  <img
-                    src={photo.desktop}
-                    alt={photo.alt}
-                    loading={index < 6 ? 'eager' : 'lazy'}
-                    decoding="async"
-                  />
-                </picture>
-
-                <div className={styles.cardOverlay} aria-hidden="true">
-                  <span className={styles.cardIndex}>{String(index + 1).padStart(2, '0')}</span>
-                  <span className={styles.cardTag}>{photo.tag}</span>
-                </div>
-              </article>
-            ))}
-          </div>
+          <GalleryMasonry photos={photos} />
         </section>
       </main>
     </div>

@@ -10,6 +10,7 @@ interface ReservationProps {
 export default function Reservation({ onToast }: ReservationProps) {
   const { t, lang } = useLang()
   const [loading, setLoading] = useState(false)
+  const dateInputLang = lang === 'de' ? 'de-DE' : 'en-US'
 
   const [form, setForm] = useState({
     firstName: '',
@@ -58,6 +59,7 @@ export default function Reservation({ onToast }: ReservationProps) {
         value={form[name as keyof typeof form]}
         onChange={handle}
         placeholder={placeholder}
+        lang={type === 'date' || type === 'time' ? dateInputLang : undefined}
         required={['firstName', 'lastName', 'email', 'date'].includes(name)}
       />
     </div>
@@ -84,7 +86,7 @@ export default function Reservation({ onToast }: ReservationProps) {
           {field(t('Nachname', 'Last Name'),   'lastName',  'text', 'Müller')}
           {field(t('E-Mail', 'Email'),          'email',     'email', 'maria@beispiel.de')}
           {field(t('Telefon', 'Phone'),         'phone',     'tel',   '+49 ...')}
-          {field(t('Datum', 'Date'),            'date',      'date')}
+          {field(t('Datum', 'Date'),            'date',      'date', lang === 'de' ? 'TT.MM.JJJJ' : 'MM/DD/YYYY')}
           {field(t('Uhrzeit', 'Time'),          'time',      'time')}
 
           {/* Guests */}

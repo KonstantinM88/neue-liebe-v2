@@ -25,6 +25,7 @@ export default function Navigation({ mobileOpen, onHamburger }: NavigationProps)
     { href: '#menu',        de: 'Speisekarte', en: 'Menu' },
     { href: '/gallery',     de: 'Galerie',     en: 'Gallery' },
     { href: '#events',      de: 'Events',      en: 'Events' },
+    { href: '#reviews',     de: 'Bewertungen', en: 'Reviews' },
     { href: '#contact',     de: 'Kontakt',     en: 'Contact' },
   ]
 
