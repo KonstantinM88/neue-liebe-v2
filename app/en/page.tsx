@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import HomePageClient from '../HomePageClient'
+import { buildHomeStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Neue Liebe | Restaurant • Terrace • Dance & Events',
@@ -23,6 +24,16 @@ export const metadata: Metadata = {
   },
 }
 
+const homeStructuredData = buildHomeStructuredData('en', 'https://neueliebe-nebra.de/en')
+
 export default function EnglishHomePage() {
-  return <HomePageClient initialLang="en" />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
+      />
+      <HomePageClient initialLang="en" />
+    </>
+  )
 }

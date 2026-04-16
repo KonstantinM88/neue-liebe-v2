@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import EventsPageClient from './EventsPageClient'
 import { buildFaqPageStructuredData } from '@/lib/page-faqs'
+import { buildEventsStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Events | Neue Liebe',
@@ -25,14 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
-const eventsPageStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'EventVenue',
-  name: 'Events | Neue Liebe',
-  description:
-    'Hochzeiten, Firmenfeiern und Tanzabende in der Neuen Liebe in Nebra (Unstrut) mit stilvollen Räumen und passender Kulinarik.',
-  url: 'https://neueliebe-nebra.de/events',
-}
+const eventsPageStructuredData = buildEventsStructuredData('de', 'https://neueliebe-nebra.de/events')
 
 const breadcrumbStructuredData = {
   '@context': 'https://schema.org',

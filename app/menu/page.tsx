@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import MenuPageClient from './MenuPageClient'
 import { getPublicMenuData } from '@/lib/menu-public'
 import { buildFaqPageStructuredData } from '@/lib/page-faqs'
+import { buildMenuStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Speisekarte | Neue Liebe',
@@ -24,16 +25,6 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US'],
     type: 'website',
   },
-}
-
-const menuPageStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Menu',
-  name: 'Speisekarte | Neue Liebe',
-  description:
-    'Speisekarte der Neuen Liebe in Nebra (Unstrut) mit Vorspeisen, Hauptgerichten, Klassikern, Burgern, Steaks und Drinks.',
-  url: 'https://neueliebe-nebra.de/menu',
-  inLanguage: 'de-DE',
 }
 
 const breadcrumbStructuredData = {
@@ -59,12 +50,13 @@ const faqStructuredData = buildFaqPageStructuredData('menu', 'de', 'https://neue
 
 export default async function MenuPage() {
   const { categories, dishes } = await getPublicMenuData()
+  const menuStructuredData = buildMenuStructuredData('de', 'https://neueliebe-nebra.de/menu', categories, dishes)
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(menuPageStructuredData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(menuStructuredData) }}
       />
       <script
         type="application/ld+json"

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import GalleryPageClient from '../../gallery/GalleryPageClient'
 import { getPublicGalleryPhotos } from '@/lib/gallery-public'
 import { buildFaqPageStructuredData } from '@/lib/page-faqs'
+import { buildGalleryStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Gallery | Neue Liebe',
@@ -21,15 +22,6 @@ export const metadata: Metadata = {
     alternateLocale: ['de_DE'],
     type: 'website',
   },
-}
-
-const galleryPageStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Gallery | Neue Liebe',
-  description: 'Gallery with impressions from the restaurant, cuisine, terrace and events at Neue Liebe.',
-  url: 'https://neueliebe-nebra.de/en/gallery',
-  inLanguage: 'en-US',
 }
 
 const breadcrumbStructuredData = {
@@ -55,6 +47,11 @@ const faqStructuredData = buildFaqPageStructuredData('gallery', 'en', 'https://n
 
 export default async function EnglishGalleryPage() {
   const photos = await getPublicGalleryPhotos('en')
+  const galleryPageStructuredData = buildGalleryStructuredData(
+    'en',
+    'https://neueliebe-nebra.de/en/gallery',
+    photos
+  )
 
   return (
     <>

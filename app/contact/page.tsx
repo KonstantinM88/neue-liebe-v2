@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import ContactPageClient from './ContactPageClient'
 import { buildFaqPageStructuredData } from '@/lib/page-faqs'
+import { buildContactStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Kontakt | Neue Liebe',
@@ -25,13 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
-const contactPageStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'ContactPage',
-  name: 'Kontakt | Neue Liebe',
-  description: 'Kontakt, Adresse, Öffnungszeiten und Anfahrt zur Neuen Liebe in Nebra (Unstrut).',
-  url: 'https://neueliebe-nebra.de/contact',
-}
+const contactPageStructuredData = buildContactStructuredData('de', 'https://neueliebe-nebra.de/contact')
 
 const breadcrumbStructuredData = {
   '@context': 'https://schema.org',
