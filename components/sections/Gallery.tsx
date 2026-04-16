@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
+import LazyVideo from '@/components/LazyVideo'
 
 type GalleryItem = {
   src: string
@@ -91,15 +92,15 @@ export default function Gallery() {
             return (
               <article key={img.cls} className={`gallery-item ${img.cls}`}>
                 {isTerraceVideo ? (
-                  <video
+                  <LazyVideo
                     src={img.src}
                     aria-label={t(img.altDe, img.altEn)}
                     autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
                     poster="/terrasse.webp"
+                    rootMargin="320px 0px"
                     style={{
                       objectFit: 'cover',
                       objectPosition: 'center 56%',
@@ -120,7 +121,6 @@ export default function Gallery() {
                     src={img.src}
                     alt={t(img.altDe, img.altEn)}
                     fill
-                    priority={img.cls === 'g1'}
                     sizes={
                       img.cls === 'g1'
                         ? '(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1100px) 100vw, 66vw'

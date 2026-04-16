@@ -5,7 +5,6 @@ import { LangProvider } from '@/context/LangContext'
 
 // Layout
 import Cursor        from '@/components/Cursor'
-import Loader        from '@/components/Loader'
 import ScrollProgress from '@/components/ScrollProgress'
 import Navigation    from '@/components/Navigation'
 import MobileMenu    from '@/components/MobileMenu'
@@ -45,7 +44,6 @@ export default function Home() {
       {/* Utilities */}
       <Cursor />
       <ScrollProgress />
-      <Loader />
 
       {/* Navigation */}
       <Navigation

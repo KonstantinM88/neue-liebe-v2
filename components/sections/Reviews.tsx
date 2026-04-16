@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useLang } from '@/context/LangContext'
+import { useInViewOnce } from '@/hooks/useInViewOnce'
 
 type ReviewItem = {
   id: string
@@ -111,13 +112,16 @@ export default function Reviews() {
   const [reviews, setReviews] = useState<ReviewItem[]>(FALLBACK_REVIEWS)
   const [averageRating, setAverageRating] = useState<number>(4.9)
   const [totalRatings, setTotalRatings] = useState<number>(reviews.length)
+  const { ref: sectionRef, isInView: shouldLoadRemoteReviews } = useInViewOnce<HTMLElement>('420px 0px')
 
   useEffect(() => {
+    if (!shouldLoadRemoteReviews) return
+
     let isCancelled = false
 
     async function loadReviews() {
       try {
-        const response = await fetch(`/api/reviews?lang=${lang}`, { cache: 'no-store' })
+        const response = await fetch(`/api/reviews?lang=${lang}`)
         if (!response.ok) return
 
         const payload = (await response.json().catch(() => ({}))) as ReviewsApiResponse
@@ -154,12 +158,12 @@ export default function Reviews() {
     return () => {
       isCancelled = true
     }
-  }, [lang])
+  }, [lang, shouldLoadRemoteReviews])
 
   const topReviews = useMemo(() => reviews.slice(0, 7), [reviews])
 
   return (
-    <section id="reviews" className="reviews-section">
+    <section id="reviews" className="reviews-section" ref={sectionRef}>
       <div className="reviews-container">
         <div className="section-header-center reveal" style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 2.4rem' }}>
           <p className="section-label" style={{ color: 'var(--gold)' }}>

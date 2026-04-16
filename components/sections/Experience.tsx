@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from 'react'
 import { useLang } from '@/context/LangContext'
+import LazyVideo from '@/components/LazyVideo'
 
 const cards = [
   {
@@ -31,7 +32,7 @@ const cards = [
   {
     num: '03',
     video: '/Evets-video.mp4',
-    poster: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=80',
+    poster: '/events_800.webp',
     altDe: 'Tanz und Events',
     altEn: 'Dance and Events',
     titleDe: 'Tanz & Events',
@@ -65,7 +66,7 @@ export default function Experience() {
             className="exp-card reveal"
             style={{ '--exp-delay': `${c.delay}s` } as CSSProperties}
           >
-            <video
+            <LazyVideo
               className="exp-media"
               src={c.video}
               aria-label={t(c.altDe, c.altEn)}
@@ -73,8 +74,8 @@ export default function Experience() {
               muted
               loop
               playsInline
-              preload="metadata"
               poster={c.poster}
+              rootMargin="320px 0px"
             />
             <div className="exp-overlay">
               <div className="exp-num">{c.num}</div>

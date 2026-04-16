@@ -25,7 +25,14 @@ export async function GET() {
     const categories = mergeCategories(STATIC_MENU_CATEGORIES, managed.categories)
     const dishes = mergeDishes(STATIC_MENU_DISHES, managed.dishes)
 
-    return NextResponse.json({ categories, dishes })
+    return NextResponse.json(
+      { categories, dishes },
+      {
+        headers: {
+          'Cache-Control': 'public, max-age=300, s-maxage=900, stale-while-revalidate=3600',
+        },
+      }
+    )
   } catch (error) {
     console.error('[GET /api/menu]', error)
     return NextResponse.json({ error: 'Ошибка сервера.' }, { status: 500 })

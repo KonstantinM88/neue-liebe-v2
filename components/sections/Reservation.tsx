@@ -52,14 +52,26 @@ export default function Reservation({ onToast }: ReservationProps) {
 
   const field = (label: string, name: string, type = 'text', placeholder = '') => (
     <div className="form-group">
-      <label>{label}</label>
+      <label htmlFor={`reservation-${name}`}>{label}</label>
       <input
+        id={`reservation-${name}`}
         type={type}
         name={name}
         value={form[name as keyof typeof form]}
         onChange={handle}
         placeholder={placeholder}
         lang={type === 'date' || type === 'time' ? dateInputLang : undefined}
+        autoComplete={
+          name === 'firstName'
+            ? 'given-name'
+            : name === 'lastName'
+              ? 'family-name'
+              : name === 'email'
+                ? 'email'
+                : name === 'phone'
+                  ? 'tel'
+                  : undefined
+        }
         required={['firstName', 'lastName', 'email', 'date'].includes(name)}
       />
     </div>
@@ -91,8 +103,8 @@ export default function Reservation({ onToast }: ReservationProps) {
 
           {/* Guests */}
           <div className="form-group">
-            <label>{t('Anzahl Personen', 'Number of Guests')}</label>
-            <select name="guests" value={form.guests} onChange={handle}>
+            <label htmlFor="reservation-guests">{t('Anzahl Personen', 'Number of Guests')}</label>
+            <select id="reservation-guests" name="guests" value={form.guests} onChange={handle}>
               {['1','2','3','4','5','6','7','8'].map((n) => (
                 <option key={n} value={n}>{n}</option>
               ))}
@@ -102,8 +114,8 @@ export default function Reservation({ onToast }: ReservationProps) {
 
           {/* Occasion */}
           <div className="form-group">
-            <label>{t('Anlass', 'Occasion')}</label>
-            <select name="occasion" value={form.occasion} onChange={handle}>
+            <label htmlFor="reservation-occasion">{t('Anlass', 'Occasion')}</label>
+            <select id="reservation-occasion" name="occasion" value={form.occasion} onChange={handle}>
               <option value="DINNER">{t('Dinner', 'Dinner')}</option>
               <option value="BIRTHDAY">{t('Geburtstag', 'Birthday')}</option>
               <option value="WEDDING">{t('Hochzeit', 'Wedding')}</option>
@@ -113,8 +125,9 @@ export default function Reservation({ onToast }: ReservationProps) {
 
           {/* Special request */}
           <div className="form-group full">
-            <label>{t('Sonderwünsche', 'Special Requests')}</label>
+            <label htmlFor="reservation-specialRequest">{t('Sonderwünsche', 'Special Requests')}</label>
             <textarea
+              id="reservation-specialRequest"
               name="specialRequest"
               value={form.specialRequest}
               onChange={handle}

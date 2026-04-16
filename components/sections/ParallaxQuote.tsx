@@ -11,7 +11,7 @@ export default function ParallaxQuote() {
       <div style={{
         position: 'absolute',
         inset: '-15%',
-        backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85')",
+        backgroundImage: "url('/terrace_1200.webp')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',

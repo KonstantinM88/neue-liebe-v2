@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
 import { STATIC_MENU_CATEGORIES, STATIC_MENU_DISHES } from '@/lib/menu-static'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
+import { useInViewOnce } from '@/hooks/useInViewOnce'
 
 type MenuResponse = {
   categories?: MenuCategory[]
@@ -24,13 +25,16 @@ export default function MenuSection() {
   const [categories, setCategories] = useState<MenuCategory[]>(STATIC_MENU_CATEGORIES)
   const [dishes, setDishes] = useState<MenuDish[]>(STATIC_MENU_DISHES)
   const gridRef = useRef<HTMLDivElement | null>(null)
+  const { ref: sectionRef, isInView: shouldLoadRemoteMenu } = useInViewOnce<HTMLElement>('420px 0px')
 
   useEffect(() => {
+    if (!shouldLoadRemoteMenu) return
+
     let isCancelled = false
 
     async function loadMenu() {
       try {
-        const response = await fetch('/api/menu', { cache: 'no-store' })
+        const response = await fetch('/api/menu')
         if (!response.ok) return
         const payload = (await response.json().catch(() => ({}))) as MenuResponse
         if (isCancelled) return
@@ -50,7 +54,7 @@ export default function MenuSection() {
     return () => {
       isCancelled = true
     }
-  }, [])
+  }, [shouldLoadRemoteMenu])
 
   useEffect(() => {
     if (active === 'all') return
@@ -99,7 +103,7 @@ export default function MenuSection() {
   }, [active, filteredDishes.length])
 
   return (
-    <section id="menu">
+    <section id="menu" ref={sectionRef}>
       <div
         className="section-header-center reveal"
         style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 3rem' }}

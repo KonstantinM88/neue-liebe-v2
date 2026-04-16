@@ -7,6 +7,14 @@ export default function Cursor() {
   const ringRef    = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (
+      typeof window === 'undefined' ||
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
+
     const cursor = cursorRef.current
     const ring   = ringRef.current
     if (!cursor || !ring) return

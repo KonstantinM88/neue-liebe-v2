@@ -13,15 +13,18 @@ export default function Hero() {
             className="hero-bg-image"
             src="/cafe_interior_1920x1440_optimized.webp"
             srcSet={[
+              '/cafe_interior_400x300_optimized.webp 400w',
               '/cafe_interior_800x600_optimized.webp 800w',
               '/cafe_interior_1600x1200_optimized.webp 1600w',
               '/cafe_interior_1920x1440_optimized.webp 1920w',
             ].join(', ')}
-            sizes="(max-width: 640px) 180vw, (max-width: 1024px) 135vw, (max-width: 1600px) 100vw, 1920px"
+            sizes="100vw"
             alt=""
             loading="eager"
             fetchPriority="high"
             decoding="async"
+            width={1920}
+            height={1440}
           />
         </picture>
       </div>
