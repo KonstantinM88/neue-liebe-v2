@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="footer-shell">
         <div className="footer-top">
           <div className="footer-brand-card">
-            <div className="footer-brand-title">Neue Liebe</div>
+            <h2 className="footer-brand-title">Neue Liebe</h2>
             <p className="footer-brand-copy">
               {t(
                 'Restaurant · Terrasse · Tanz & Events in Nebra (Unstrut), Sachsen-Anhalt',
@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h5 className="footer-heading">{t('Navigation', 'Navigation')}</h5>
+            <h3 className="footer-heading">{t('Navigation', 'Navigation')}</h3>
             <ul className="footer-nav-list">
               {navLinks.map((link) => (
                 <li key={link.href}>
@@ -57,7 +57,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h5 className="footer-heading">{t('Kontakt', 'Contact')}</h5>
+            <h3 className="footer-heading">{t('Kontakt', 'Contact')}</h3>
             <div className="footer-contact-copy">
               <p>Wetzendorfer Str. 10</p>
               <p>06642 Nebra (Unstrut)</p>
@@ -68,7 +68,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h5 className="footer-heading">{t('Öffnungszeiten', 'Hours')}</h5>
+            <h3 className="footer-heading">{t('Öffnungszeiten', 'Hours')}</h3>
             <div className="footer-contact-copy">
               <p>{t('Täglich geöffnet', 'Open daily')}</p>
               <p>{t('bis 23:00 Uhr', 'until 23:00')}</p>
