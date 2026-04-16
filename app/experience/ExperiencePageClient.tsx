@@ -2,14 +2,41 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import FaqSection from '@/components/FaqSection'
+import SeoTextSection from '@/components/SeoTextSection'
 import SitePageShell from '@/components/SitePageShell'
 import Experience from '@/components/sections/Experience'
 import { type Lang, useLang } from '@/context/LangContext'
+import { getPageFaqContent } from '@/lib/page-faqs'
 import { getMenuHref, getReservationHref } from '@/lib/site-nav'
 
 function ExperiencePageContent() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
   const pathname = usePathname()
+  const seoItems = [
+    {
+      title: t('Sommerterrasse für entspannte Abende', 'Summer Terrace for Relaxed Evenings'),
+      text: t(
+        'Unsere Terrasse in Nebra (Unstrut) ist für Gäste gedacht, die einen Abend nicht nur kulinarisch, sondern auch atmosphärisch genießen möchten. Gerade in den warmen Monaten entsteht hier ein ruhiger Gegenpol zum Alltag.',
+        'Our terrace in Nebra (Unstrut) is designed for guests who want to enjoy an evening not only through cuisine, but also through atmosphere. During the warmer months it becomes a calm counterpoint to everyday life.'
+      ),
+    },
+    {
+      title: t('Bankettsaal für private und geschäftliche Feiern', 'Banquet Hall for Private and Business Events'),
+      text: t(
+        'Wer eine Eventlocation in Nebra sucht, findet mit unserem Bankettsaal einen Rahmen für Hochzeiten, Familienfeste und Firmenveranstaltungen. Der Fokus liegt auf stilvollem Ambiente und flexibler Nutzung.',
+        'Anyone looking for an event location in Nebra will find a fitting setting in our banquet hall for weddings, family celebrations and corporate events. The focus is on a stylish ambiance and flexible use.'
+      ),
+    },
+    {
+      title: t('Tanz- und Musikabende mit eigenem Profil', 'Dance and Music Evenings with Their Own Character'),
+      text: t(
+        'Die Erlebniswelt der Neuen Liebe endet nicht beim Essen. Themenabende, Musik und Tanz sorgen dafür, dass Gäste das Restaurant auch als lebendigen Treffpunkt für besondere Abende wahrnehmen.',
+        'The Neue Liebe experience does not end with dinner. Themed evenings, music and dancing make the restaurant feel like a lively meeting place for memorable nights.'
+      ),
+    },
+  ]
+  const faq = getPageFaqContent('experience', lang)
 
   return (
     <main style={{ background: 'var(--charcoal)', paddingTop: '80px' }}>
@@ -90,6 +117,26 @@ function ExperiencePageContent() {
       </section>
 
       <Experience />
+      <SeoTextSection
+        eyebrow={t('Erlebniswelten', 'Experience Worlds')}
+        title={t(
+          'Terrasse, Saal und Eventabende auf einer Seite',
+          'Terrace, Hall and Event Evenings in One Place'
+        )}
+        lead={t(
+          'Die Seite „Erlebnisse“ bündelt genau die Themen, nach denen Gäste häufig suchen: Restaurant mit Terrasse, Bankettsaal für Feiern und besondere Eventabende in Nebra (Unstrut). Damit wird klar, dass Neue Liebe mehr ist als ein klassischer Restaurantbesuch.',
+          'The Experiences page brings together exactly the topics guests often search for: a restaurant with terrace, a banquet hall for celebrations and special event evenings in Nebra (Unstrut). It makes clear that Neue Liebe offers more than a classic restaurant visit.'
+        )}
+        items={seoItems}
+        theme="dark"
+      />
+      <FaqSection
+        eyebrow={faq.eyebrow}
+        title={faq.title}
+        lead={faq.lead}
+        items={faq.items}
+        theme="dark"
+      />
     </main>
   )
 }

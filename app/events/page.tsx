@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import EventsPageClient from './EventsPageClient'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Events | Neue Liebe',
@@ -52,6 +53,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('events', 'de', 'https://neueliebe-nebra.de/events')
+
 export default function EventsPage() {
   return (
     <>
@@ -62,6 +65,10 @@ export default function EventsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <EventsPageClient />
     </>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ReviewsPageClient from '../../reviews/ReviewsPageClient'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Reviews | Neue Liebe',
@@ -52,6 +53,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('reviews', 'en', 'https://neueliebe-nebra.de/en/reviews')
+
 export default function EnglishReviewsPage() {
   return (
     <>
@@ -62,6 +65,10 @@ export default function EnglishReviewsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <ReviewsPageClient initialLang="en" />
     </>

@@ -2,14 +2,41 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import FaqSection from '@/components/FaqSection'
+import SeoTextSection from '@/components/SeoTextSection'
 import SitePageShell from '@/components/SitePageShell'
 import About from '@/components/sections/About'
 import { type Lang, useLang } from '@/context/LangContext'
+import { getPageFaqContent } from '@/lib/page-faqs'
 import { getMenuHref, getReservationHref } from '@/lib/site-nav'
 
 function AboutPageContent() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
   const pathname = usePathname()
+  const seoItems = [
+    {
+      title: t('Regionale Küche mit moderner Handschrift', 'Regional Cuisine with a Modern Signature'),
+      text: t(
+        'Neue Liebe steht in Nebra (Unstrut) für ein Restaurant, das bekannte regionale Aromen mit einem stilvollen Auftritt verbindet. So entsteht ein Ort, der zugleich vertraut wirkt und dennoch einen eigenen Charakter besitzt.',
+        'Neue Liebe in Nebra (Unstrut) stands for a restaurant that combines familiar regional flavors with a refined presentation. The result is a place that feels approachable while still offering a clear identity.'
+      ),
+    },
+    {
+      title: t('Gastlichkeit für Alltag, Terrasse und Feier', 'Hospitality for Everyday Dining, Terrace Visits and Celebrations'),
+      text: t(
+        'Ob entspanntes Abendessen, Besuch auf der Terrasse oder Anlass mit Familie und Freunden: Unser Anspruch ist, Service, Küche und Atmosphäre so aufeinander abzustimmen, dass jeder Besuch rund wirkt.',
+        'Whether for a relaxed dinner, a terrace visit or a celebration with family and friends, our aim is to align service, cuisine and atmosphere so that every visit feels complete.'
+      ),
+    },
+    {
+      title: t('Ein Restaurant in Nebra mit Wiedererkennungswert', 'A Restaurant in Nebra with a Distinct Identity'),
+      text: t(
+        'Wer nach einem Restaurant in Nebra sucht, findet bei der Neuen Liebe nicht nur Speisen, sondern ein stimmiges Gesamtbild aus Interieur, Gastfreundschaft und Eventkultur. Genau das macht unsere Geschichte auch für neue Gäste greifbar.',
+        'Anyone looking for a restaurant in Nebra will find more than just dishes at Neue Liebe: the interior, hospitality and event culture create a cohesive overall experience. That is what makes our story tangible for new guests.'
+      ),
+    },
+  ]
+  const faq = getPageFaqContent('about', lang)
 
   return (
     <main style={{ background: 'var(--cream)', paddingTop: '80px' }}>
@@ -90,6 +117,24 @@ function AboutPageContent() {
       </section>
 
       <About />
+      <SeoTextSection
+        eyebrow={t('Mehr über Neue Liebe', 'More about Neue Liebe')}
+        title={t(
+          'Restaurantkultur in Nebra mit regionaler Identität',
+          'Restaurant Culture in Nebra with a Regional Identity'
+        )}
+        lead={t(
+          'Die Seite „Über uns“ soll nicht nur unsere Geschichte erzählen, sondern auch verständlich machen, wofür Neue Liebe in Nebra (Unstrut) steht: für regionale Küche, herzlichen Service und eine Atmosphäre, die Alltag und besondere Anlässe zusammenbringt.',
+          'The About page is not only here to tell our story, but also to explain what Neue Liebe in Nebra (Unstrut) stands for: regional cuisine, warm service and an atmosphere that works for everyday visits as well as special occasions.'
+        )}
+        items={seoItems}
+      />
+      <FaqSection
+        eyebrow={faq.eyebrow}
+        title={faq.title}
+        lead={faq.lead}
+        items={faq.items}
+      />
     </main>
   )
 }

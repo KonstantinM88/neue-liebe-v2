@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ExperiencePageClient from './ExperiencePageClient'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Erlebnisse | Neue Liebe',
@@ -53,6 +54,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('experience', 'de', 'https://neueliebe-nebra.de/experience')
+
 export default function ExperiencePage() {
   return (
     <>
@@ -63,6 +66,10 @@ export default function ExperiencePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <ExperiencePageClient />
     </>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import MenuPageClient from '../../menu/MenuPageClient'
 import { getPublicMenuData } from '@/lib/menu-public'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Menu | Neue Liebe',
@@ -54,6 +55,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('menu', 'en', 'https://neueliebe-nebra.de/en/menu')
+
 export default async function EnglishMenuPage() {
   const { categories, dishes } = await getPublicMenuData()
 
@@ -66,6 +69,10 @@ export default async function EnglishMenuPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <MenuPageClient categories={categories} dishes={dishes} initialLang="en" />
     </>

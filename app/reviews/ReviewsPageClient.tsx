@@ -2,14 +2,41 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import FaqSection from '@/components/FaqSection'
+import SeoTextSection from '@/components/SeoTextSection'
 import SitePageShell from '@/components/SitePageShell'
 import Reviews from '@/components/sections/Reviews'
 import { type Lang, useLang } from '@/context/LangContext'
+import { getPageFaqContent } from '@/lib/page-faqs'
 import { getGalleryHref, getReservationHref } from '@/lib/site-nav'
 
 function ReviewsPageContent() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
   const pathname = usePathname()
+  const seoItems = [
+    {
+      title: t('Service und Atmosphäre im Fokus', 'Service and Atmosphere in Focus'),
+      text: t(
+        'Restaurant-Bewertungen helfen neuen Gästen einzuschätzen, ob ein Besuch zur eigenen Erwartung passt. Auf dieser Seite stehen daher nicht nur Sterne, sondern echte Eindrücke zu Service, Stimmung und Erlebnis im Mittelpunkt.',
+        'Restaurant reviews help new guests judge whether a visit matches their expectations. That is why this page focuses not only on ratings, but also on real impressions of service, atmosphere and the overall experience.'
+      ),
+    },
+    {
+      title: t('Warum Gäste Küche und Ambiente hervorheben', 'Why Guests Highlight Cuisine and Ambience'),
+      text: t(
+        'Viele Rückmeldungen zur Neuen Liebe drehen sich um die Kombination aus Essen, Einrichtung und Gastlichkeit. Gerade für Suchanfragen nach Restaurantbewertungen in Nebra entsteht dadurch ein glaubwürdigeres Gesamtbild.',
+        'Many comments about Neue Liebe focus on the combination of food, interior design and hospitality. Especially for searches related to restaurant reviews in Nebra, this creates a more credible overall picture.'
+      ),
+    },
+    {
+      title: t('Vertrauen vor der Reservierung aufbauen', 'Building Trust before a Reservation'),
+      text: t(
+        'Bewertungen sind oft der letzte Schritt vor einer Reservierung. Indem die Seite echte Stimmen bündelt, stärkt sie das Vertrauen von Gästen, die zwischen mehreren Restaurants oder Eventorten vergleichen.',
+        'Reviews are often the final step before making a reservation. By bringing together real voices, the page strengthens trust for guests comparing several restaurants or venues.'
+      ),
+    },
+  ]
+  const faq = getPageFaqContent('reviews', lang)
 
   return (
     <main className="reviews-section" style={{ paddingTop: '80px' }}>
@@ -90,6 +117,24 @@ function ReviewsPageContent() {
       </section>
 
       <Reviews />
+      <SeoTextSection
+        eyebrow={t('Stimmen & Vertrauen', 'Voices & Trust')}
+        title={t(
+          'Bewertungen als Orientierung für neue Gäste',
+          'Reviews as Guidance for New Guests'
+        )}
+        lead={t(
+          'Die Bewertungsseite ergänzt die eigentlichen Rezensionen um kontextreiche Texte. Dadurch wird für Suchmaschinen und Besucher klarer, dass es hier um reale Erfahrungen mit Küche, Service und Atmosphäre der Neuen Liebe in Nebra (Unstrut) geht.',
+          'The reviews page complements the actual testimonials with additional contextual copy. This makes it clearer for both search engines and visitors that the page is about real experiences with the cuisine, service and atmosphere at Neue Liebe in Nebra (Unstrut).'
+        )}
+        items={seoItems}
+      />
+      <FaqSection
+        eyebrow={faq.eyebrow}
+        title={faq.title}
+        lead={faq.lead}
+        items={faq.items}
+      />
     </main>
   )
 }

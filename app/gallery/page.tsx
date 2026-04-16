@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import GalleryPageClient from './GalleryPageClient'
 import { getPublicGalleryPhotos } from '@/lib/gallery-public'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Galerie | Neue Liebe',
@@ -50,6 +51,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('gallery', 'de', 'https://neueliebe-nebra.de/gallery')
+
 export default async function GalleryPage() {
   const photos = await getPublicGalleryPhotos('de')
 
@@ -62,6 +65,10 @@ export default async function GalleryPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <GalleryPageClient photos={photos} />
     </>

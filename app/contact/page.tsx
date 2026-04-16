@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContactPageClient from './ContactPageClient'
+import { buildFaqPageStructuredData } from '@/lib/page-faqs'
 
 export const metadata: Metadata = {
   title: 'Kontakt | Neue Liebe',
@@ -51,6 +52,8 @@ const breadcrumbStructuredData = {
   ],
 }
 
+const faqStructuredData = buildFaqPageStructuredData('contact', 'de', 'https://neueliebe-nebra.de/contact')
+
 export default function ContactPage() {
   return (
     <>
@@ -61,6 +64,10 @@ export default function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
       <ContactPageClient />
     </>

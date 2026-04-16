@@ -2,9 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import FaqSection from '@/components/FaqSection'
+import SeoTextSection from '@/components/SeoTextSection'
 import SitePageShell from '@/components/SitePageShell'
 import MenuSection from '@/components/sections/MenuSection'
 import { type Lang, useLang } from '@/context/LangContext'
+import { getPageFaqContent } from '@/lib/page-faqs'
 import { getReservationHref } from '@/lib/site-nav'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
 
@@ -14,8 +17,32 @@ type MenuPageContentProps = {
 }
 
 function MenuPageContent({ categories, dishes }: MenuPageContentProps) {
-  const { t } = useLang()
+  const { lang, t } = useLang()
   const pathname = usePathname()
+  const seoItems = [
+    {
+      title: t('Vorspeisen, Klassiker und Hauptgerichte', 'Starters, Classics and Main Courses'),
+      text: t(
+        'Unsere Speisekarte in Nebra (Unstrut) verbindet klassische Gerichte mit einer Auswahl, die unterschiedliche Vorlieben abdeckt. Von kleinen Vorspeisen bis zu kräftigen Hauptgerichten bleibt die Küche bewusst zugänglich und vielseitig.',
+        'Our menu in Nebra (Unstrut) combines classic dishes with a selection that covers different preferences. From small starters to hearty main courses, the cuisine remains approachable and versatile.'
+      ),
+    },
+    {
+      title: t('Burger, Steaks und kräftige Hausgerichte', 'Burgers, Steaks and Hearty House Dishes'),
+      text: t(
+        'Wer in einem Restaurant in Nebra nach Schnitzel, Steak, Burgern oder regional geprägten Klassikern sucht, findet auf dieser Seite einen guten Überblick. Die Karte ist so aufgebaut, dass beliebte Favoriten schnell sichtbar werden.',
+        'Anyone looking for schnitzel, steak, burgers or regionally inspired classics in a restaurant in Nebra gets a clear overview on this page. The menu is structured so that popular favorites are easy to find.'
+      ),
+    },
+    {
+      title: t('Drinks und Begleiter für lange Abende', 'Drinks and Pairings for Long Evenings'),
+      text: t(
+        'Zur Speisekarte gehören auch Bier- und Drink-Positionen, die den Besuch auf Terrasse, im Restaurant oder bei Veranstaltungen abrunden. So wirkt die Seite nicht nur informativ, sondern auch alltagsnah für echte Besuchsentscheidungen.',
+        'The menu also includes beers and drinks that complement an evening on the terrace, in the restaurant or during events. This makes the page not only informative, but also practical for real visit decisions.'
+      ),
+    },
+  ]
+  const faq = getPageFaqContent('menu', lang)
 
   return (
     <main style={{ background: 'var(--cream)', paddingTop: '80px' }}>
@@ -99,6 +126,24 @@ function MenuPageContent({ categories, dishes }: MenuPageContentProps) {
         initialCategories={categories}
         initialDishes={dishes}
         loadRemoteOnInView={false}
+      />
+      <SeoTextSection
+        eyebrow={t('Kulinarischer Überblick', 'Culinary Overview')}
+        title={t(
+          'Speisekarte mit regionalen Klassikern und beliebten Favoriten',
+          'A Menu with Regional Classics and Popular Favorites'
+        )}
+        lead={t(
+          'Die Menüseite ist bewusst stärker textlich ausgebaut, damit Gäste und Suchmaschinen sofort erkennen, welche Art von Küche die Neue Liebe in Nebra (Unstrut) anbietet. Neben den sichtbaren Gerichten entsteht so auch ein klarer kulinarischer Rahmen für die ganze Seite.',
+          'The menu page is intentionally supported by stronger descriptive copy so that guests and search engines immediately understand what kind of cuisine Neue Liebe in Nebra (Unstrut) offers. Alongside the visible dishes, this creates a clear culinary context for the entire page.'
+        )}
+        items={seoItems}
+      />
+      <FaqSection
+        eyebrow={faq.eyebrow}
+        title={faq.title}
+        lead={faq.lead}
+        items={faq.items}
       />
     </main>
   )
