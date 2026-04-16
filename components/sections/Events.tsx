@@ -114,9 +114,9 @@ export default function Events() {
                   </span>
 
                   <div className="events-feature-copy">
-                    <h4 className="events-feature-title">
+                    <h3 className="events-feature-title">
                       {t(f.titleDe, f.titleEn)}
-                    </h4>
+                    </h3>
                     <p className="events-feature-desc">
                       {t(f.descDe, f.descEn)}
                     </p>

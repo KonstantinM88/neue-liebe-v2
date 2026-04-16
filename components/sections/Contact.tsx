@@ -87,9 +87,9 @@ export default function Contact() {
                 </span>
 
                 <div className="contact-card-copy">
-                  <h4 className="contact-card-title">
+                  <h3 className="contact-card-title">
                     {t(item.titleDe, item.titleEn)}
-                  </h4>
+                  </h3>
                   <div className="contact-card-content">
                     {item.content}
                   </div>
