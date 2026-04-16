@@ -1,14 +1,14 @@
 // prisma/schema.prisma
 // Neue Liebe – Restaurant Booking System
-// Stack: Prisma 6.19.2 · PostgreSQL · Node.js 22
+// Stack: Prisma 7.7.0 · PostgreSQL · Node.js 22
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Occasion {

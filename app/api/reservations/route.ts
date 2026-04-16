@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { Occasion } from '@prisma/client'
+import { Occasion, ReservationStatus } from '@/generated/prisma/enums'
+
+function normalizeReservationStatus(value: string | null): ReservationStatus | undefined {
+  if (!value) return undefined
+
+  return Object.values(ReservationStatus).includes(value as ReservationStatus)
+    ? (value as ReservationStatus)
+    : undefined
+}
 
 // ─── POST /api/reservations ───────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
@@ -54,12 +62,12 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
-    const status = searchParams.get('status')
+    const status = normalizeReservationStatus(searchParams.get('status'))
     const dateStr = searchParams.get('date')
 
     const reservations = await prisma.reservation.findMany({
       where: {
-        ...(status ? { status: status as any } : {}),
+        ...(status ? { status } : {}),
         ...(dateStr ? { date: new Date(dateStr) } : {}),
       },
       orderBy: { date: 'asc' },

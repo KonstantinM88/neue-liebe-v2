@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
 
 type AboutStat = {
@@ -27,24 +27,27 @@ function formatStat(stat: AboutStat, progress: number) {
 }
 
 export default function About() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const statsRef = useRef<HTMLDivElement | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   const hasAnimatedRef = useRef(false)
 
-  const stats: AboutStat[] = [
-    { target: 15, suffix: '+', label: t('Jahre Erfahrung', 'Years Experience') },
-    { target: 200, suffix: '+', label: t('Plätze', 'Seats') },
-    { target: 4.8, decimals: 1, label: t('Google Bewertung', 'Google Rating') },
-    { finalText: '∞', label: t('Leidenschaft', 'Passion') },
-  ]
+  const stats = useMemo<AboutStat[]>(
+    () => [
+      { target: 15, suffix: '+', label: t('Jahre Erfahrung', 'Years Experience') },
+      { target: 200, suffix: '+', label: t('Plätze', 'Seats') },
+      { target: 4.8, decimals: 1, label: t('Google Bewertung', 'Google Rating') },
+      { finalText: '∞', label: t('Leidenschaft', 'Passion') },
+    ],
+    [t]
+  )
 
   const [displayStats, setDisplayStats] = useState(() => stats.map((stat) => formatStat(stat, 0)))
 
   useEffect(() => {
     setDisplayStats(stats.map((stat) => formatStat(stat, 0)))
     hasAnimatedRef.current = false
-  }, [lang])
+  }, [stats])
 
   useEffect(() => {
     const node = statsRef.current
@@ -91,7 +94,7 @@ export default function About() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [lang])
+  }, [stats])
 
   return (
     <section id="about" style={{ background: 'var(--cream)', padding: 'clamp(5rem, 10vw, 10rem) 4vw' }}>
