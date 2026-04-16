@@ -12,6 +12,7 @@ export default function LazyVideo({
   rootMargin = '240px 0px',
   autoPlay = true,
   preload,
+  poster,
   ...props
 }: LazyVideoProps) {
   const ref = useRef<HTMLVideoElement>(null)
@@ -51,6 +52,7 @@ export default function LazyVideo({
       {...props}
       ref={ref}
       src={shouldLoad ? src : undefined}
+      poster={shouldLoad ? poster : undefined}
       autoPlay={shouldLoad ? autoPlay : false}
       preload={shouldLoad ? preload ?? 'metadata' : 'none'}
     />

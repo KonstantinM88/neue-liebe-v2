@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
 
@@ -142,18 +143,19 @@ export default function About() {
 
         {/* Visual */}
         <div className="about-visual reveal-right" style={{ position: 'relative' }}>
-          <picture style={{ display: 'block' }}>
-            <source media="(max-width: 768px)" srcSet="/german_food_800.webp" />
-            <img
+          <div style={{ position: 'relative', display: 'block', aspectRatio: '3 / 4' }}>
+            <Image
               className="about-main-image"
               src="/german_food_1200.webp"
               alt={t('Restaurant Neue Liebe Interieur', 'Restaurant Neue Liebe interior')}
+              fill
               loading="lazy"
-              decoding="async"
-              style={{ width: '100%', height: 'auto', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }}
+              quality={62}
+              sizes="(max-width: 768px) 92vw, (max-width: 1100px) 680px, 42vw"
+              style={{ objectFit: 'cover' }}
             />
-          </picture>
-          <picture
+          </div>
+          <div
             className="about-img-float"
             style={{
               position: 'absolute',
@@ -166,15 +168,16 @@ export default function About() {
               display: 'block',
             }}
           >
-            <source media="(max-width: 768px)" srcSet="/kulinarik_1200.webp" />
-            <img
+            <Image
               src="/kulinarik_1600.webp"
               alt={t('Kulinarische Erlebnisse', 'Culinary experiences')}
+              fill
               loading="lazy"
-              decoding="async"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit', display: 'block' }}
+              quality={60}
+              sizes="(max-width: 768px) 50vw, (max-width: 1100px) 374px, 24vw"
+              style={{ objectFit: 'cover', borderRadius: 'inherit' }}
             />
-          </picture>
+          </div>
           {/* Badge */}
           <div className="about-badge" style={{
             position: 'absolute', top: '2rem', right: '-1rem',

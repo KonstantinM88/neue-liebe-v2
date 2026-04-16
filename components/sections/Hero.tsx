@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 export default function Hero() {
@@ -8,25 +9,16 @@ export default function Hero() {
   return (
     <section id="hero" className="hero-section">
       <div className="hero-bg" aria-hidden="true">
-        <picture className="hero-bg-picture">
-          <img
-            className="hero-bg-image"
-            src="/cafe_interior_1920x1440_optimized.webp"
-            srcSet={[
-              '/cafe_interior_400x300_optimized.webp 400w',
-              '/cafe_interior_800x600_optimized.webp 800w',
-              '/cafe_interior_1600x1200_optimized.webp 1600w',
-              '/cafe_interior_1920x1440_optimized.webp 1920w',
-            ].join(', ')}
-            sizes="100vw"
-            alt=""
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            width={1920}
-            height={1440}
-          />
-        </picture>
+        <Image
+          className="hero-bg-image"
+          src="/cafe_interior_1920x1440_optimized.webp"
+          alt=""
+          fill
+          preload
+          fetchPriority="high"
+          quality={68}
+          sizes="100vw"
+        />
       </div>
       <div className="hero-overlay" />
       <div className="hero-overlay-bottom" />
