@@ -20,15 +20,23 @@ export default function MobileMenu({ open, onClose }: Props) {
 
   return (
     <div className={`mobile-menu${open ? ' open' : ''}`} id="mobileMenu">
-      {links.map((item) => (
-        <Link
-          key={item.key}
-          href={item.key === 'reservation' ? getReservationHref(pathname) : resolveSiteHref(pathname, item)}
-          onClick={onClose}
-        >
-          {t(item.de, item.en)}
+      <div className="mobile-menu-links">
+        {links.map((item) => (
+          <Link
+            key={item.key}
+            href={item.key === 'reservation' ? getReservationHref(pathname) : resolveSiteHref(pathname, item)}
+            onClick={onClose}
+          >
+            {t(item.de, item.en)}
+          </Link>
+        ))}
+      </div>
+      
+      <div className="mobile-menu-logo">
+        <Link href="/" onClick={onClose} aria-label="Home">
+          N
         </Link>
-      ))}
+      </div>
     </div>
   )
 }

@@ -30,7 +30,7 @@ export default function Navigation({ mobileOpen, onHamburger }: NavigationProps)
     <nav
       ref={navRef}
       id="navbar"
-      className={`${scrolled ? 'scrolled' : ''}${isInnerPage ? ' page-nav' : ''}`}
+      className={`${scrolled ? 'scrolled' : ''}${isInnerPage ? ' page-nav' : ''}${mobileOpen ? ' menu-open' : ''}`}
     >
       {/* Logo */}
       <Link href={getLogoHref(pathname)} className="nav-logo">
