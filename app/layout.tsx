@@ -22,9 +22,23 @@ export const metadata: Metadata = {
   description:
     'Restaurant Neue Liebe – Ihr Restaurant in Nebra (Unstrut). Genießen Sie exquisite Küche, eine romantische Terrasse und unvergessliche Events.',
   keywords: 'Restaurant Nebra, Restaurant Unstrut, Restaurant Nebra Terrasse, Neue Liebe Nebra, Restaurant Sachsen-Anhalt',
+  metadataBase: new URL('https://neueliebe-nebra.de'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     title: 'Neue Liebe – Restaurant • Terrasse • Tanz & Events',
     description: 'Exquisite Küche, romantische Terrasse und unvergessliche Events in Nebra (Unstrut).',
+    url: '/',
+    siteName: 'Neue Liebe',
     locale: 'de_DE',
     type: 'website',
   },

@@ -1,8 +1,9 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
+import type { SiteLocale } from '@/lib/site-locale'
 
-type Lang = 'de' | 'en'
+export type Lang = SiteLocale
 
 interface LangContextValue {
   lang: Lang
@@ -12,16 +13,31 @@ interface LangContextValue {
 
 const LangContext = createContext<LangContextValue | null>(null)
 
-export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('de')
+export function LangProvider({
+  children,
+  initialLang = 'de',
+}: {
+  children: ReactNode
+  initialLang?: Lang
+}) {
+  const [lang, setLangState] = useState<Lang>(initialLang)
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l)
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = l
-      document.body.classList.toggle('lang-en', l === 'en')
-    }
   }, [])
+
+  useEffect(() => {
+    setLangState(initialLang)
+  }, [initialLang])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    document.documentElement.lang = lang
+    document.body.classList.toggle('lang-en', lang === 'en')
+  }, [lang])
 
   const t = useCallback(
     (de: string, en: string) => (lang === 'de' ? de : en),

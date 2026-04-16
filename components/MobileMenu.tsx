@@ -1,6 +1,9 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useLang } from '@/context/LangContext'
+import { getReservationHref, PRIMARY_NAV_ITEMS, resolveSiteHref } from '@/lib/site-nav'
 
 interface Props {
   open: boolean
@@ -9,24 +12,22 @@ interface Props {
 
 export default function MobileMenu({ open, onClose }: Props) {
   const { t } = useLang()
-
+  const pathname = usePathname()
   const links = [
-    { href: '#about',      de: 'Über uns',    en: 'About' },
-    { href: '#experience', de: 'Erlebnisse',  en: 'Experiences' },
-    { href: '#menu',       de: 'Speisekarte', en: 'Menu' },
-    { href: '/gallery',    de: 'Galerie',     en: 'Gallery' },
-    { href: '#events',     de: 'Events',      en: 'Events' },
-    { href: '#reviews',    de: 'Bewertungen', en: 'Reviews' },
-    { href: '#contact',    de: 'Kontakt',     en: 'Contact' },
-    { href: '#reservation',de: 'Reservieren', en: 'Reserve' },
+    ...PRIMARY_NAV_ITEMS,
+    { key: 'reservation', de: 'Reservieren', en: 'Reserve' },
   ]
 
   return (
     <div className={`mobile-menu${open ? ' open' : ''}`} id="mobileMenu">
-      {links.map((l) => (
-        <a key={l.href} href={l.href} onClick={onClose}>
-          {t(l.de, l.en)}
-        </a>
+      {links.map((item) => (
+        <Link
+          key={item.key}
+          href={item.key === 'reservation' ? getReservationHref(pathname) : resolveSiteHref(pathname, item)}
+          onClick={onClose}
+        >
+          {t(item.de, item.en)}
+        </Link>
       ))}
     </div>
   )

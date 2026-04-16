@@ -1,0 +1,73 @@
+import type { Metadata } from 'next'
+import MenuPageClient from '../../menu/MenuPageClient'
+import { getPublicMenuData } from '@/lib/menu-public'
+
+export const metadata: Metadata = {
+  title: 'Menu | Neue Liebe',
+  description:
+    'Neue Liebe menu in Nebra (Unstrut) with starters, main courses, classics, burgers, steaks and drinks.',
+  keywords: 'Nebra restaurant menu, Neue Liebe menu, food in Nebra, steaks burgers Nebra, restaurant dishes Nebra',
+  alternates: {
+    canonical: 'https://neueliebe-nebra.de/en/menu',
+    languages: {
+      'de-DE': 'https://neueliebe-nebra.de/menu',
+      'en-US': 'https://neueliebe-nebra.de/en/menu',
+    },
+  },
+  openGraph: {
+    title: 'Menu | Neue Liebe',
+    description:
+      'Explore the Neue Liebe menu with regional cuisine, classics, burgers, steaks and drinks.',
+    url: 'https://neueliebe-nebra.de/en/menu',
+    locale: 'en_US',
+    alternateLocale: ['de_DE'],
+    type: 'website',
+  },
+}
+
+const menuPageStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Menu',
+  name: 'Menu | Neue Liebe',
+  description:
+    'Neue Liebe menu in Nebra (Unstrut) with starters, main courses, classics, burgers, steaks and drinks.',
+  url: 'https://neueliebe-nebra.de/en/menu',
+  inLanguage: 'en-US',
+}
+
+const breadcrumbStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://neueliebe-nebra.de/en',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Menu',
+      item: 'https://neueliebe-nebra.de/en/menu',
+    },
+  ],
+}
+
+export default async function EnglishMenuPage() {
+  const { categories, dishes } = await getPublicMenuData()
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(menuPageStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <MenuPageClient categories={categories} dishes={dishes} initialLang="en" />
+    </>
+  )
+}

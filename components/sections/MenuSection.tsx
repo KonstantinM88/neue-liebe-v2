@@ -12,6 +12,11 @@ type MenuResponse = {
 }
 
 type CategoryKey = 'all' | string
+type MenuSectionProps = {
+  initialCategories?: MenuCategory[]
+  initialDishes?: MenuDish[]
+  loadRemoteOnInView?: boolean
+}
 
 const ALL_FILTER: MenuCategory & { key: 'all' } = {
   key: 'all',
@@ -19,16 +24,25 @@ const ALL_FILTER: MenuCategory & { key: 'all' } = {
   en: 'All',
 }
 
-export default function MenuSection() {
+export default function MenuSection({
+  initialCategories = STATIC_MENU_CATEGORIES,
+  initialDishes = STATIC_MENU_DISHES,
+  loadRemoteOnInView = true,
+}: MenuSectionProps) {
   const { t } = useLang()
   const [active, setActive] = useState<CategoryKey>('all')
-  const [categories, setCategories] = useState<MenuCategory[]>(STATIC_MENU_CATEGORIES)
-  const [dishes, setDishes] = useState<MenuDish[]>(STATIC_MENU_DISHES)
+  const [categories, setCategories] = useState<MenuCategory[]>(initialCategories)
+  const [dishes, setDishes] = useState<MenuDish[]>(initialDishes)
   const gridRef = useRef<HTMLDivElement | null>(null)
   const { ref: sectionRef, isInView: shouldLoadRemoteMenu } = useInViewOnce<HTMLElement>('420px 0px')
 
   useEffect(() => {
-    if (!shouldLoadRemoteMenu) return
+    setCategories(initialCategories)
+    setDishes(initialDishes)
+  }, [initialCategories, initialDishes])
+
+  useEffect(() => {
+    if (!loadRemoteOnInView || !shouldLoadRemoteMenu) return
 
     let isCancelled = false
 
@@ -54,7 +68,7 @@ export default function MenuSection() {
     return () => {
       isCancelled = true
     }
-  }, [shouldLoadRemoteMenu])
+  }, [loadRemoteOnInView, shouldLoadRemoteMenu])
 
   useEffect(() => {
     if (active === 'all') return
@@ -103,7 +117,7 @@ export default function MenuSection() {
   }, [active, filteredDishes.length])
 
   return (
-    <section id="menu" ref={sectionRef}>
+    <section id="menu" ref={loadRemoteOnInView ? sectionRef : undefined}>
       <div
         className="section-header-center reveal"
         style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 3rem' }}

@@ -154,6 +154,22 @@ nav.scrolled {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
+nav.page-nav {
+  background:
+    linear-gradient(180deg, rgba(250, 246, 240, 0.94) 0%, rgba(245, 237, 224, 0.82) 100%);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  border-bottom-color: rgba(74, 55, 40, 0.08);
+  box-shadow: 0 10px 28px rgba(26, 23, 20, 0.07);
+}
+
+nav.page-nav.scrolled {
+  background:
+    linear-gradient(180deg, rgba(250, 246, 240, 0.98) 0%, rgba(245, 237, 224, 0.92) 100%);
+  border-bottom-color: rgba(74, 55, 40, 0.12);
+  box-shadow: 0 14px 34px rgba(26, 23, 20, 0.09);
+}
+
 .nav-logo {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.55rem;
@@ -175,6 +191,10 @@ nav.scrolled {
   margin-top: 4px;
 }
 
+nav.page-nav .nav-logo span {
+  color: rgba(122, 92, 69, 0.9);
+}
+
 .nav-links {
   display: flex;
   gap: 2.5rem;
@@ -194,6 +214,10 @@ nav.scrolled {
   padding-bottom: 4px;
   transition: color 0.3s ease;
   cursor: none;
+}
+
+nav.page-nav .nav-links a {
+  color: rgba(26, 23, 20, 0.68);
 }
 
 .nav-links a::after {
@@ -220,6 +244,10 @@ nav.scrolled {
   text-transform: uppercase;
   background: none;
   border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: none;
   padding: 4px 8px;
   border-radius: 2px;
@@ -227,9 +255,17 @@ nav.scrolled {
   transition: all 0.3s ease;
 }
 
+nav.page-nav .lang-btn {
+  color: rgba(74, 55, 40, 0.62);
+}
+
 .lang-btn.active {
   color: var(--gold);
   border: 1px solid rgba(201, 169, 110, 0.4);
+}
+
+nav.page-nav .lang-btn.active {
+  background: rgba(255,255,255,0.38);
 }
 
 .nav-cta {

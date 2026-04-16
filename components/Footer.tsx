@@ -1,18 +1,14 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useLang } from '@/context/LangContext'
+import { FOOTER_NAV_ITEMS, resolveSiteHref } from '@/lib/site-nav'
 
 export default function Footer() {
   const { t } = useLang()
+  const pathname = usePathname()
   const currentYear = new Date().getFullYear()
-
-  const navLinks = [
-    { href: '#about', de: 'Über uns', en: 'About' },
-    { href: '#experience', de: 'Erlebnisse', en: 'Experiences' },
-    { href: '#menu', de: 'Speisekarte', en: 'Menu' },
-    { href: '/gallery', de: 'Galerie', en: 'Gallery' },
-    { href: '#events', de: 'Events', en: 'Events' },
-  ]
 
   const socials = [
     { label: 'Facebook', short: 'f' },
@@ -46,11 +42,11 @@ export default function Footer() {
           <div className="footer-col">
             <h3 className="footer-heading">{t('Navigation', 'Navigation')}</h3>
             <ul className="footer-nav-list">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className="footer-nav-link">
-                    {t(link.de, link.en)}
-                  </a>
+              {FOOTER_NAV_ITEMS.map((item) => (
+                <li key={item.key}>
+                  <Link href={resolveSiteHref(pathname, item)} className="footer-nav-link">
+                    {t(item.de, item.en)}
+                  </Link>
                 </li>
               ))}
             </ul>

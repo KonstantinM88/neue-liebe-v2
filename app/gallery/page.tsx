@@ -1,86 +1,69 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Cursor from '@/components/Cursor'
-import GalleryMasonry from './GalleryMasonry'
-import { STATIC_GALLERY_PHOTOS } from '@/lib/gallery-static'
-import { readManagedGalleryItems } from '@/lib/gallery-store'
-import type { GalleryPhoto } from '@/lib/gallery-types'
-import styles from './gallery.module.css'
+import GalleryPageClient from './GalleryPageClient'
+import { getPublicGalleryPhotos } from '@/lib/gallery-public'
 
 export const metadata: Metadata = {
   title: 'Galerie | Neue Liebe',
   description: 'Galerie mit Eindrücken aus Restaurant, Küche, Terrasse und Events der Neuen Liebe.',
+  alternates: {
+    canonical: 'https://neueliebe-nebra.de/gallery',
+    languages: {
+      'de-DE': 'https://neueliebe-nebra.de/gallery',
+      'en-US': 'https://neueliebe-nebra.de/en/gallery',
+    },
+  },
+  openGraph: {
+    title: 'Galerie | Neue Liebe',
+    description: 'Bilder aus Restaurant, Terrasse, Küche und Events der Neuen Liebe in Nebra (Unstrut).',
+    url: 'https://neueliebe-nebra.de/gallery',
+    locale: 'de_DE',
+    alternateLocale: ['en_US'],
+    type: 'website',
+  },
+}
+
+const galleryPageStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Galerie | Neue Liebe',
+  description: 'Galerie mit Eindrücken aus Restaurant, Küche, Terrasse und Events der Neuen Liebe.',
+  url: 'https://neueliebe-nebra.de/gallery',
+  inLanguage: 'de-DE',
+}
+
+const breadcrumbStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Startseite',
+      item: 'https://neueliebe-nebra.de/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Galerie',
+      item: 'https://neueliebe-nebra.de/gallery',
+    },
+  ],
 }
 
 export default async function GalleryPage() {
-  const managedPhotos = await readManagedGalleryItems()
-  const photos: GalleryPhoto[] = [
-    ...managedPhotos.map((item) => ({
-      desktop: item.desktop,
-      mobile: item.mobile,
-      alt: item.alt,
-      tag: item.tag,
-      ratio: item.ratio,
-    })),
-    ...STATIC_GALLERY_PHOTOS,
-  ]
+  const photos = await getPublicGalleryPhotos('de')
 
   return (
-    <div className={styles.page}>
-      <Cursor />
-
-      <header className={styles.topbar}>
-        <div className={styles.topbarInner}>
-          <Link href="/" className={styles.brand}>
-            Neue Liebe
-            <span>Galerie</span>
-          </Link>
-
-          <div className={styles.topbarActions}>
-            <Link href="/" className={styles.ghostBtn}>
-              Zur Startseite
-            </Link>
-            <Link href="/#reservation" className={styles.primaryBtn}>
-              Reservieren
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className={styles.main}>
-        <section className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <p className={styles.kicker}>Einblicke in Neue Liebe</p>
-            <h1 className={styles.title}>
-              Unsere Galerie
-            </h1>
-            <p className={styles.lead}>
-              Entdecken Sie Atmosphäre, Kulinarik und besondere Momente aus Restaurant, Terrasse und Events.
-              Alle Bilder sind für mobile Geräte und Desktop optimiert.
-            </p>
-          </div>
-
-          <div className={styles.heroFrame}>
-            <picture>
-              <source media="(max-width: 768px)" srcSet="/events2_800.webp" />
-              <img
-                src="/events2_1200.webp"
-                alt="Stimmungsvolles Event in der Neuen Liebe"
-                className={styles.heroImage}
-              />
-            </picture>
-          </div>
-        </section>
-
-        <section className={styles.gallerySection}>
-          <div className={styles.galleryHead}>
-            <p className={styles.galleryKicker}>Momente</p>
-            <h2 className={styles.galleryTitle}>Restaurant, Küche, Events</h2>
-          </div>
-
-          <GalleryMasonry photos={photos} />
-        </section>
-      </main>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryPageStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
+      <GalleryPageClient photos={photos} />
+    </>
   )
 }

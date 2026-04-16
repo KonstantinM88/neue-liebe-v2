@@ -12,6 +12,12 @@ const ratioClass: Record<GalleryPhoto['ratio'], string> = {
 
 type GalleryMasonryProps = {
   photos: GalleryPhoto[]
+  labels?: {
+    openPhotoPrefix: string
+    previousPhoto: string
+    nextPhoto: string
+    closeLightbox: string
+  }
 }
 
 type NaturalSize = {
@@ -19,7 +25,14 @@ type NaturalSize = {
   height: number
 }
 
-export default function GalleryMasonry({ photos }: GalleryMasonryProps) {
+const DEFAULT_LABELS = {
+  openPhotoPrefix: 'Foto',
+  previousPhoto: 'Vorheriges Foto',
+  nextPhoto: 'Nächstes Foto',
+  closeLightbox: 'Schließen',
+}
+
+export default function GalleryMasonry({ photos, labels = DEFAULT_LABELS }: GalleryMasonryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [naturalSize, setNaturalSize] = useState<NaturalSize | null>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
@@ -128,7 +141,7 @@ export default function GalleryMasonry({ photos }: GalleryMasonryProps) {
               type="button"
               className={styles.cardButton}
               onClick={() => openPhoto(index)}
-              aria-label={`Foto ${index + 1}: ${photo.alt}`}
+              aria-label={`${labels.openPhotoPrefix} ${index + 1}: ${photo.alt}`}
             >
               <picture>
                 <source media="(max-width: 768px)" srcSet={photo.mobile} />
@@ -154,7 +167,7 @@ export default function GalleryMasonry({ photos }: GalleryMasonryProps) {
           <button
             type="button"
             className={`${styles.lightboxNav} ${styles.lightboxPrev}`}
-            aria-label="Vorheriges Foto"
+            aria-label={labels.previousPhoto}
             onClick={(event) => {
               event.stopPropagation()
               showPrev()
@@ -191,7 +204,7 @@ export default function GalleryMasonry({ photos }: GalleryMasonryProps) {
           <button
             type="button"
             className={`${styles.lightboxNav} ${styles.lightboxNext}`}
-            aria-label="Nächstes Foto"
+            aria-label={labels.nextPhoto}
             onClick={(event) => {
               event.stopPropagation()
               showNext()
@@ -203,7 +216,7 @@ export default function GalleryMasonry({ photos }: GalleryMasonryProps) {
           <button
             type="button"
             className={styles.lightboxClose}
-            aria-label="Schließen"
+            aria-label={labels.closeLightbox}
             onClick={(event) => {
               event.stopPropagation()
               closePhoto()

@@ -1,7 +1,11 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
+import { switchLocalePath } from '@/lib/site-locale'
+import { getLogoHref, getReservationHref, PRIMARY_NAV_ITEMS, resolveSiteHref } from '@/lib/site-nav'
 
 interface NavigationProps {
   mobileOpen: boolean
@@ -9,39 +13,36 @@ interface NavigationProps {
 }
 
 export default function Navigation({ mobileOpen, onHamburger }: NavigationProps) {
-  const { lang, setLang, t } = useLang()
+  const { lang, t } = useLang()
+  const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const isInnerPage = pathname !== '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const links = [
-    { href: '#about',       de: 'Über uns',    en: 'About' },
-    { href: '#experience',  de: 'Erlebnisse',  en: 'Experiences' },
-    { href: '#menu',        de: 'Speisekarte', en: 'Menu' },
-    { href: '/gallery',     de: 'Galerie',     en: 'Gallery' },
-    { href: '#events',      de: 'Events',      en: 'Events' },
-    { href: '#reviews',     de: 'Bewertungen', en: 'Reviews' },
-    { href: '#contact',     de: 'Kontakt',     en: 'Contact' },
-  ]
-
   return (
-    <nav ref={navRef} id="navbar" className={scrolled ? 'scrolled' : ''}>
+    <nav
+      ref={navRef}
+      id="navbar"
+      className={`${scrolled ? 'scrolled' : ''}${isInnerPage ? ' page-nav' : ''}`}
+    >
       {/* Logo */}
-      <a href="#hero" className="nav-logo">
+      <Link href={getLogoHref(pathname)} className="nav-logo">
         Neue Liebe
         <span>Restaurant • Nebra (Unstrut)</span>
-      </a>
+      </Link>
 
       {/* Desktop links */}
       <ul className="nav-links">
-        {links.map((l) => (
-          <li key={l.href}>
-            <a href={l.href}>{t(l.de, l.en)}</a>
+        {PRIMARY_NAV_ITEMS.map((item) => (
+          <li key={item.key}>
+            <Link href={resolveSiteHref(pathname, item)}>{t(item.de, item.en)}</Link>
           </li>
         ))}
       </ul>
@@ -49,24 +50,35 @@ export default function Navigation({ mobileOpen, onHamburger }: NavigationProps)
       {/* Right: lang + CTA */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
-          <button
+          <Link
             className={`lang-btn${lang === 'de' ? ' active' : ''}`}
-            onClick={() => setLang('de')}
+            href={switchLocalePath(pathname, 'de')}
+            hrefLang="de"
+            lang="de"
           >
             DE
-          </button>
-          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>|</span>
-          <button
+          </Link>
+          <span
+            style={{
+              color: isInnerPage ? 'rgba(74, 55, 40, 0.22)' : 'rgba(255,255,255,0.2)',
+              fontSize: '0.7rem',
+            }}
+          >
+            |
+          </span>
+          <Link
             className={`lang-btn${lang === 'en' ? ' active' : ''}`}
-            onClick={() => setLang('en')}
+            href={switchLocalePath(pathname, 'en')}
+            hrefLang="en"
+            lang="en"
           >
             EN
-          </button>
+          </Link>
         </div>
 
-        <a href="#reservation" className="nav-cta">
+        <Link href={getReservationHref(pathname)} className="nav-cta">
           {t('Reservieren', 'Reserve')}
-        </a>
+        </Link>
       </div>
 
       {/* Hamburger */}
