@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { LangProvider, type Lang } from '@/context/LangContext'
 
@@ -17,10 +18,11 @@ import Experience from '@/components/sections/Experience'
 import Gallery from '@/components/sections/Gallery'
 import Hero from '@/components/sections/Hero'
 import InfoBar from '@/components/sections/InfoBar'
-import MenuSection from '@/components/sections/MenuSection'
 import ParallaxQuote from '@/components/sections/ParallaxQuote'
 import Reservation from '@/components/sections/Reservation'
 import Reviews from '@/components/sections/Reviews'
+
+const MenuSection = dynamic(() => import('@/components/sections/MenuSection'))
 
 type HomePageClientProps = {
   initialLang?: Lang
