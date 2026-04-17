@@ -15,24 +15,33 @@ function AboutPageContent() {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Regionale Küche mit moderner Handschrift', 'Regional Cuisine with a Modern Signature'),
+      title: t(
+        'Regionale Küche & Kulinarischer Genuss in Nebra (Unstrut)',
+        'Regional Cuisine & Culinary Delight in Nebra (Unstrut)'
+      ),
       text: t(
-        'Neue Liebe steht in Nebra (Unstrut) für ein Restaurant, das bekannte regionale Aromen mit einem stilvollen Auftritt verbindet. So entsteht ein Ort, der zugleich vertraut wirkt und dennoch einen eigenen Charakter besitzt.',
-        'Neue Liebe in Nebra (Unstrut) stands for a restaurant that combines familiar regional flavors with a refined presentation. The result is a place that feels approachable while still offering a clear identity.'
+        'Entdecken Sie im Restaurant Neue Liebe in Nebra (Unstrut) eine einzigartige Verbindung aus frischen, regionalen Zutaten und moderner Kochkunst. Unser erstklassiges Speiseangebot bietet Ihnen ein unvergessliches Geschmackserlebnis, das die Tradition der Unstrut-Region mit kreativer Raffinesse neu interpretiert.',
+        'Discover a unique blend of fresh, regional ingredients and modern culinary art at Restaurant Neue Liebe in Nebra (Unstrut). Our premium menu offers an unforgettable dining experience, reinterpreting the tradition of the Unstrut region with creative sophistication.'
       ),
     },
     {
-      title: t('Gastlichkeit für Alltag, Terrasse und Feier', 'Hospitality for Everyday Dining, Terrace Visits and Celebrations'),
+      title: t(
+        'Entspanntes Essen, Sonnenterrasse & Ideale Eventlocation',
+        'Relaxed Dining, Sun Terrace & Perfect Event Location'
+      ),
       text: t(
-        'Ob entspanntes Abendessen, Besuch auf der Terrasse oder Anlass mit Familie und Freunden: Unser Anspruch ist, Service, Küche und Atmosphäre so aufeinander abzustimmen, dass jeder Besuch rund wirkt.',
-        'Whether for a relaxed dinner, a terrace visit or a celebration with family and friends, our aim is to align service, cuisine and atmosphere so that every visit feels complete.'
+        'Egal ob ein gemütliches Abendessen, entspannte Stunden auf unserer malerischen Sommerterrasse oder exklusive Veranstaltungen und Familienfeiern: Die Neue Liebe überzeugt als Top-Location in Nebra mit herzlichem Service, erstklassiger Gastronomie und einladendem Ambiente.',
+        'Whether it is a cozy dinner, relaxing hours on our picturesque summer terrace, or exclusive events and family celebrations: Neue Liebe stands out as a top location in Nebra, offering warm service, first-class gastronomy, and an inviting ambiance.'
       ),
     },
     {
-      title: t('Ein Restaurant in Nebra mit Wiedererkennungswert', 'A Restaurant in Nebra with a Distinct Identity'),
+      title: t(
+        'Ihr erstklassiges Restaurant in Nebra für besondere Momente',
+        'Your Outstanding Restaurant in Nebra for Special Moments'
+      ),
       text: t(
-        'Wer nach einem Restaurant in Nebra sucht, findet bei der Neuen Liebe nicht nur Speisen, sondern ein stimmiges Gesamtbild aus Interieur, Gastfreundschaft und Eventkultur. Genau das macht unsere Geschichte auch für neue Gäste greifbar.',
-        'Anyone looking for a restaurant in Nebra will find more than just dishes at Neue Liebe: the interior, hospitality and event culture create a cohesive overall experience. That is what makes our story tangible for new guests.'
+        'Wer hervorragendes Essen und ein ausgezeichnetes Restaurant in Nebra sucht, findet in der Neuen Liebe mehr als nur Speisen. Ein stilvolles Interieur, gelebte Gastfreundschaft und eine lebendige Eventkultur machen jeden Besuch zu einem besonderen Erlebnis an idyllischen Unstrut.',
+        'Anyone looking for excellent food and an outstanding restaurant in Nebra will find more than just a meal at Neue Liebe. A stylish interior, genuine hospitality, and a vibrant event culture make every visit a special experience along the idyllic Unstrut river.'
       ),
     },
   ]

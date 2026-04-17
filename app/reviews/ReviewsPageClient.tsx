@@ -15,24 +15,33 @@ function ReviewsPageContent() {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Service und Atmosphäre im Fokus', 'Service and Atmosphere in Focus'),
+      title: t(
+        'Eines der besten Restaurants in Nebra',
+        'One of the Best Restaurants in Nebra'
+      ),
       text: t(
-        'Restaurant-Bewertungen helfen neuen Gästen einzuschätzen, ob ein Besuch zur eigenen Erwartung passt. Auf dieser Seite stehen daher nicht nur Sterne, sondern echte Eindrücke zu Service, Stimmung und Erlebnis im Mittelpunkt.',
-        'Restaurant reviews help new guests judge whether a visit matches their expectations. That is why this page focuses not only on ratings, but also on real impressions of service, atmosphere and the overall experience.'
+        'Warum zählen wir zu den bestbewerteten Restaurants an der Unstrut? Unsere Gäste schätzen vor allem die erstklassige Qualität unserer Speisen, die frischen Zutaten und die Liebe zum kreativen Detail auf jedem Teller.',
+        'Why are we among the top-rated restaurants along the Unstrut? Our guests particularly appreciate the first-class quality of our dishes, the fresh ingredients, and the love for creative detail on every plate.'
       ),
     },
     {
-      title: t('Warum Gäste Küche und Ambiente hervorheben', 'Why Guests Highlight Cuisine and Ambience'),
+      title: t(
+        'Herzliche Gastfreundschaft & Top-Service',
+        'Warm Hospitality & Top Service'
+      ),
       text: t(
-        'Viele Rückmeldungen zur Neuen Liebe drehen sich um die Kombination aus Essen, Einrichtung und Gastlichkeit. Gerade für Suchanfragen nach Restaurantbewertungen in Nebra entsteht dadurch ein glaubwürdigeres Gesamtbild.',
-        'Many comments about Neue Liebe focus on the combination of food, interior design and hospitality. Especially for searches related to restaurant reviews in Nebra, this creates a more credible overall picture.'
+        'Für uns ist ein Restaurantbesuch mehr als nur Essen. Wir leben echte Gastfreundschaft. Unser aufmerksames Team sorgt dafür, dass Ihr Aufenthalt in der Neuen Liebe zu einem rundum perfekten Erlebnis wird.',
+        'For us, visiting a restaurant is more than just eating. We live genuine hospitality. Our attentive team ensures that your stay at Neue Liebe becomes a completely perfect experience.'
       ),
     },
     {
-      title: t('Vertrauen vor der Reservierung aufbauen', 'Building Trust before a Reservation'),
+      title: t(
+        'Echte Erfahrungen unserer zufriedenen Gäste',
+        'Real Experiences from Our Satisfied Guests'
+      ),
       text: t(
-        'Bewertungen sind oft der letzte Schritt vor einer Reservierung. Indem die Seite echte Stimmen bündelt, stärkt sie das Vertrauen von Gästen, die zwischen mehreren Restaurants oder Eventorten vergleichen.',
-        'Reviews are often the final step before making a reservation. By bringing together real voices, the page strengthens trust for guests comparing several restaurants or venues.'
+        'Überzeugen Sie sich selbst von unserem hohen Standard. Die vielen positiven Bewertungen und persönlichen Erfahrungsberichte unserer Gäste sprechen für sich und machen uns stolz.',
+        'See our high standards for yourself. The many positive reviews and personal testimonials from our guests speak for themselves and make us proud.'
       ),
     },
   ]
@@ -118,14 +127,14 @@ function ReviewsPageContent() {
 
       <Reviews />
       <SeoTextSection
-        eyebrow={t('Stimmen & Vertrauen', 'Voices & Trust')}
+        eyebrow={t('Gästeerfahrungen', 'Guest Experiences')}
         title={t(
-          'Bewertungen als Orientierung für neue Gäste',
-          'Reviews as Guidance for New Guests'
+          'Qualität und Service, die überzeugen',
+          'Quality and Service that Impress'
         )}
         lead={t(
-          'Die Bewertungsseite ergänzt die eigentlichen Rezensionen um kontextreiche Texte. Dadurch wird für Suchmaschinen und Besucher klarer, dass es hier um reale Erfahrungen mit Küche, Service und Atmosphäre der Neuen Liebe in Nebra (Unstrut) geht.',
-          'The reviews page complements the actual testimonials with additional contextual copy. This makes it clearer for both search engines and visitors that the page is about real experiences with the cuisine, service and atmosphere at Neue Liebe in Nebra (Unstrut).'
+          'Entdecken Sie, warum Gäste aus der ganzen Region die Neue Liebe in Nebra (Unstrut) empfehlen. Wir bedanken uns für das großartige Feedback zu unserer Küche, dem Ambiente und unserem engagierten Team.',
+          'Discover why guests from all over the region recommend Neue Liebe in Nebra (Unstrut). We are grateful for the amazing feedback regarding our cuisine, ambiance, and our dedicated team.'
         )}
         items={seoItems}
       />

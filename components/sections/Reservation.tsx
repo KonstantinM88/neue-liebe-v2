@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, useEffect, type FormEvent } from 'react'
 import { useLang } from '@/context/LangContext'
-import { useInViewOnce } from '@/hooks/useInViewOnce'
 
 interface ReservationProps {
   onToast: (msg: string) => void
@@ -11,9 +10,29 @@ interface ReservationProps {
 export default function Reservation({ onToast }: ReservationProps) {
   const { t, lang } = useLang()
   const [loading, setLoading] = useState(false)
+  const shellRef = useRef<HTMLDivElement>(null)
   const dateInputLang = lang === 'de' ? 'de-DE' : 'en-US'
-  const { ref: reservationShellRef, isInView: isWaveActive } =
-    useInViewOnce<HTMLDivElement>('0px 0px -12% 0px')
+
+  // Trigger gold shimmer wave when section scrolls into view
+  useEffect(() => {
+    const el = shellRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('reservation-shell--wave-active')
+        } else {
+          el.classList.remove('reservation-shell--wave-active')
+        }
+      },
+      { threshold: 0.25 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
 
   const [form, setForm] = useState({
     firstName: '',
@@ -83,8 +102,8 @@ export default function Reservation({ onToast }: ReservationProps) {
   return (
     <section id="reservation" className="reservation-section">
       <div
-        ref={reservationShellRef}
-        className={`reservation-shell${isWaveActive ? ' reservation-shell--wave-active' : ''}`}
+        ref={shellRef}
+        className="reservation-shell"
       >
         <p className="section-label reveal" style={{ color: 'var(--gold)' }}>
           {t('Ihren Platz sichern', 'Secure Your Seat')}

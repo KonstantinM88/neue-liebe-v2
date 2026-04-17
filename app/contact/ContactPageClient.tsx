@@ -15,24 +15,33 @@ function ContactPageContent() {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Restaurant in zentraler Lage von Nebra', 'A Restaurant in a Convenient Nebra Location'),
+      title: t(
+        'Zentrale Lage & Gute Erreichbarkeit in Nebra',
+        'Central Location & Easy Accessibility in Nebra'
+      ),
       text: t(
-        'Die Kontaktseite bündelt bewusst alle wichtigen Angaben für Gäste, die nach Adresse oder Anfahrt zur Neuen Liebe suchen. Damit wird die Seite zu einem klaren Einstiegspunkt für lokale Suchanfragen rund um Restaurant und Besuch in Nebra.',
-        'The contact page intentionally brings together all relevant details for guests looking for the address or directions to Neue Liebe. This makes it a clear entry point for local searches related to restaurants and visits in Nebra.'
+        'Unser Restaurant Neue Liebe befindet sich in optimaler Lage in Nebra (Unstrut) und ist einfach zu erreichen. Es stehen ausreichend Parkmöglichkeiten in der Nähe zur Verfügung, damit Ihr Besuch entspannt beginnen kann.',
+        'Our restaurant Neue Liebe is in an optimal location in Nebra (Unstrut) and is easy to reach. Sufficient parking is available nearby so that your visit can begin in a relaxed manner.'
       ),
     },
     {
-      title: t('Telefonische Anfrage und Reservierung', 'Phone Enquiries and Reservations'),
+      title: t(
+        'Jetzt Tisch reservieren oder Event anfragen',
+        'Book a Table or Request an Event Now'
+      ),
       text: t(
-        'Neben der Anschrift ist für viele Besucher vor allem die schnelle Kontaktaufnahme wichtig. Durch Telefonnummer, Öffnungszeiten und direkte Anfahrtsinformationen lässt sich ein Besuch ohne Umwege planen.',
-        'Alongside the address, quick contact is essential for many visitors. With the phone number, opening hours and direct directions available, a visit can be planned without extra steps.'
+        'Wir freuen uns auf Ihren Besuch! Nutzen Sie unser praktisches Kontaktformular oder rufen Sie uns direkt an, um Ihren Lieblingstisch zu reservieren oder die Details für Ihr nächstes großes Event unverbindlich zu besprechen.',
+        'We look forward to your visit! Use our practical contact form or call us directly to reserve your favorite table or to discuss the details for your next big event without obligation.'
       ),
     },
     {
-      title: t('Praktisch für Abendessen, Feier und spontanen Besuch', 'Useful for Dinner, Celebrations and Spontaneous Visits'),
+      title: t(
+        'Öffnungszeiten für Mittag- und Abendessen',
+        'Opening Hours for Lunch and Dinner'
+      ),
       text: t(
-        'Die Seite funktioniert nicht nur als Pflichtkontakt, sondern auch als praktische Planungsseite für Abendessen, Feier oder kurzen Zwischenstopp. Genau das macht sie für lokale SEO und echte Nutzer besonders wertvoll.',
-        'The page is more than a mandatory contact section. It also works as a practical planning page for dinner, celebrations or a spontaneous visit. That is what makes it valuable for both local SEO and real users.'
+        'Ob spontanes Mittagessen während eines Ausflugs an die Unstrut oder ausgiebiges Dinner am Abend – wir haben zu attraktiven Zeiten für Sie geöffnet. Alle aktuellen Öffnungszeiten finden Sie übersichtlich auf dieser Seite.',
+        'Whether a spontaneous lunch during an excursion to the Unstrut or an extensive dinner in the evening – we are open for you at attractive times. All current opening hours can be clearly found on this page.'
       ),
     },
   ]
@@ -75,14 +84,14 @@ function ContactPageContent() {
 
       <Contact sectionId={undefined} disableReveal />
       <SeoTextSection
-        eyebrow={t('Besuch planen', 'Plan Your Visit')}
+        eyebrow={t('Ihr Weg zu uns', 'Your Way to Us')}
         title={t(
-          'Adresse, Öffnungszeiten und direkter Kontakt zur Neuen Liebe',
-          'Address, Opening Hours and Direct Contact with Neue Liebe'
+          'So erreichen Sie Ihr Lieblingsrestaurant in Nebra',
+          'How to Reach Your Favorite Restaurant in Nebra'
         )}
         lead={t(
-          'Kontaktseiten werden oft unterschätzt, sind aber für lokale Sichtbarkeit besonders wichtig. Mit klaren Texten zu Lage, Erreichbarkeit und Reservierung stärkt diese Seite die Relevanz der Neuen Liebe für Suchanfragen in Nebra (Unstrut) und Umgebung.',
-          'Contact pages are often underestimated, but they are especially important for local visibility. With clear copy about location, accessibility and reservations, this page strengthens the relevance of Neue Liebe for searches in and around Nebra (Unstrut).'
+          'Haben Sie Fragen zu unserer Speisekarte, möchten Sie eine Feier planen oder direkt einen Tisch reservieren? Hier finden Sie alle Kontaktdaten, Öffnungszeiten und den schnellsten Weg zur Neuen Liebe in Nebra (Unstrut).',
+          'Do you have questions about our menu, would you like to plan a celebration, or reserve a table right away? Here you will find all contact details, opening hours, and the fastest way to Neue Liebe in Nebra (Unstrut).'
         )}
         items={seoItems}
       />

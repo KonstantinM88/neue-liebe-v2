@@ -53,6 +53,20 @@ function buildRestaurantEntity(locale: SiteLocale, description: string) {
       : ['Regionale Küche', 'Deutsche Küche', 'Burger', 'Steaks'],
     address: RESTAURANT_ADDRESS,
     areaServed: isEnglish ? 'Saxony-Anhalt' : 'Sachsen-Anhalt',
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Thursday', 'Friday', 'Saturday'],
+        opens: '15:00',
+        closes: '23:00',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'Sunday',
+        opens: '10:00',
+        closes: '16:00',
+      },
+    ],
     menu: locale === 'de' ? `${SITE_URL}/menu` : `${SITE_URL}/en/menu`,
     acceptsReservations: 'True',
   }

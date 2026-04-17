@@ -15,24 +15,33 @@ function EventsPageContent() {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Feiern mit gastronomischem Konzept', 'Celebrations with a Culinary Concept'),
+      title: t(
+        'Ihre Traumhochzeit an der Unstrut feiern',
+        'Celebrate Your Dream Wedding by the Unstrut'
+      ),
       text: t(
-        'Die Eventseite richtet sich an Gäste, die in Nebra eine Kombination aus Raum, Atmosphäre und Gastronomie suchen. Neue Liebe verbindet dabei nicht nur einen Ort für Feiern, sondern auch die passende kulinarische Begleitung.',
-        'The events page is aimed at guests looking in Nebra for a combination of space, atmosphere and dining. Neue Liebe offers not just a venue for celebrations, but also the right culinary setting.'
+        'Machen Sie den schönsten Tag in Ihrem Leben wirklich unvergesslich. Die Neue Liebe bietet als romantische Hochzeitslocation in Nebra ein zauberhaftes Ambiente, erstklassiges Catering und einen stilvollen Bankettsaal für Ihre Hochzeitsfeier.',
+        'Make the best day of your life truly unforgettable. As a romantic wedding location in Nebra, Neue Liebe offers a magical ambiance, first-class catering, and a stylish banquet hall for your wedding reception.'
       ),
     },
     {
-      title: t('Räume für private und geschäftliche Anlässe', 'Spaces for Private and Business Occasions'),
+      title: t(
+        'Business-Events & Firmenfeiern in Bestlage',
+        'Business Events & Corporate Celebrations in a Prime Location'
+      ),
       text: t(
-        'Ob Hochzeit, Firmenfeier oder runder Geburtstag: Die Seite erklärt klar, dass unsere Räume für unterschiedliche Formate geeignet sind. Dadurch wird Neue Liebe auch als Eventlocation in Sachsen-Anhalt sichtbarer.',
-        'Whether for a wedding, corporate event or milestone birthday, the page clearly communicates that our spaces work for different formats. This also makes Neue Liebe more visible as an event location in Saxony-Anhalt.'
+        'Planen Sie Ihre nächste Firmenfeier oder das anstehende Business-Event in unserer Eventlocation in Sachsen-Anhalt. Flexible Raumaufteilung, professionelles Catering und eine perfekte technische Ausstattung garantieren ein erfolgreiches Event.',
+        'Plan your next corporate celebration or upcoming business event at our event venue in Saxony-Anhalt. Flexible room layouts, professional catering, and perfect technical equipment guarantee a successful event.'
       ),
     },
     {
-      title: t('Kein Standardraum, sondern ein Erlebnis', 'Not a Standard Venue, but an Experience'),
+      title: t(
+        'Geburtstage & Familienfeste mit Rundum-Service',
+        'Birthdays & Family Celebrations with Full Service'
+      ),
       text: t(
-        'Besonders für Suchanfragen rund um Eventlocation, Hochzeit oder Firmenfeier ist entscheidend, dass nicht nur Eckdaten genannt werden. Die Texte zeigen, warum Stimmung, Service und Gestaltung hier Teil des Angebots sind.',
-        'For searches around event venues, weddings or corporate celebrations, it is important not to list bare facts only. The copy explains why atmosphere, service and design are part of the offering here.'
+        'Egal ob runder Geburtstag, Taufe oder Jubiläum: Bei uns finden Sie die idealen Räumlichkeiten für große und kleine Feste. Lehnen Sie sich zurück und überlassen Sie unserem erfahrenen Service-Team die komplette Organisation.',
+        'Whether it is a milestone birthday, a christening, or an anniversary: ​​You will find the ideal venue for large and small celebrations with us. Sit back and leave the entire organization to our experienced service team.'
       ),
     },
   ]
@@ -118,14 +127,14 @@ function EventsPageContent() {
 
       <Events />
       <SeoTextSection
-        eyebrow={t('Planung & Anlass', 'Planning & Occasion')}
+        eyebrow={t('Ihre Feier, unsere Leidenschaft', 'Your Celebration, Our Passion')}
         title={t(
-          'Eventlocation in Nebra für Hochzeit, Firmenfeier und Tanzabend',
-          'An Event Location in Nebra for Weddings, Corporate Events and Dance Evenings'
+          'Die erstklassige Eventlocation für Feste, die in Erinnerung bleiben',
+          'The Premium Event Location for Celebrations to Remember'
         )}
         lead={t(
-          'Diese Seite ist bewusst auf Suchintentionen rund um Feiern, Eventlocation und besondere Abende ausgerichtet. So wird deutlicher, dass Neue Liebe in Nebra (Unstrut) sowohl für private Feste als auch für geschäftliche Veranstaltungen eine passende Adresse ist.',
-          'This page is intentionally aligned with search intent around celebrations, event locations and memorable evenings. It makes it clearer that Neue Liebe in Nebra (Unstrut) is a fitting choice for both private and business occasions.'
+          'Suchen Sie einen besonderen Ort für Ihre Feierlichkeit? Die Neue Liebe in Nebra (Unstrut) vereint stilvolle Veranstaltungsräume, exzellente Gastronomie und einen herzlichen Service, um kleine wie große Anlässe perfekt umzusetzen.',
+          'Are you looking for a special place for your celebration? Neue Liebe in Nebra (Unstrut) combines stylish event rooms, excellent gastronomy, and warm service to perfectly execute both small and large occasions.'
         )}
         items={seoItems}
       />

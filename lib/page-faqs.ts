@@ -324,9 +324,14 @@ const PAGE_FAQ_CONTENT: Record<PageFaqKey, Record<SiteLocale, PageFaqContent>> =
             'Für eine schnelle Kontaktaufnahme steht die Telefonnummer 034461 599804 zur Verfügung. Zusätzlich hilft die Kontaktseite mit Adresse, Karte und Reservierungsoption weiter.',
         },
         {
-          question: 'Welche Öffnungszeiten nennt die Kontaktseite?',
+          question: 'Wann hat das Restaurant Neue Liebe geöffnet?',
           answer:
-            'Aktuell weist die Seite darauf hin, dass die Neue Liebe täglich geöffnet ist und um 23:00 Uhr schließt.',
+            'Wir sind Donnerstag bis Samstag von 15:00 bis 23:00 Uhr sowie sonntags von 10:00 bis 16:00 Uhr für Sie da. Montag bis Mittwoch haben wir Ruhetag.',
+        },
+        {
+          question: 'Können Events auch außerhalb der Öffnungszeiten stattfinden?',
+          answer:
+            'Ja, für Hochzeiten, Firmenfeiern oder große Familienfeste öffnen wir nach Absprache gerne exklusiv an unseren Ruhetagen oder außerhalb der regulären Zeiten.',
         },
       ],
     },
@@ -347,9 +352,14 @@ const PAGE_FAQ_CONTENT: Record<PageFaqKey, Record<SiteLocale, PageFaqContent>> =
             'For quick contact, the phone number 034461 599804 is available. The contact page also helps with the address, map and reservation path.',
         },
         {
-          question: 'What opening hours are listed on the contact page?',
+          question: 'When is Restaurant Neue Liebe open?',
           answer:
-            'The page currently states that Neue Liebe is open daily and closes at 23:00.',
+            'We are open for you from Thursday to Saturday between 15:00 and 23:00, and on Sundays from 10:00 to 16:00. We are closed from Monday to Wednesday.',
+        },
+        {
+          question: 'Can events be hosted outside of regular opening hours?',
+          answer:
+            'Yes, for weddings, corporate events, or large family celebrations, we are happy to open exclusively on our closed days or outside regular hours by arrangement.',
         },
       ],
     },

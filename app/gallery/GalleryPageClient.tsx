@@ -23,24 +23,33 @@ function GalleryPageContent({ photos }: GalleryPageContentProps) {
   const homeHref = buildLocalizedPath(getPathLocale(pathname), '/')
   const seoItems = [
     {
-      title: t('Atmosphäre vor dem ersten Besuch erleben', 'Experience the Atmosphere before Your Visit'),
+      title: t(
+        'Einzigartiges Ambiente in Bildern erleben',
+        'Experience a Unique Ambiance in Pictures'
+      ),
       text: t(
-        'Die Galerie hilft neuen Gästen dabei, das Ambiente der Neuen Liebe bereits vor dem Besuch einzuordnen. Bilder aus Restaurant, Terrasse und Veranstaltungen machen die Wirkung des Hauses in Nebra (Unstrut) greifbarer.',
-        'The gallery helps new guests understand the atmosphere of Neue Liebe before they even visit. Images from the restaurant, terrace and events make the place in Nebra (Unstrut) easier to imagine.'
+        'Machen Sie sich einen ersten Eindruck von den stilvoll gestalteten Räumlichkeiten unseres Restaurants in Nebra. Die Mischung aus modernem Design und gemütlichem Charme schafft eine unvergleichliche Wohlfühlatmosphäre.',
+        'Get a first impression of the stylishly designed rooms of our restaurant in Nebra. The mix of modern design and cozy charm creates an incomparable feel-good atmosphere.'
       ),
     },
     {
-      title: t('Kulinarik und Details aus der Küche', 'Cuisine and Details from the Kitchen'),
+      title: t(
+        'Kulinarische Fotogalerie & Speisenpräsentation',
+        'Culinary Photo Gallery & Food Presentation'
+      ),
       text: t(
-        'Neben Räumen und Stimmung zeigt die Galerieseite auch Speisen und Details aus der Küche. Das ist besonders relevant für Gäste, die sich vor einer Reservierung einen realistischen Eindruck vom Stil des Restaurants verschaffen möchten.',
-        'Alongside rooms and atmosphere, the gallery page also highlights dishes and kitchen details. This is especially useful for guests who want a realistic impression of the restaurant style before making a reservation.'
+        'Das Auge isst mit: Unsere Galerie zeigt Ihnen liebevoll angerichtete Teller, meisterhafte Details aus unserer Küche und köstliche Gerichte, die unsere Passion für hochwertige Gastronomie widerspiegeln.',
+        'You eat with your eyes first: Our gallery shows you lovingly arranged plates, masterful details from our kitchen, and delicious dishes that reflect our passion for high-quality gastronomy.'
       ),
     },
     {
-      title: t('Einblicke in Events, Feiern und Terrasse', 'Insights into Events, Celebrations and the Terrace'),
+      title: t(
+        'Eindrucksvolle Event-Momente & Hochzeiten',
+        'Impressive Event Moments & Weddings'
+      ),
       text: t(
-        'Für Feiern, Sommerabende oder geschäftliche Anlässe liefert die Galerie zusätzliche visuelle Orientierung. Dadurch ergänzt sie die Event- und Erlebnis-Seiten sinnvoll und stärkt die interne thematische Verknüpfung.',
-        'For celebrations, summer evenings or business occasions, the gallery provides additional visual orientation. This complements the events and experiences pages and strengthens the internal thematic linking.'
+        'Lassen Sie sich von eindrucksvollen Bildern unserer vergangenen Veranstaltungen inspirieren. Von prachtvollen Hochzeitsfeiern bis hin zu stimmungsvollen Tanzabenden auf der Terrasse – visuelle Eindrücke für Ihr nächstes Event.',
+        'Be inspired by impressive pictures of our past events. From magnificent wedding celebrations to atmospheric dance evenings on the terrace – visual impressions for your next event.'
       ),
     },
   ]
@@ -104,14 +113,14 @@ function GalleryPageContent({ photos }: GalleryPageContentProps) {
         />
       </section>
       <SeoTextSection
-        eyebrow={t('Visueller Eindruck', 'Visual Impression')}
+        eyebrow={t('Unsere Bildergalerie', 'Our Image Gallery')}
         title={t(
-          'Bilder, die Restaurant, Küche und Veranstaltungen zeigen',
-          'Images that Show the Restaurant, Cuisine and Events'
+          'Entdecken Sie die Schönheit der Neuen Liebe',
+          'Discover the Beauty of Neue Liebe'
         )}
         lead={t(
-          'Die Galerie ist mehr als eine Sammlung schöner Motive. Sie zeigt Gästen, wie Neue Liebe in Nebra (Unstrut) aussieht, wie Gerichte präsentiert werden und welche Atmosphäre bei Terrasse, Restaurant und Veranstaltungen entsteht.',
-          'The gallery is more than a collection of attractive images. It shows guests what Neue Liebe in Nebra (Unstrut) looks like, how dishes are presented and what kind of atmosphere the terrace, restaurant and events create.'
+          'Tauchen Sie visuell in die Welt der Neuen Liebe in Nebra (Unstrut) ein. Von faszinierenden Detailaufnahmen unserer Speisen bis hin zu wunderschönen Eindrücken unserer Event- und Terrassenbereiche.',
+          'Dive visually into the world of Neue Liebe in Nebra (Unstrut). From fascinating detailed shots of our dishes to beautiful impressions of our event and terrace areas.'
         )}
         items={seoItems}
       />

@@ -21,24 +21,33 @@ function MenuPageContent({ categories, dishes }: MenuPageContentProps) {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Vorspeisen, Klassiker und Hauptgerichte', 'Starters, Classics and Main Courses'),
+      title: t(
+        'Regionale Spezialitäten & Moderne Küche',
+        'Regional Specialties & Modern Cuisine'
+      ),
       text: t(
-        'Unsere Speisekarte in Nebra (Unstrut) verbindet klassische Gerichte mit einer Auswahl, die unterschiedliche Vorlieben abdeckt. Von kleinen Vorspeisen bis zu kräftigen Hauptgerichten bleibt die Küche bewusst zugänglich und vielseitig.',
-        'Our menu in Nebra (Unstrut) combines classic dishes with a selection that covers different preferences. From small starters to hearty main courses, the cuisine remains approachable and versatile.'
+        'Wir präsentieren Ihnen eine vielfältige Speisekarte in Nebra (Unstrut) mit besten regionalen Zutaten. Entdecken Sie köstliche Vorspeisen, frische Salate und raffinierte Hauptgerichte, die echte Handwerkskunst auf den Teller bringen.',
+        'We present a diverse menu in Nebra (Unstrut) featuring the best regional ingredients. Discover delicious starters, fresh salads, and refined main courses that bring true craftsmanship to the plate.'
       ),
     },
     {
-      title: t('Burger, Steaks und kräftige Hausgerichte', 'Burgers, Steaks and Hearty House Dishes'),
+      title: t(
+        'Saftige Steaks, Burger & Beliebte Klassiker',
+        'Juicy Steaks, Burgers & Popular Classics'
+      ),
       text: t(
-        'Wer in einem Restaurant in Nebra nach Schnitzel, Steak, Burgern oder regional geprägten Klassikern sucht, findet auf dieser Seite einen guten Überblick. Die Karte ist so aufgebaut, dass beliebte Favoriten schnell sichtbar werden.',
-        'Anyone looking for schnitzel, steak, burgers or regionally inspired classics in a restaurant in Nebra gets a clear overview on this page. The menu is structured so that popular favorites are easy to find.'
+        'Für Liebhaber von erstklassigem Fleisch bieten wir perfekt gebratene Steaks und Premium-Burger. Natürlich dürfen auf unserer Karte auch regionale Klassiker wie Schnitzel nicht fehlen – so findet jeder das beste Essen in Nebra.',
+        'For lovers of premium meat, we offer perfectly grilled steaks and premium burgers. Of course, our menu also includes regional classics like schnitzel – so everyone easily finds the best food in Nebra.'
       ),
     },
     {
-      title: t('Drinks und Begleiter für lange Abende', 'Drinks and Pairings for Long Evenings'),
+      title: t(
+        'Erlesene Weine, Cocktails & Kühle Drinks',
+        'Fine Wines, Cocktails & Cool Drinks'
+      ),
       text: t(
-        'Zur Speisekarte gehören auch Bier- und Drink-Positionen, die den Besuch auf Terrasse, im Restaurant oder bei Veranstaltungen abrunden. So wirkt die Seite nicht nur informativ, sondern auch alltagsnah für echte Besuchsentscheidungen.',
-        'The menu also includes beers and drinks that complement an evening on the terrace, in the restaurant or during events. This makes the page not only informative, but also practical for real visit decisions.'
+        'Ein gutes Gericht verdient eine hervorragende Begleitung: Genießen Sie zu Ihrem Abendessen erlesene Weine aus der Unstrut-Region, frisch gezapftes Bier oder kreative Cocktails an unserer Bar oder auf der großen Terrasse.',
+        'A great dish deserves excellent accompaniment: Enjoy fine wines from the Unstrut region, freshly drafted beer, or creative cocktails at our bar or on the large terrace alongside your dinner.'
       ),
     },
   ]
@@ -128,14 +137,14 @@ function MenuPageContent({ categories, dishes }: MenuPageContentProps) {
         loadRemoteOnInView={false}
       />
       <SeoTextSection
-        eyebrow={t('Kulinarischer Überblick', 'Culinary Overview')}
+        eyebrow={t('Große Geschmacksvielfalt', 'Great Variety of Flavors')}
         title={t(
-          'Speisekarte mit regionalen Klassikern und beliebten Favoriten',
-          'A Menu with Regional Classics and Popular Favorites'
+          'Ihre Lieblingsgerichte in bestem Ambiente genießen',
+          'Enjoy Your Favorite Dishes in the Best Ambiance'
         )}
         lead={t(
-          'Die Menüseite ist bewusst stärker textlich ausgebaut, damit Gäste und Suchmaschinen sofort erkennen, welche Art von Küche die Neue Liebe in Nebra (Unstrut) anbietet. Neben den sichtbaren Gerichten entsteht so auch ein klarer kulinarischer Rahmen für die ganze Seite.',
-          'The menu page is intentionally supported by stronger descriptive copy so that guests and search engines immediately understand what kind of cuisine Neue Liebe in Nebra (Unstrut) offers. Alongside the visible dishes, this creates a clear culinary context for the entire page.'
+          'Von leichten Vorspeisen und frischen Salaten bis hin zu herzhaften Steaks und feinen Desserts. Die Speisekarte der Neuen Liebe verbindet Qualität, Leidenschaft und die besten regionalen Zutaten der Unstrut-Region.',
+          'From light starters and fresh salads to hearty steaks and fine desserts. The menu at Neue Liebe combines quality, passion, and the best regional ingredients of the Unstrut region.'
         )}
         items={seoItems}
       />

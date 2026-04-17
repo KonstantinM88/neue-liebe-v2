@@ -15,24 +15,33 @@ function ExperiencePageContent() {
   const pathname = usePathname()
   const seoItems = [
     {
-      title: t('Sommerterrasse für entspannte Abende', 'Summer Terrace for Relaxed Evenings'),
+      title: t(
+        'Sommerterrasse & Romantische Abende in Nebra',
+        'Summer Terrace & Romantic Evenings in Nebra'
+      ),
       text: t(
-        'Unsere Terrasse in Nebra (Unstrut) ist für Gäste gedacht, die einen Abend nicht nur kulinarisch, sondern auch atmosphärisch genießen möchten. Gerade in den warmen Monaten entsteht hier ein ruhiger Gegenpol zum Alltag.',
-        'Our terrace in Nebra (Unstrut) is designed for guests who want to enjoy an evening not only through cuisine, but also through atmosphere. During the warmer months it becomes a calm counterpoint to everyday life.'
+        'Unsere idyllische Sommerterrasse in Nebra (Unstrut) bietet den perfekten Rahmen für entspannte Stunden. Genießen Sie an warmen Abenden erstklassiges Essen und kühle Drinks mit einem unvergleichlichen Blick und charmanter Atmosphäre.',
+        'Our idyllic summer terrace in Nebra (Unstrut) offers the perfect setting for relaxing hours. On warm evenings, enjoy first-class food and cool drinks with an unparalleled view and charming atmosphere.'
       ),
     },
     {
-      title: t('Bankettsaal für private und geschäftliche Feiern', 'Banquet Hall for Private and Business Events'),
+      title: t(
+        'Exklusiver Bankettsaal für unvergessliche Feiern',
+        'Exclusive Banquet Hall for Unforgettable Celebrations'
+      ),
       text: t(
-        'Wer eine Eventlocation in Nebra sucht, findet mit unserem Bankettsaal einen Rahmen für Hochzeiten, Familienfeste und Firmenveranstaltungen. Der Fokus liegt auf stilvollem Ambiente und flexibler Nutzung.',
-        'Anyone looking for an event location in Nebra will find a fitting setting in our banquet hall for weddings, family celebrations and corporate events. The focus is on a stylish ambiance and flexible use.'
+        'Mieten Sie unseren stilvollen Bankettsaal für Jubiläen, Familienfeiern oder Hochzeiten an der Unstrut. Wir bieten Ihnen nicht nur eine außergewöhnliche Eventlocation, sondern auch perfekten Service für geschlossene Gesellschaften.',
+        'Rent our stylish banquet hall for anniversaries, family celebrations, or weddings along the Unstrut river. We offer not only an extraordinary event location but also perfect service for private parties.'
       ),
     },
     {
-      title: t('Tanz- und Musikabende mit eigenem Profil', 'Dance and Music Evenings with Their Own Character'),
+      title: t(
+        'Tanz, Live-Musik & Einzigartige Eventabende',
+        'Dance, Live Music & Unique Event Evenings'
+      ),
       text: t(
-        'Die Erlebniswelt der Neuen Liebe endet nicht beim Essen. Themenabende, Musik und Tanz sorgen dafür, dass Gäste das Restaurant auch als lebendigen Treffpunkt für besondere Abende wahrnehmen.',
-        'The Neue Liebe experience does not end with dinner. Themed evenings, music and dancing make the restaurant feel like a lively meeting place for memorable nights.'
+        'Erleben Sie in der Neuen Liebe mehr als nur Gastronomie. Unsere regelmäßigen Tanzabende, Live-Musik-Events und Themenabende machen unser Restaurant zu einem pulsierenden Treffpunkt für alle, die das Besondere suchen.',
+        'Experience more than just gastronomy at Neue Liebe. Our regular dance nights, live music events, and themed evenings make our restaurant a vibrant meeting place for anyone seeking something special.'
       ),
     },
   ]
@@ -118,14 +127,14 @@ function ExperiencePageContent() {
 
       <Experience />
       <SeoTextSection
-        eyebrow={t('Erlebniswelten', 'Experience Worlds')}
+        eyebrow={t('Unsere Highlights', 'Our Highlights')}
         title={t(
-          'Terrasse, Saal und Eventabende auf einer Seite',
-          'Terrace, Hall and Event Evenings in One Place'
+          'Mehr als nur ein Restaurant: Ihre Event-Location in Nebra',
+          'More Than Just a Restaurant: Your Event Location in Nebra'
         )}
         lead={t(
-          'Die Seite „Erlebnisse“ bündelt genau die Themen, nach denen Gäste häufig suchen: Restaurant mit Terrasse, Bankettsaal für Feiern und besondere Eventabende in Nebra (Unstrut). Damit wird klar, dass Neue Liebe mehr ist als ein klassischer Restaurantbesuch.',
-          'The Experiences page brings together exactly the topics guests often search for: a restaurant with terrace, a banquet hall for celebrations and special event evenings in Nebra (Unstrut). It makes clear that Neue Liebe offers more than a classic restaurant visit.'
+          'Ob ein romantisches Abendessen auf unserer Sommerterrasse, eine große Feier im Bankettsaal oder ein geselliger Abend mit Live-Musik – die Neue Liebe in Nebra (Unstrut) vereint exzellentes Essen mit einzigartigen Erlebnissen.',
+          'Whether it is a romantic dinner on our summer terrace, a large celebration in the banquet hall, or a social evening with live music – Neue Liebe in Nebra (Unstrut) combines excellent food with unique experiences.'
         )}
         items={seoItems}
         theme="dark"
