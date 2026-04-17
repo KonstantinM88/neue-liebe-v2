@@ -23,6 +23,8 @@ export default function MobileMenu({ open, onClose }: Props) {
   ]
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>, href: string, key: string) => {
+    const isHashNavigation = href.includes('#')
+
     // If we're already on the same page, just close the menu
     if (pathname === href) {
       onClose()
@@ -35,7 +37,16 @@ export default function MobileMenu({ open, onClose }: Props) {
     
     // Wait for the .animate-click animation to finish (400ms)
     setTimeout(() => {
-      router.push(href)
+      router.push(href, { scroll: !isHashNavigation })
+
+      if (!isHashNavigation) {
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+          document.documentElement.scrollTop = 0
+          document.body.scrollTop = 0
+        })
+      }
+
       onClose()
       // Cleanup state after menu slides out
       setTimeout(() => setNavigatingKey(null), 400)

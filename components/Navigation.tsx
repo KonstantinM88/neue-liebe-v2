@@ -48,8 +48,8 @@ export default function Navigation({ mobileOpen, onHamburger }: NavigationProps)
       </ul>
 
       {/* Right: lang + CTA */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+      <div className="nav-actions">
+        <div className="nav-lang-switch">
           <Link
             className={`lang-btn${lang === 'de' ? ' active' : ''}`}
             href={switchLocalePath(pathname, 'de')}
@@ -59,6 +59,7 @@ export default function Navigation({ mobileOpen, onHamburger }: NavigationProps)
             DE
           </Link>
           <span
+            className="nav-lang-separator"
             style={{
               color: isInnerPage ? 'rgba(74, 55, 40, 0.22)' : 'rgba(255,255,255,0.2)',
               fontSize: '0.7rem',

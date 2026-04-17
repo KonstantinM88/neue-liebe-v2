@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import Cursor from '@/components/Cursor'
 import Footer from '@/components/Footer'
 import MobileMenu from '@/components/MobileMenu'
@@ -18,6 +19,7 @@ export default function SitePageShell({
   initialLang = 'de',
 }: SitePageShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>('.reveal, .reveal-left, .reveal-right')
@@ -29,6 +31,28 @@ export default function SitePageShell({
     targets.forEach((target) => observer.observe(target))
     return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    if (window.location.hash) return
+    const originalScrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
+    resetScroll()
+    const frame = requestAnimationFrame(resetScroll)
+    const timeout = window.setTimeout(resetScroll, 120)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      window.clearTimeout(timeout)
+      window.history.scrollRestoration = originalScrollRestoration
+    }
+  }, [pathname])
 
   return (
     <LangProvider initialLang={initialLang}>

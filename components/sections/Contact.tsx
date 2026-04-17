@@ -38,7 +38,15 @@ function ContactIcon({ type }: { type: 'location' | 'phone' | 'hours' | 'price' 
   )
 }
 
-export default function Contact() {
+export type ContactProps = {
+  sectionId?: string
+  disableReveal?: boolean
+}
+
+export default function Contact({
+  sectionId = 'contact',
+  disableReveal = false,
+}: ContactProps) {
   const { t } = useLang()
 
   const items = [
@@ -65,9 +73,9 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="contact-section">
+    <section id={sectionId} className="contact-section">
       <div className="contact-container">
-        <div className="contact-info reveal-left">
+        <div className={`contact-info${disableReveal ? '' : ' reveal-left'}`}>
           <p className="section-label" style={{ color: 'var(--gold)' }}>
             {t('So finden Sie uns', 'Find Us')}
           </p>
@@ -99,7 +107,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="contact-map-shell reveal-right">
+        <div className={`contact-map-shell${disableReveal ? '' : ' reveal-right'}`}>
           <div className="contact-map-frame">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2503.8!2d11.8365!3d51.3505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a681b0b3abcdef%3A0x123456789abcdef!2sWetzendorfer+Str.+10%2C+06642+Nebra+(Unstrut)!5e0!3m2!1sde!2sde!4v1234567890"
