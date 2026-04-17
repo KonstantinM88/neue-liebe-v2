@@ -1603,8 +1603,6 @@ section { overflow: hidden; }
     box-shadow 0.45s var(--transition),
     border-color 0.45s var(--transition);
   isolation: isolate;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 520px;
 }
 
 .menu-card:nth-child(3n + 1) {
@@ -1663,18 +1661,12 @@ section { overflow: hidden; }
   z-index: 2;
 }
 
-.menu-img picture,
-.menu-img-frame {
+.menu-img picture {
   display: block;
   overflow: hidden;
   border-radius: 24px 24px 56px 24px;
   background: rgba(26, 23, 20, 0.08);
   box-shadow: 0 12px 28px rgba(26, 23, 20, 0.1);
-}
-
-.menu-img-frame {
-  position: relative;
-  aspect-ratio: 4 / 3;
 }
 
 .menu-img::after {
@@ -3179,9 +3171,6 @@ section { overflow: hidden; }
     padding: 0.65rem 0.65rem 0 0.65rem;
   }
   .menu-img picture,
-  .menu-img-frame {
-    border-radius: 18px 18px 42px 18px;
-  }
   .menu-img::after {
     border-radius: 18px 18px 42px 18px;
     inset: 0.65rem 0.65rem 0 0.65rem;

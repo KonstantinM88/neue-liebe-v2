@@ -1,11 +1,11 @@
 'use client'
 
-import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLang } from '@/context/LangContext'
 import { STATIC_MENU_CATEGORIES, STATIC_MENU_DISHES } from '@/lib/menu-static'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
 import { useInViewOnce } from '@/hooks/useInViewOnce'
+import TiltCard from '@/components/ui/TiltCard'
 
 type MenuResponse = {
   categories?: MenuCategory[]
@@ -25,8 +25,6 @@ const ALL_FILTER: MenuCategory & { key: 'all' } = {
   en: 'All',
 }
 
-const MENU_CARD_IMAGE_SIZES = '(max-width: 768px) 92vw, (max-width: 1100px) 46vw, 360px'
-
 export default function MenuSection({
   initialCategories = STATIC_MENU_CATEGORIES,
   initialDishes = STATIC_MENU_DISHES,
@@ -36,6 +34,7 @@ export default function MenuSection({
   const [active, setActive] = useState<CategoryKey>('all')
   const [categories, setCategories] = useState<MenuCategory[]>(initialCategories)
   const [dishes, setDishes] = useState<MenuDish[]>(initialDishes)
+  const gridRef = useRef<HTMLDivElement | null>(null)
   const { ref: sectionRef, isInView: shouldLoadRemoteMenu } = useInViewOnce<HTMLElement>('420px 0px')
 
   useEffect(() => {
@@ -85,6 +84,38 @@ export default function MenuSection({
     () => (active === 'all' ? dishes : dishes.filter((dish) => dish.category === active)),
     [active, dishes]
   )
+
+  useEffect(() => {
+    const grid = gridRef.current
+    if (!grid) return
+
+    const targets = Array.from(grid.querySelectorAll<HTMLElement>('.reveal'))
+    if (targets.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.12 }
+    )
+
+    targets.forEach((target) => observer.observe(target))
+
+    requestAnimationFrame(() => {
+      targets.forEach((target) => {
+        const rect = target.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          target.classList.add('visible')
+        }
+      })
+    })
+
+    return () => observer.disconnect()
+  }, [active, filteredDishes.length])
 
   return (
     <section id="menu" ref={loadRemoteOnInView ? sectionRef : undefined}>
@@ -140,27 +171,25 @@ export default function MenuSection({
       <div
         id="menu-grid"
         className="menu-grid"
+        ref={gridRef}
         style={{ paddingBottom: 'clamp(5rem, 10vw, 10rem)' }}
       >
         {filteredDishes.map((dish, index) => (
-          <article
+          <TiltCard
+            as="article"
             key={dish.id}
             className="menu-card reveal"
             style={{ transitionDelay: `${(index % 3) * 0.1}s` }}
           >
             <div className="menu-img">
-              <div className="menu-img-frame">
-                <Image
+              <picture>
+                <source media="(max-width: 768px)" srcSet={dish.imgMobile} />
+                <img
                   src={dish.imgDesktop}
                   alt={t(dish.nameDe, dish.nameEn)}
-                  width={1200}
-                  height={900}
-                  sizes={MENU_CARD_IMAGE_SIZES}
-                  quality={68}
                   loading="lazy"
-                  decoding="async"
                 />
-              </div>
+              </picture>
               <div className="menu-tag">{t(dish.tagDe, dish.tagEn)}</div>
             </div>
 
@@ -172,7 +201,7 @@ export default function MenuSection({
                 <span className="menu-add" aria-hidden="true">+</span>
               </div>
             </div>
-          </article>
+          </TiltCard>
         ))}
       </div>
     </section>
