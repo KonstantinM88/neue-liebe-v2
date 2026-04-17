@@ -136,28 +136,37 @@ function New-BrandIcon([string]$targetPath, [int]$size) {
   $graphics.FillPath($frameFill, $framePath)
   $graphics.DrawPath($frameBorder, $framePath)
 
-  $accentPen = New-Object System.Drawing.Pen((New-Color 90 255 245 224), [Math]::Max(2, [int]($size * 0.006)))
-  $graphics.DrawArc($accentPen, [int]($size * 0.17), [int]($size * 0.15), [int]($size * 0.66), [int]($size * 0.66), 200, 110)
+  $innerOrbBrush = New-Object System.Drawing.SolidBrush((New-Color 222 40 34 28))
+  $graphics.FillEllipse($innerOrbBrush, [int]($size * 0.14), [int]($size * 0.14), [int]($size * 0.72), [int]($size * 0.72))
 
-  $titleFont = New-Object System.Drawing.Font($serifBoldFontPath, ($size * 0.42), [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $accentPen = New-Object System.Drawing.Pen((New-Color 110 255 245 224), [Math]::Max(2, [int]($size * 0.006)))
+  $graphics.DrawArc($accentPen, [int]($size * 0.2), [int]($size * 0.16), [int]($size * 0.6), [int]($size * 0.6), 192, 118)
+
+  $anchorFont = New-Object System.Drawing.Font('Segoe UI Symbol', ($size * 0.42), [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $anchorBrush = New-Object System.Drawing.SolidBrush((New-Color 255 232 213 163))
+  $anchorShadowBrush = New-Object System.Drawing.SolidBrush((New-Color 34 255 255 255))
   $subtitleFont = New-Object System.Drawing.Font($sansFontPath, ($size * 0.065), [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
-  $titleBrush = New-Object System.Drawing.SolidBrush((New-Color 255 232 213 163))
   $subtitleBrush = New-Object System.Drawing.SolidBrush((New-Color 235 201 169 110))
   $format = New-Object System.Drawing.StringFormat
   $format.Alignment = [System.Drawing.StringAlignment]::Center
   $format.LineAlignment = [System.Drawing.StringAlignment]::Center
+  $anchorShadowRect = New-Object System.Drawing.RectangleF([float]($size * 0.14), [float]($size * 0.15), [float]($size * 0.72), [float]($size * 0.5))
+  $anchorRect = New-Object System.Drawing.RectangleF(0, [float]($size * 0.13), $size, [float]($size * 0.5))
 
-  $graphics.DrawString('N', $titleFont, $titleBrush, (New-Object System.Drawing.RectangleF(0, [float]($size * 0.13), $size, [float]($size * 0.5))), $format)
+  $graphics.DrawString([char]0x2693, $anchorFont, $anchorShadowBrush, $anchorShadowRect, $format)
+  $graphics.DrawString([char]0x2693, $anchorFont, $anchorBrush, $anchorRect, $format)
   $graphics.DrawString('NEUE LIEBE', $subtitleFont, $subtitleBrush, (New-Object System.Drawing.RectangleF(0, [float]($size * 0.68), $size, [float]($size * 0.12))), $format)
 
   $bitmap.Save($targetPath, [System.Drawing.Imaging.ImageFormat]::Png)
 
   $format.Dispose()
   $subtitleBrush.Dispose()
-  $titleBrush.Dispose()
+  $anchorBrush.Dispose()
   $subtitleFont.Dispose()
-  $titleFont.Dispose()
+  $anchorFont.Dispose()
+  $anchorShadowBrush.Dispose()
   $accentPen.Dispose()
+  $innerOrbBrush.Dispose()
   $frameBorder.Dispose()
   $frameFill.Dispose()
   $framePath.Dispose()
