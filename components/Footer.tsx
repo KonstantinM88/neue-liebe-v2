@@ -3,12 +3,15 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLang } from '@/context/LangContext'
+import { useInViewOnce } from '@/hooks/useInViewOnce'
 import { FOOTER_NAV_ITEMS, resolveSiteHref } from '@/lib/site-nav'
 
 export default function Footer() {
   const { t } = useLang()
   const pathname = usePathname()
   const currentYear = new Date().getFullYear()
+  const { ref: footerShellRef, isInView: isWaveActive } =
+    useInViewOnce<HTMLDivElement>('0px 0px -12% 0px')
 
   const socials = [
     { label: 'Facebook', short: 'f' },
@@ -19,7 +22,10 @@ export default function Footer() {
 
   return (
     <footer className="footer-section">
-      <div className="footer-shell">
+      <div
+        ref={footerShellRef}
+        className={`footer-shell${isWaveActive ? ' footer-shell--wave-active' : ''}`}
+      >
         <div className="footer-top">
           <div className="footer-brand-card">
             <h2 className="footer-brand-title">Neue Liebe</h2>

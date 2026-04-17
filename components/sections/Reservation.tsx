@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import { useLang } from '@/context/LangContext'
+import { useInViewOnce } from '@/hooks/useInViewOnce'
 
 interface ReservationProps {
   onToast: (msg: string) => void
@@ -11,6 +12,8 @@ export default function Reservation({ onToast }: ReservationProps) {
   const { t, lang } = useLang()
   const [loading, setLoading] = useState(false)
   const dateInputLang = lang === 'de' ? 'de-DE' : 'en-US'
+  const { ref: reservationShellRef, isInView: isWaveActive } =
+    useInViewOnce<HTMLDivElement>('0px 0px -12% 0px')
 
   const [form, setForm] = useState({
     firstName: '',
@@ -79,7 +82,10 @@ export default function Reservation({ onToast }: ReservationProps) {
 
   return (
     <section id="reservation" className="reservation-section">
-      <div className="reservation-shell">
+      <div
+        ref={reservationShellRef}
+        className={`reservation-shell${isWaveActive ? ' reservation-shell--wave-active' : ''}`}
+      >
         <p className="section-label reveal" style={{ color: 'var(--gold)' }}>
           {t('Ihren Platz sichern', 'Secure Your Seat')}
         </p>

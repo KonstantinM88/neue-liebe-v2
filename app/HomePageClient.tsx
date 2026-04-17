@@ -5,7 +5,6 @@ import { LangProvider, type Lang } from '@/context/LangContext'
 
 import Cursor from '@/components/Cursor'
 import Footer from '@/components/Footer'
-import Loader from '@/components/Loader'
 import MobileMenu from '@/components/MobileMenu'
 import Navigation from '@/components/Navigation'
 import ScrollProgress from '@/components/ScrollProgress'
@@ -45,7 +44,6 @@ export default function HomePageClient({ initialLang = 'de' }: HomePageClientPro
   return (
     <LangProvider initialLang={initialLang}>
       <Cursor />
-      <Loader />
       <ScrollProgress />
 
       <Navigation

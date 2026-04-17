@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 import LazyVideo from '@/components/LazyVideo'
+import TiltCard from '@/components/ui/TiltCard'
 
 type GalleryItem = {
   src: string
@@ -90,7 +91,7 @@ export default function Gallery() {
             const hasMobileSource = Boolean(img.srcMobile)
 
             return (
-              <article key={img.cls} className={`gallery-item ${img.cls}`}>
+              <TiltCard as="article" key={img.cls} className={`gallery-item ${img.cls}`}>
                 {isTerraceVideo ? (
                   <LazyVideo
                     src={img.src}
@@ -137,7 +138,7 @@ export default function Gallery() {
                   <span className="gallery-item-index">{String(index + 1).padStart(2, '0')}</span>
                   <span className="gallery-item-label">{t(img.labelDe, img.labelEn)}</span>
                 </div>
-              </article>
+              </TiltCard>
             )
           })}
         </div>

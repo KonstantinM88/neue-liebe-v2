@@ -5,6 +5,7 @@ import { useLang } from '@/context/LangContext'
 import { STATIC_MENU_CATEGORIES, STATIC_MENU_DISHES } from '@/lib/menu-static'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
 import { useInViewOnce } from '@/hooks/useInViewOnce'
+import TiltCard from '@/components/ui/TiltCard'
 
 type MenuResponse = {
   categories?: MenuCategory[]
@@ -174,7 +175,8 @@ export default function MenuSection({
         style={{ paddingBottom: 'clamp(5rem, 10vw, 10rem)' }}
       >
         {filteredDishes.map((dish, index) => (
-          <article
+          <TiltCard
+            as="article"
             key={dish.id}
             className="menu-card reveal"
             style={{ transitionDelay: `${(index % 3) * 0.1}s` }}
@@ -199,7 +201,7 @@ export default function MenuSection({
                 <span className="menu-add" aria-hidden="true">+</span>
               </div>
             </div>
-          </article>
+          </TiltCard>
         ))}
       </div>
     </section>

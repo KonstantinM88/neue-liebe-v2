@@ -1,36 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 export default function Hero() {
   const { t } = useLang()
-  const bgRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let animationFrameId: number
-    const onScroll = () => {
-      if (!bgRef.current) return
-      // Create a cinematic parallax depth (moves slower than foreground)
-      const offset = window.scrollY * 0.45
-      bgRef.current.style.transform = `translate3d(0, ${offset}px, 0)`
-    }
-
-    const scrollListener = () => {
-      animationFrameId = requestAnimationFrame(onScroll)
-    }
-
-    window.addEventListener('scroll', scrollListener, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', scrollListener)
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [])
 
   return (
     <section id="hero" className="hero-section">
-      <div className="hero-bg" ref={bgRef} aria-hidden="true" style={{ willChange: 'transform' }}>
+      <div className="hero-bg" aria-hidden="true">
         <Image
           className="hero-bg-image"
           src="/cafe_interior_1920x1440_optimized.webp"
@@ -38,7 +16,7 @@ export default function Hero() {
           fill
           preload
           fetchPriority="high"
-          quality={68}
+          quality={75}
           sizes="100vw"
         />
       </div>
