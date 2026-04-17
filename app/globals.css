@@ -557,6 +557,25 @@ nav.menu-open .nav-cta { display: none !important; }
     linear-gradient(90deg, rgba(26,23,20,0.2) 0%, rgba(26,23,20,0.06) 22%, rgba(26,23,20,0.06) 78%, rgba(26,23,20,0.18) 100%);
 }
 
+.hero-overlay::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  animation: grainNoise 8s steps(10) infinite;
+  z-index: 1;
+}
+
+@keyframes grainNoise {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  30% { transform: translate(3%, -5%); }
+  50% { transform: translate(-4%, 2%); }
+  70% { transform: translate(2%, 3%); }
+  90% { transform: translate(-1%, 4%); }
+}
+
 .hero-overlay-bottom {
   position: absolute;
   bottom: 0;
@@ -3502,4 +3521,61 @@ section { overflow: hidden; }
   .footer-meta {
     font-size: 0.72rem;
   }
+}
+
+/* ─── SPLASH LOADER ─── */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(26, 23, 20, 0.4);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.2s cubic-bezier(0.8, 0, 0.2, 1), visibility 1.2s;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.16em;
+  opacity: 0;
+  animation: loaderPulse 2.4s ease-in-out infinite, loaderFadeIn 1.2s forwards;
+}
+
+.loader-line {
+  margin-top: 1.5rem;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  animation: loaderLine 2s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes loaderFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loaderPulse {
+  0%, 100% { text-shadow: 0 0 15px rgba(201, 169, 110, 0.1); }
+  50% { text-shadow: 0 0 40px rgba(201, 169, 110, 0.5); }
+}
+
+@keyframes loaderLine {
+  0% { width: 0; opacity: 0; }
+  20% { opacity: 1; }
+  100% { width: 220px; opacity: 1; }
 }
