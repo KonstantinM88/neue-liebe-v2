@@ -211,21 +211,26 @@ function New-SocialCard([string]$targetPath) {
   $graphics.FillPath($chipFill, $chipPath)
   $graphics.DrawString('NEBRA (UNSTRUT) - SACHSEN-ANHALT', $microFont, $chipTextBrush, (New-Object System.Drawing.RectangleF(106, 507, 310, 24)))
 
-  $badgePath = New-RoundedRectanglePath 914 62 200 106 28
+  $badgePath = New-RoundedRectanglePath 882 58 250 122 30
   $badgeFill = New-Object System.Drawing.SolidBrush((New-Color 176 24 21 18))
   $badgeBorder = New-Object System.Drawing.Pen((New-Color 138 232 213 163), 2)
-  $badgeTitleFont = New-Object System.Drawing.Font($serifFontPath, 36, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
-  $badgeCopyFont = New-Object System.Drawing.Font($sansSemiBoldFontPath, 15, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $badgeTitleFont = New-Object System.Drawing.Font($serifFontPath, 32, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $badgeCopyFont = New-Object System.Drawing.Font($sansSemiBoldFontPath, 14, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $badgeFormat = New-Object System.Drawing.StringFormat
+  $badgeFormat.Alignment = [System.Drawing.StringAlignment]::Center
+  $badgeFormat.LineAlignment = [System.Drawing.StringAlignment]::Center
   $graphics.FillPath($badgeFill, $badgePath)
   $graphics.DrawPath($badgeBorder, $badgePath)
-  $graphics.DrawString('Neue Liebe', $badgeTitleFont, $goldBrush, 946, 84)
-  $graphics.DrawString('Restaurant in Nebra', $badgeCopyFont, $creamBrush, 950, 128)
+  $graphics.DrawString('Neue Liebe', $badgeTitleFont, $goldBrush, (New-Object System.Drawing.RectangleF(894, 72, 226, 44)), $badgeFormat)
+  $graphics.DrawLine($badgeBorder, 938, 120, 1076, 120)
+  $graphics.DrawString('Restaurant in Nebra', $badgeCopyFont, $creamBrush, (New-Object System.Drawing.RectangleF(894, 124, 226, 24)), $badgeFormat)
 
   $bitmap.Save($targetPath, [System.Drawing.Imaging.ImageFormat]::Png)
 
   if ($null -ne $backgroundImage) {
     $backgroundImage.Dispose()
   }
+  $badgeFormat.Dispose()
   $badgeCopyFont.Dispose()
   $badgeTitleFont.Dispose()
   $badgeBorder.Dispose()
