@@ -83,9 +83,21 @@ export default function Footer() {
           <p className="footer-meta">
             © {currentYear} Restaurant Neue Liebe · Nebra (Unstrut)
           </p>
-          <p className="footer-meta">
-            {t('Impressum · Datenschutz', 'Imprint · Privacy')}
-          </p>
+          <div className="footer-meta" style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+            <Link 
+              href={resolveSiteHref(pathname, { key: 'impressum', de: 'Impressum', en: 'Imprint', pageHref: { de: '/impressum', en: '/en/impressum' } })} 
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {t('Impressum', 'Imprint')}
+            </Link>
+            <span>·</span>
+            <Link 
+              href={resolveSiteHref(pathname, { key: 'datenschutz', de: 'Datenschutz', en: 'Privacy', pageHref: { de: '/datenschutz', en: '/en/datenschutz' } })} 
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {t('Datenschutz', 'Privacy')}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
