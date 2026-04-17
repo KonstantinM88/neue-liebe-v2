@@ -78,7 +78,60 @@ export default function MobileMenu({ open, onClose }: Props) {
           aria-label="Home"
           className={navigatingKey === 'logo' ? 'animate-click' : ''}
         >
-          N
+          <span className="mobile-menu-anchor" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="presentation" focusable="false">
+              <circle cx="16" cy="4.75" r="2.25" fill="currentColor" />
+              <path
+                d="M16 8v14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M10 12h12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M8.25 20.25c0 4.2 3.45 7.1 7.75 7.1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M23.75 20.25c0 4.2-3.45 7.1-7.75 7.1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M8.75 19.5l-3.15 2.85"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M23.25 19.5l3.15 2.85"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <path
+                d="M13.75 27.35h4.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
         </Link>
       </div>
     </div>
