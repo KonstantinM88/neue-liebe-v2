@@ -349,7 +349,45 @@ nav.page-nav .lang-btn.active {
     -5px -5px 12px rgba(255, 255, 255, 0.04);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
 }
+
+@keyframes premiumShine {
+  0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+  20% { opacity: 1; }
+  40% { transform: translateX(250%) skewX(-25deg); opacity: 0; }
+  100% { transform: translateX(250%) skewX(-25deg); opacity: 0; }
+}
+
+.mobile-menu-links a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(201, 169, 110, 0.08) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-150%) skewX(-25deg);
+  animation: premiumShine 6s infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mobile-menu-links a:nth-child(1)::after { animation-delay: 0s; }
+.mobile-menu-links a:nth-child(2)::after { animation-delay: 0.2s; }
+.mobile-menu-links a:nth-child(3)::after { animation-delay: 0.4s; }
+.mobile-menu-links a:nth-child(4)::after { animation-delay: 0.6s; }
+.mobile-menu-links a:nth-child(5)::after { animation-delay: 0.8s; }
+.mobile-menu-links a:nth-child(6)::after { animation-delay: 1.0s; }
+.mobile-menu-links a:nth-child(7)::after { animation-delay: 1.2s; }
+.mobile-menu-links a:nth-child(8)::after { animation-delay: 1.4s; }
+.mobile-menu-links a:nth-child(9)::after { animation-delay: 1.6s; }
 
 .mobile-menu-links a:hover,
 .mobile-menu-links a:active {
