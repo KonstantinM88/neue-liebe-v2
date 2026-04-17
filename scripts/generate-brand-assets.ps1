@@ -37,6 +37,47 @@ function Initialize-Graphics([System.Drawing.Bitmap]$bitmap) {
   return $graphics
 }
 
+function Draw-AnchorGlyph(
+  [System.Drawing.Graphics]$graphics,
+  [float]$centerX,
+  [float]$centerY,
+  [float]$size,
+  [System.Drawing.Pen]$pen
+) {
+  $ringSize = $size * 0.18
+  $ringX = $centerX - ($ringSize / 2)
+  $ringY = $centerY - ($size * 0.45)
+  $graphics.DrawEllipse($pen, $ringX, $ringY, $ringSize, $ringSize)
+
+  $stemTop = $ringY + $ringSize
+  $stemBottom = $centerY + ($size * 0.28)
+  $crossY = $centerY - ($size * 0.06)
+
+  $graphics.DrawLine($pen, $centerX, $stemTop, $centerX, $stemBottom)
+  $graphics.DrawLine($pen, $centerX - ($size * 0.16), $crossY, $centerX + ($size * 0.16), $crossY)
+
+  $arcX = [float]($centerX - ($size * 0.28))
+  $arcY = [float]($centerY - ($size * 0.02))
+  $arcWidth = [float]($size * 0.56)
+  $arcHeight = [float]($size * 0.46)
+  $arcRect = New-Object System.Drawing.RectangleF($arcX, $arcY, $arcWidth, $arcHeight)
+  $graphics.DrawArc($pen, $arcRect, 22, 136)
+
+  $leftFluke = @(
+    (New-Object System.Drawing.PointF([float]($centerX - ($size * 0.18)), [float]($centerY + ($size * 0.30)))),
+    (New-Object System.Drawing.PointF([float]($centerX - ($size * 0.30)), [float]($centerY + ($size * 0.22)))),
+    (New-Object System.Drawing.PointF([float]($centerX - ($size * 0.22)), [float]($centerY + ($size * 0.12))))
+  )
+  $rightFluke = @(
+    (New-Object System.Drawing.PointF([float]($centerX + ($size * 0.18)), [float]($centerY + ($size * 0.30)))),
+    (New-Object System.Drawing.PointF([float]($centerX + ($size * 0.30)), [float]($centerY + ($size * 0.22)))),
+    (New-Object System.Drawing.PointF([float]($centerX + ($size * 0.22)), [float]($centerY + ($size * 0.12))))
+  )
+
+  $graphics.DrawLines($pen, $leftFluke)
+  $graphics.DrawLines($pen, $rightFluke)
+}
+
 function Save-ScaledPng([string]$sourcePath, [string]$targetPath, [int]$size) {
   $sourceImage = [System.Drawing.Image]::FromFile($sourcePath)
   $targetBitmap = New-Object System.Drawing.Bitmap($size, $size)
@@ -211,25 +252,29 @@ function New-SocialCard([string]$targetPath) {
   $graphics.FillPath($chipFill, $chipPath)
   $graphics.DrawString('NEBRA (UNSTRUT) - SACHSEN-ANHALT', $microFont, $chipTextBrush, (New-Object System.Drawing.RectangleF(106, 507, 310, 24)))
 
-  $badgePath = New-RoundedRectanglePath 882 58 250 122 30
+  $badgePath = New-RoundedRectanglePath 844 56 292 128 32
   $badgeFill = New-Object System.Drawing.SolidBrush((New-Color 176 24 21 18))
   $badgeBorder = New-Object System.Drawing.Pen((New-Color 138 232 213 163), 2)
-  $badgeTitleFont = New-Object System.Drawing.Font($serifFontPath, 32, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $badgeTitleFont = New-Object System.Drawing.Font($serifFontPath, 26, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
   $badgeCopyFont = New-Object System.Drawing.Font($sansSemiBoldFontPath, 14, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
+  $badgeAnchorFont = New-Object System.Drawing.Font('Segoe UI Symbol', 30, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
   $badgeFormat = New-Object System.Drawing.StringFormat
   $badgeFormat.Alignment = [System.Drawing.StringAlignment]::Center
   $badgeFormat.LineAlignment = [System.Drawing.StringAlignment]::Center
   $graphics.FillPath($badgeFill, $badgePath)
   $graphics.DrawPath($badgeBorder, $badgePath)
-  $graphics.DrawString('Neue Liebe', $badgeTitleFont, $goldBrush, (New-Object System.Drawing.RectangleF(894, 72, 226, 44)), $badgeFormat)
-  $graphics.DrawLine($badgeBorder, 938, 120, 1076, 120)
-  $graphics.DrawString('Restaurant in Nebra', $badgeCopyFont, $creamBrush, (New-Object System.Drawing.RectangleF(894, 124, 226, 24)), $badgeFormat)
+  $graphics.DrawString('Neue', $badgeTitleFont, $goldBrush, (New-Object System.Drawing.RectangleF(860, 72, 90, 42)), $badgeFormat)
+  $graphics.DrawString([char]0x2693, $badgeAnchorFont, $goldBrush, (New-Object System.Drawing.RectangleF(958, 68, 52, 44)), $badgeFormat)
+  $graphics.DrawString('Liebe', $badgeTitleFont, $goldBrush, (New-Object System.Drawing.RectangleF(1016, 72, 102, 42)), $badgeFormat)
+  $graphics.DrawLine($badgeBorder, 926, 122, 1054, 122)
+  $graphics.DrawString('Restaurant in Nebra', $badgeCopyFont, $creamBrush, (New-Object System.Drawing.RectangleF(868, 128, 244, 22)), $badgeFormat)
 
   $bitmap.Save($targetPath, [System.Drawing.Imaging.ImageFormat]::Png)
 
   if ($null -ne $backgroundImage) {
     $backgroundImage.Dispose()
   }
+  $badgeAnchorFont.Dispose()
   $badgeFormat.Dispose()
   $badgeCopyFont.Dispose()
   $badgeTitleFont.Dispose()
