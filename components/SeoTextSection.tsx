@@ -1,4 +1,4 @@
-'use client'
+import styles from './SeoTextSection.module.css'
 
 type SeoTextItem = {
   title: string
@@ -20,20 +20,22 @@ export default function SeoTextSection({
   items,
   theme = 'light',
 }: SeoTextSectionProps) {
+  const themeClass = theme === 'dark' ? styles.dark : styles.light
+
   return (
-    <section className={`seo-copy-section seo-copy-section--${theme}`}>
-      <div className="seo-copy-shell">
-        <div className="seo-copy-intro">
-          <p className="section-label seo-copy-label">{eyebrow}</p>
-          <h2 className="section-title seo-copy-title">{title}</h2>
-          <p className="seo-copy-lead">{lead}</p>
+    <section className={`${styles.section} ${themeClass}`}>
+      <div className={styles.shell}>
+        <div className={styles.intro}>
+          <p className={`section-label ${styles.label}`}>{eyebrow}</p>
+          <h2 className={`section-title ${styles.title}`}>{title}</h2>
+          <p className={styles.lead}>{lead}</p>
         </div>
 
-        <div className="seo-copy-grid">
+        <div className={styles.grid}>
           {items.map((item) => (
-            <article key={item.title} className="seo-copy-card">
-              <h3 className="seo-copy-card-title">{item.title}</h3>
-              <p className="seo-copy-card-text">{item.text}</p>
+            <article key={item.title} className={styles.card}>
+              <h3 className={styles.cardTitle}>{item.title}</h3>
+              <p className={styles.cardText}>{item.text}</p>
             </article>
           ))}
         </div>

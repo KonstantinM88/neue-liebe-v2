@@ -16,7 +16,7 @@ export default function Hero() {
           fill
           preload
           fetchPriority="high"
-          quality={75}
+          quality={68}
           sizes="100vw"
         />
       </div>

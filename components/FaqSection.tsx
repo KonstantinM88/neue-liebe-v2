@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import styles from './FaqSection.module.css'
 
 export type FaqItem = {
   question: string
@@ -20,24 +21,26 @@ export default function FaqSection({
   items,
   theme = 'light',
 }: FaqSectionProps) {
+  const themeClass = theme === 'dark' ? styles.dark : styles.light
+
   return (
-    <section className={`faq-section faq-section--${theme}`}>
-      <div className="faq-shell">
-        <div className="faq-intro reveal">
-          <p className="section-label faq-label">{eyebrow}</p>
-          <h2 className="section-title faq-title">{title}</h2>
-          <p className="faq-lead">{lead}</p>
+    <section className={`${styles.section} ${themeClass}`}>
+      <div className={styles.shell}>
+        <div className={`${styles.intro} reveal`}>
+          <p className={`section-label ${styles.label}`}>{eyebrow}</p>
+          <h2 className={`section-title ${styles.title}`}>{title}</h2>
+          <p className={styles.lead}>{lead}</p>
         </div>
 
-        <div className="faq-list">
+        <div className={styles.list}>
           {items.map((item, index) => (
             <article
               key={item.question}
-              className="faq-item reveal"
+              className={`${styles.item} reveal`}
               style={{ transitionDelay: `${index * 0.08}s` }}
             >
-              <h3 className="faq-question">{item.question}</h3>
-              <div className="faq-answer">{item.answer}</div>
+              <h3 className={styles.question}>{item.question}</h3>
+              <div className={styles.answer}>{item.answer}</div>
             </article>
           ))}
         </div>
