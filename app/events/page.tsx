@@ -9,24 +9,25 @@ export const metadata: Metadata = {
     'Hochzeiten, Firmenfeiern und Tanzabende in der Neuen Liebe in Nebra (Unstrut) mit stilvollen Räumen und passender Kulinarik.',
   keywords: 'Events Nebra, Hochzeit Nebra, Firmenfeier Nebra, Tanzabend Nebra, Eventlocation Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/events',
+    canonical: 'https://www.neueliebe-nebra.de/events',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/events',
-      'en-US': 'https://neueliebe-nebra.de/en/events',
+      'de-DE': 'https://www.neueliebe-nebra.de/events',
+      'en-US': 'https://www.neueliebe-nebra.de/en/events',
+      'x-default': 'https://www.neueliebe-nebra.de/events',
     },
   },
   openGraph: {
     title: 'Events | Neue Liebe',
     description:
       'Entdecken Sie Hochzeiten, Firmenfeiern und Tanzabende in der Neuen Liebe in Nebra (Unstrut).',
-    url: 'https://neueliebe-nebra.de/events',
+    url: 'https://www.neueliebe-nebra.de/events',
     locale: 'de_DE',
     alternateLocale: ['en_US'],
     type: 'website',
   },
 }
 
-const eventsPageStructuredData = buildEventsStructuredData('de', 'https://neueliebe-nebra.de/events')
+const eventsPageStructuredData = buildEventsStructuredData('de', 'https://www.neueliebe-nebra.de/events')
 
 const breadcrumbStructuredData = {
   '@context': 'https://schema.org',
@@ -36,18 +37,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Startseite',
-      item: 'https://neueliebe-nebra.de/',
+      item: 'https://www.neueliebe-nebra.de/',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Events',
-      item: 'https://neueliebe-nebra.de/events',
+      item: 'https://www.neueliebe-nebra.de/events',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('events', 'de', 'https://neueliebe-nebra.de/events')
+const faqStructuredData = buildFaqPageStructuredData('events', 'de', 'https://www.neueliebe-nebra.de/events')
 
 export default function EventsPage() {
   return (

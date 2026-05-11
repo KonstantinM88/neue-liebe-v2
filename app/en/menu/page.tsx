@@ -10,17 +10,18 @@ export const metadata: Metadata = {
     'Neue Liebe menu in Nebra (Unstrut) with starters, main courses, classics, burgers, steaks and drinks.',
   keywords: 'Nebra restaurant menu, Neue Liebe menu, food in Nebra, steaks burgers Nebra, restaurant dishes Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/menu',
+    canonical: 'https://www.neueliebe-nebra.de/en/menu',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/menu',
-      'en-US': 'https://neueliebe-nebra.de/en/menu',
+      'de-DE': 'https://www.neueliebe-nebra.de/menu',
+      'en-US': 'https://www.neueliebe-nebra.de/en/menu',
+      'x-default': 'https://www.neueliebe-nebra.de/menu',
     },
   },
   openGraph: {
     title: 'Menu | Neue Liebe',
     description:
       'Explore the Neue Liebe menu with regional cuisine, classics, burgers, steaks and drinks.',
-    url: 'https://neueliebe-nebra.de/en/menu',
+    url: 'https://www.neueliebe-nebra.de/en/menu',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
@@ -35,22 +36,22 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Menu',
-      item: 'https://neueliebe-nebra.de/en/menu',
+      item: 'https://www.neueliebe-nebra.de/en/menu',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('menu', 'en', 'https://neueliebe-nebra.de/en/menu')
+const faqStructuredData = buildFaqPageStructuredData('menu', 'en', 'https://www.neueliebe-nebra.de/en/menu')
 
 export default async function EnglishMenuPage() {
   const { categories, dishes } = await getPublicMenuData()
-  const menuStructuredData = buildMenuStructuredData('en', 'https://neueliebe-nebra.de/en/menu', categories, dishes)
+  const menuStructuredData = buildMenuStructuredData('en', 'https://www.neueliebe-nebra.de/en/menu', categories, dishes)
 
   return (
     <>

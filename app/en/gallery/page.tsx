@@ -8,16 +8,17 @@ export const metadata: Metadata = {
   title: 'Gallery | Neue Liebe',
   description: 'Gallery with impressions from the restaurant, cuisine, terrace and events at Neue Liebe.',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/gallery',
+    canonical: 'https://www.neueliebe-nebra.de/en/gallery',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/gallery',
-      'en-US': 'https://neueliebe-nebra.de/en/gallery',
+      'de-DE': 'https://www.neueliebe-nebra.de/gallery',
+      'en-US': 'https://www.neueliebe-nebra.de/en/gallery',
+      'x-default': 'https://www.neueliebe-nebra.de/gallery',
     },
   },
   openGraph: {
     title: 'Gallery | Neue Liebe',
     description: 'Images from the restaurant, terrace, cuisine and events at Neue Liebe in Nebra (Unstrut).',
-    url: 'https://neueliebe-nebra.de/en/gallery',
+    url: 'https://www.neueliebe-nebra.de/en/gallery',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
@@ -32,24 +33,24 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Gallery',
-      item: 'https://neueliebe-nebra.de/en/gallery',
+      item: 'https://www.neueliebe-nebra.de/en/gallery',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('gallery', 'en', 'https://neueliebe-nebra.de/en/gallery')
+const faqStructuredData = buildFaqPageStructuredData('gallery', 'en', 'https://www.neueliebe-nebra.de/en/gallery')
 
 export default async function EnglishGalleryPage() {
   const photos = await getPublicGalleryPhotos('en')
   const galleryPageStructuredData = buildGalleryStructuredData(
     'en',
-    'https://neueliebe-nebra.de/en/gallery',
+    'https://www.neueliebe-nebra.de/en/gallery',
     photos
   )
 

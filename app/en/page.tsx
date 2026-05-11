@@ -7,24 +7,25 @@ export const metadata: Metadata = {
   description:
     'Neue Liebe restaurant in Nebra (Unstrut): regional cuisine, elegant terrace, dance evenings and special events in Saxony-Anhalt.',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en',
+    canonical: 'https://www.neueliebe-nebra.de/en',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/',
-      'en-US': 'https://neueliebe-nebra.de/en',
+      'de-DE': 'https://www.neueliebe-nebra.de/',
+      'en-US': 'https://www.neueliebe-nebra.de/en',
+      'x-default': 'https://www.neueliebe-nebra.de/',
     },
   },
   openGraph: {
     title: 'Neue Liebe | Restaurant • Terrace • Dance & Events',
     description:
       'Discover restaurant, terrace, culinary highlights and events at Neue Liebe in Nebra (Unstrut).',
-    url: 'https://neueliebe-nebra.de/en',
+    url: 'https://www.neueliebe-nebra.de/en',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
   },
 }
 
-const homeStructuredData = buildHomeStructuredData('en', 'https://neueliebe-nebra.de/en')
+const homeStructuredData = buildHomeStructuredData('en', 'https://www.neueliebe-nebra.de/en')
 
 export default function EnglishHomePage() {
   return (

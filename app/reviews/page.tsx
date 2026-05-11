@@ -8,17 +8,18 @@ export const metadata: Metadata = {
     'Lesen Sie Bewertungen und Erfahrungen unserer Gäste über Restaurant, Service und Atmosphäre der Neuen Liebe in Nebra (Unstrut).',
   keywords: 'Bewertungen Neue Liebe, Restaurant Bewertungen Nebra, Google Reviews Neue Liebe, Restaurant Erfahrung Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/reviews',
+    canonical: 'https://www.neueliebe-nebra.de/reviews',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/reviews',
-      'en-US': 'https://neueliebe-nebra.de/en/reviews',
+      'de-DE': 'https://www.neueliebe-nebra.de/reviews',
+      'en-US': 'https://www.neueliebe-nebra.de/en/reviews',
+      'x-default': 'https://www.neueliebe-nebra.de/reviews',
     },
   },
   openGraph: {
     title: 'Bewertungen | Neue Liebe',
     description:
       'Erfahrungen und Stimmen unserer Gäste über Restaurant, Küche und Atmosphäre der Neuen Liebe.',
-    url: 'https://neueliebe-nebra.de/reviews',
+    url: 'https://www.neueliebe-nebra.de/reviews',
     locale: 'de_DE',
     alternateLocale: ['en_US'],
     type: 'website',
@@ -31,7 +32,7 @@ const reviewsPageStructuredData = {
   name: 'Bewertungen | Neue Liebe',
   description:
     'Lesen Sie Bewertungen und Erfahrungen unserer Gäste über Restaurant, Service und Atmosphäre der Neuen Liebe in Nebra (Unstrut).',
-  url: 'https://neueliebe-nebra.de/reviews',
+  url: 'https://www.neueliebe-nebra.de/reviews',
 }
 
 const breadcrumbStructuredData = {
@@ -42,18 +43,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Startseite',
-      item: 'https://neueliebe-nebra.de/',
+      item: 'https://www.neueliebe-nebra.de/',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Bewertungen',
-      item: 'https://neueliebe-nebra.de/reviews',
+      item: 'https://www.neueliebe-nebra.de/reviews',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('reviews', 'de', 'https://neueliebe-nebra.de/reviews')
+const faqStructuredData = buildFaqPageStructuredData('reviews', 'de', 'https://www.neueliebe-nebra.de/reviews')
 
 export default function ReviewsPage() {
   return (

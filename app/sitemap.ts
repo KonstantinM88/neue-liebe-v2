@@ -2,103 +2,146 @@ import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()
+  const siteUrl = 'https://www.neueliebe-nebra.de'
+
+  const buildSitemapEntry = ({
+    path,
+    dePath,
+    enPath,
+    changeFrequency,
+    priority,
+  }: {
+    path: string
+    dePath: string
+    enPath: string
+    changeFrequency: 'weekly' | 'monthly'
+    priority: number
+  }): MetadataRoute.Sitemap[number] => ({
+    url: `${siteUrl}${path}`,
+    lastModified,
+    changeFrequency,
+    priority,
+    alternates: {
+      languages: {
+        'de-DE': `${siteUrl}${dePath}`,
+        'en-US': `${siteUrl}${enPath}`,
+        'x-default': `${siteUrl}${dePath}`,
+      },
+    },
+  })
 
   return [
-    {
-      url: 'https://neueliebe-nebra.de/',
-      lastModified,
+    buildSitemapEntry({
+      path: '/',
+      dePath: '/',
+      enPath: '/en',
       changeFrequency: 'weekly',
       priority: 1,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en',
+      dePath: '/',
+      enPath: '/en',
       changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/about',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/about',
+      dePath: '/about',
+      enPath: '/en/about',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/about',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/about',
+      dePath: '/about',
+      enPath: '/en/about',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/experience',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/experience',
+      dePath: '/experience',
+      enPath: '/en/experience',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/experience',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/experience',
+      dePath: '/experience',
+      enPath: '/en/experience',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/menu',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/menu',
+      dePath: '/menu',
+      enPath: '/en/menu',
       changeFrequency: 'weekly',
       priority: 0.85,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/menu',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/menu',
+      dePath: '/menu',
+      enPath: '/en/menu',
       changeFrequency: 'weekly',
       priority: 0.85,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/gallery',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/gallery',
+      dePath: '/gallery',
+      enPath: '/en/gallery',
       changeFrequency: 'weekly',
       priority: 0.7,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/gallery',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/gallery',
+      dePath: '/gallery',
+      enPath: '/en/gallery',
       changeFrequency: 'weekly',
       priority: 0.7,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/events',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/events',
+      dePath: '/events',
+      enPath: '/en/events',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/events',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/events',
+      dePath: '/events',
+      enPath: '/en/events',
       changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/reviews',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/reviews',
+      dePath: '/reviews',
+      enPath: '/en/reviews',
       changeFrequency: 'weekly',
       priority: 0.75,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/reviews',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/reviews',
+      dePath: '/reviews',
+      enPath: '/en/reviews',
       changeFrequency: 'weekly',
       priority: 0.75,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/contact',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/contact',
+      dePath: '/contact',
+      enPath: '/en/contact',
       changeFrequency: 'monthly',
       priority: 0.75,
-    },
-    {
-      url: 'https://neueliebe-nebra.de/en/contact',
-      lastModified,
+    }),
+    buildSitemapEntry({
+      path: '/en/contact',
+      dePath: '/contact',
+      enPath: '/en/contact',
       changeFrequency: 'monthly',
       priority: 0.75,
-    },
+    }),
   ]
 }

@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin', '/admin/*', '/api/admin/*'],
       },
     ],
-    sitemap: 'https://neueliebe-nebra.de/sitemap.xml',
+    sitemap: 'https://www.neueliebe-nebra.de/sitemap.xml',
   }
 }

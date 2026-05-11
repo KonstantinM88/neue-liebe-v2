@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'Restaurant Neue Liebe – Ihr Restaurant in Nebra (Unstrut). Genießen Sie exquisite Küche, eine romantische Terrasse und unvergessliche Events.',
   keywords: 'Restaurant Nebra, Restaurant Unstrut, Restaurant Nebra Terrasse, Neue Liebe Nebra, Restaurant Sachsen-Anhalt',
   applicationName: 'Neue Liebe',
-  metadataBase: new URL('https://neueliebe-nebra.de'),
+  metadataBase: new URL('https://www.neueliebe-nebra.de'),
   manifest: '/manifest.webmanifest',
   category: 'food',
   icons: {

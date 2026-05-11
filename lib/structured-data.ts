@@ -2,7 +2,7 @@ import type { GalleryPhoto } from '@/lib/gallery-types'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
 import type { SiteLocale } from '@/lib/site-locale'
 
-const SITE_URL = 'https://neueliebe-nebra.de'
+const SITE_URL = 'https://www.neueliebe-nebra.de'
 const WEBSITE_ID = `${SITE_URL}#website`
 const RESTAURANT_ID = `${SITE_URL}#restaurant`
 const DEFAULT_IMAGE_URL = `${SITE_URL}/cafe_interior_800x600_optimized.webp`

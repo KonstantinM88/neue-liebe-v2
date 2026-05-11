@@ -8,17 +8,18 @@ export const metadata: Metadata = {
     'Discover the summer terrace, banquet hall and dance and event evenings at Neue Liebe in Nebra (Unstrut).',
   keywords: 'Neue Liebe experiences, terrace Nebra, banquet hall Nebra, events Nebra, dance evenings Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/experience',
+    canonical: 'https://www.neueliebe-nebra.de/en/experience',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/experience',
-      'en-US': 'https://neueliebe-nebra.de/en/experience',
+      'de-DE': 'https://www.neueliebe-nebra.de/experience',
+      'en-US': 'https://www.neueliebe-nebra.de/en/experience',
+      'x-default': 'https://www.neueliebe-nebra.de/experience',
     },
   },
   openGraph: {
     title: 'Experiences | Neue Liebe',
     description:
       'Discover the summer terrace, elegant banquet hall and memorable event evenings at Neue Liebe.',
-    url: 'https://neueliebe-nebra.de/en/experience',
+    url: 'https://www.neueliebe-nebra.de/en/experience',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
@@ -31,7 +32,7 @@ const experiencePageStructuredData = {
   name: 'Experiences | Neue Liebe',
   description:
     'Discover the summer terrace, banquet hall and dance and event evenings at Neue Liebe in Nebra (Unstrut).',
-  url: 'https://neueliebe-nebra.de/en/experience',
+  url: 'https://www.neueliebe-nebra.de/en/experience',
   inLanguage: 'en-US',
 }
 
@@ -43,18 +44,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Experiences',
-      item: 'https://neueliebe-nebra.de/en/experience',
+      item: 'https://www.neueliebe-nebra.de/en/experience',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('experience', 'en', 'https://neueliebe-nebra.de/en/experience')
+const faqStructuredData = buildFaqPageStructuredData('experience', 'en', 'https://www.neueliebe-nebra.de/en/experience')
 
 export default function EnglishExperiencePage() {
   return (

@@ -8,17 +8,18 @@ export const metadata: Metadata = {
     'Read guest reviews and experiences about the restaurant, service and atmosphere at Neue Liebe in Nebra (Unstrut).',
   keywords: 'Neue Liebe reviews, Nebra restaurant reviews, Google reviews Neue Liebe, Nebra dining experience',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/reviews',
+    canonical: 'https://www.neueliebe-nebra.de/en/reviews',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/reviews',
-      'en-US': 'https://neueliebe-nebra.de/en/reviews',
+      'de-DE': 'https://www.neueliebe-nebra.de/reviews',
+      'en-US': 'https://www.neueliebe-nebra.de/en/reviews',
+      'x-default': 'https://www.neueliebe-nebra.de/reviews',
     },
   },
   openGraph: {
     title: 'Reviews | Neue Liebe',
     description:
       'Guest experiences and reviews about the restaurant, cuisine and atmosphere at Neue Liebe.',
-    url: 'https://neueliebe-nebra.de/en/reviews',
+    url: 'https://www.neueliebe-nebra.de/en/reviews',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
@@ -31,7 +32,7 @@ const reviewsPageStructuredData = {
   name: 'Reviews | Neue Liebe',
   description:
     'Read guest reviews and experiences about the restaurant, service and atmosphere at Neue Liebe in Nebra (Unstrut).',
-  url: 'https://neueliebe-nebra.de/en/reviews',
+  url: 'https://www.neueliebe-nebra.de/en/reviews',
 }
 
 const breadcrumbStructuredData = {
@@ -42,18 +43,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Reviews',
-      item: 'https://neueliebe-nebra.de/en/reviews',
+      item: 'https://www.neueliebe-nebra.de/en/reviews',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('reviews', 'en', 'https://neueliebe-nebra.de/en/reviews')
+const faqStructuredData = buildFaqPageStructuredData('reviews', 'en', 'https://www.neueliebe-nebra.de/en/reviews')
 
 export default function EnglishReviewsPage() {
   return (

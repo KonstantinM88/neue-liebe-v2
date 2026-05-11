@@ -8,17 +8,18 @@ export const metadata: Metadata = {
     'Erleben Sie Sommerterrasse, Bankettsaal sowie Tanz- und Eventabende der Neuen Liebe in Nebra (Unstrut).',
   keywords: 'Erlebnisse Neue Liebe, Terrasse Nebra, Bankettsaal Nebra, Events Nebra, Tanzabend Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/experience',
+    canonical: 'https://www.neueliebe-nebra.de/experience',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/experience',
-      'en-US': 'https://neueliebe-nebra.de/en/experience',
+      'de-DE': 'https://www.neueliebe-nebra.de/experience',
+      'en-US': 'https://www.neueliebe-nebra.de/en/experience',
+      'x-default': 'https://www.neueliebe-nebra.de/experience',
     },
   },
   openGraph: {
     title: 'Erlebnisse | Neue Liebe',
     description:
       'Sommerterrasse, eleganter Bankettsaal und besondere Eventabende in der Neuen Liebe.',
-    url: 'https://neueliebe-nebra.de/experience',
+    url: 'https://www.neueliebe-nebra.de/experience',
     locale: 'de_DE',
     alternateLocale: ['en_US'],
     type: 'website',
@@ -31,7 +32,7 @@ const experiencePageStructuredData = {
   name: 'Erlebnisse | Neue Liebe',
   description:
     'Erleben Sie Sommerterrasse, Bankettsaal sowie Tanz- und Eventabende der Neuen Liebe in Nebra (Unstrut).',
-  url: 'https://neueliebe-nebra.de/experience',
+  url: 'https://www.neueliebe-nebra.de/experience',
   inLanguage: 'de-DE',
 }
 
@@ -43,18 +44,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Startseite',
-      item: 'https://neueliebe-nebra.de/',
+      item: 'https://www.neueliebe-nebra.de/',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Erlebnisse',
-      item: 'https://neueliebe-nebra.de/experience',
+      item: 'https://www.neueliebe-nebra.de/experience',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('experience', 'de', 'https://neueliebe-nebra.de/experience')
+const faqStructuredData = buildFaqPageStructuredData('experience', 'de', 'https://www.neueliebe-nebra.de/experience')
 
 export default function ExperiencePage() {
   return (

@@ -8,17 +8,18 @@ export const metadata: Metadata = {
     'Learn more about Neue Liebe in Nebra (Unstrut): our story, regional cuisine, atmosphere and hospitality.',
   keywords: 'About Neue Liebe, Nebra restaurant story, Neue Liebe restaurant, Nebra hospitality',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/about',
+    canonical: 'https://www.neueliebe-nebra.de/en/about',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/about',
-      'en-US': 'https://neueliebe-nebra.de/en/about',
+      'de-DE': 'https://www.neueliebe-nebra.de/about',
+      'en-US': 'https://www.neueliebe-nebra.de/en/about',
+      'x-default': 'https://www.neueliebe-nebra.de/about',
     },
   },
   openGraph: {
     title: 'About Us | Neue Liebe',
     description:
       'The story of Neue Liebe in Nebra (Unstrut), our values and what makes a visit special.',
-    url: 'https://neueliebe-nebra.de/en/about',
+    url: 'https://www.neueliebe-nebra.de/en/about',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
@@ -31,12 +32,12 @@ const aboutPageStructuredData = {
   name: 'About Us | Neue Liebe',
   description:
     'Learn more about Neue Liebe in Nebra (Unstrut): our story, regional cuisine, atmosphere and hospitality.',
-  url: 'https://neueliebe-nebra.de/en/about',
+  url: 'https://www.neueliebe-nebra.de/en/about',
   inLanguage: 'en-US',
   mainEntity: {
     '@type': 'Restaurant',
     name: 'Neue Liebe',
-    url: 'https://neueliebe-nebra.de/en',
+    url: 'https://www.neueliebe-nebra.de/en',
     telephone: '+49 34461 599804',
     address: {
       '@type': 'PostalAddress',
@@ -57,18 +58,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'About Us',
-      item: 'https://neueliebe-nebra.de/en/about',
+      item: 'https://www.neueliebe-nebra.de/en/about',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('about', 'en', 'https://neueliebe-nebra.de/en/about')
+const faqStructuredData = buildFaqPageStructuredData('about', 'en', 'https://www.neueliebe-nebra.de/en/about')
 
 export default function EnglishAboutPage() {
   return (

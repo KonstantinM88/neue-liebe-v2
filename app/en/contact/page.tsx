@@ -9,24 +9,25 @@ export const metadata: Metadata = {
     'Contact details, address, opening hours and directions to Neue Liebe in Nebra (Unstrut).',
   keywords: 'Neue Liebe contact, Nebra restaurant address, Neue Liebe opening hours, directions restaurant Nebra',
   alternates: {
-    canonical: 'https://neueliebe-nebra.de/en/contact',
+    canonical: 'https://www.neueliebe-nebra.de/en/contact',
     languages: {
-      'de-DE': 'https://neueliebe-nebra.de/contact',
-      'en-US': 'https://neueliebe-nebra.de/en/contact',
+      'de-DE': 'https://www.neueliebe-nebra.de/contact',
+      'en-US': 'https://www.neueliebe-nebra.de/en/contact',
+      'x-default': 'https://www.neueliebe-nebra.de/contact',
     },
   },
   openGraph: {
     title: 'Contact | Neue Liebe',
     description:
       'Address, opening hours and directions to Neue Liebe in Nebra (Unstrut).',
-    url: 'https://neueliebe-nebra.de/en/contact',
+    url: 'https://www.neueliebe-nebra.de/en/contact',
     locale: 'en_US',
     alternateLocale: ['de_DE'],
     type: 'website',
   },
 }
 
-const contactPageStructuredData = buildContactStructuredData('en', 'https://neueliebe-nebra.de/en/contact')
+const contactPageStructuredData = buildContactStructuredData('en', 'https://www.neueliebe-nebra.de/en/contact')
 
 const breadcrumbStructuredData = {
   '@context': 'https://schema.org',
@@ -36,18 +37,18 @@ const breadcrumbStructuredData = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://neueliebe-nebra.de/en',
+      item: 'https://www.neueliebe-nebra.de/en',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Contact',
-      item: 'https://neueliebe-nebra.de/en/contact',
+      item: 'https://www.neueliebe-nebra.de/en/contact',
     },
   ],
 }
 
-const faqStructuredData = buildFaqPageStructuredData('contact', 'en', 'https://neueliebe-nebra.de/en/contact')
+const faqStructuredData = buildFaqPageStructuredData('contact', 'en', 'https://www.neueliebe-nebra.de/en/contact')
 
 export default function EnglishContactPage() {
   return (
