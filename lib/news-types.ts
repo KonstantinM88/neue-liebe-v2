@@ -18,6 +18,8 @@ export type NewsArticle = {
   updatedAt: string
   coverImage: string
   coverImageMobile: string
+  coverImageKey: string | null
+  coverImageMobileKey: string | null
   coverAlt: string
   draft: boolean
 }
@@ -36,6 +38,8 @@ export type SaveNewsInput = {
   draft: boolean
   coverImage: string
   coverImageMobile: string
+  coverImageKey: string | null
+  coverImageMobileKey: string | null
   de: Omit<
     NewsArticle,
     | 'slug'
@@ -46,6 +50,8 @@ export type SaveNewsInput = {
     | 'draft'
     | 'coverImage'
     | 'coverImageMobile'
+    | 'coverImageKey'
+    | 'coverImageMobileKey'
   >
   en: Omit<
     NewsArticle,
@@ -57,5 +63,7 @@ export type SaveNewsInput = {
     | 'draft'
     | 'coverImage'
     | 'coverImageMobile'
+    | 'coverImageKey'
+    | 'coverImageMobileKey'
   >
 }

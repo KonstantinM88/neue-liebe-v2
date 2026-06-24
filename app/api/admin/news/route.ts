@@ -1,20 +1,23 @@
-import path from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { writeFile } from 'node:fs/promises'
 import sharp from 'sharp'
 import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 import { ADMIN_COOKIE_NAME, verifyAdminSessionToken } from '@/lib/admin-auth'
 import {
   deleteNewsArticles,
-  ensureNewsStorage,
   isValidNewsSlug,
   listAdminNewsEntries,
-  NEWS_UPLOAD_DIR,
   readNewsArticle,
   saveNewsArticles,
   slugifyNewsSlug,
 } from '@/lib/news-store'
+import {
+  deleteNewsMediaBestEffort,
+  getNewsStorageDriver,
+  isNewsMediaStorageConfigured,
+  type StoredNewsMedia,
+  uploadNewsMedia,
+} from '@/lib/news-media-storage'
 import type { NewsArticle, NewsLocale, SaveNewsInput } from '@/lib/news-types'
 
 export const runtime = 'nodejs'
@@ -85,6 +88,8 @@ function localizedArticleInput(
 async function processCoverImage(file: File): Promise<{
   coverImage: string
   coverImageMobile: string
+  coverImageKey: string
+  coverImageMobileKey: string
 }> {
   if (!file.type.startsWith('image/')) {
     throw new Error('INVALID_IMAGE_TYPE')
@@ -97,8 +102,6 @@ async function processCoverImage(file: File): Promise<{
   if (sourceBuffer.length > MAX_IMAGE_SIZE_BYTES) {
     throw new Error('IMAGE_TOO_LARGE')
   }
-
-  await ensureNewsStorage()
 
   const baseName =
     slugifyNewsSlug(file.name.replace(/\.[^.]+$/, ''))
@@ -121,14 +124,29 @@ async function processCoverImage(file: File): Promise<{
       .toBuffer(),
   ])
 
-  await Promise.all([
-    writeFile(path.join(NEWS_UPLOAD_DIR, desktopName), desktopWebp),
-    writeFile(path.join(NEWS_UPLOAD_DIR, mobileName), mobileWebp),
-  ])
+  const desktop = await uploadNewsMedia({
+    fileName: desktopName,
+    body: desktopWebp,
+    contentType: 'image/webp',
+  })
+
+  let mobile: StoredNewsMedia
+  try {
+    mobile = await uploadNewsMedia({
+      fileName: mobileName,
+      body: mobileWebp,
+      contentType: 'image/webp',
+    })
+  } catch (error) {
+    await deleteNewsMediaBestEffort([desktop.key])
+    throw error
+  }
 
   return {
-    coverImage: `/uploads/news/${desktopName}`,
-    coverImageMobile: `/uploads/news/${mobileName}`,
+    coverImage: desktop.url,
+    coverImageMobile: mobile.url,
+    coverImageKey: desktop.key,
+    coverImageMobileKey: mobile.key,
   }
 }
 
@@ -151,7 +169,11 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    return NextResponse.json({ entries: await listAdminNewsEntries() })
+    return NextResponse.json({
+      entries: await listAdminNewsEntries(),
+      storageConfigured: isNewsMediaStorageConfigured(),
+      storageDriver: getNewsStorageDriver(),
+    })
   } catch (error) {
     console.error('[GET /api/admin/news]', error)
     return NextResponse.json({ error: 'Nachrichten konnten nicht geladen werden.' }, { status: 500 })
@@ -173,7 +195,11 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Ungültiger Slug.' }, { status: 400 })
       }
 
-      await deleteNewsArticles(slug)
+      const deletedAssets = await deleteNewsArticles(slug)
+      await deleteNewsMediaBestEffort([
+        deletedAssets.coverImageKey,
+        deletedAssets.coverImageMobileKey,
+      ])
       revalidateNewsPaths(slug)
       return NextResponse.json({ success: true })
     }
@@ -232,25 +258,50 @@ export async function POST(req: NextRequest) {
       existingDe?.coverImageMobile
       ?? existingEn?.coverImageMobile
       ?? DEFAULT_NEWS_IMAGE_MOBILE
+    let coverImageKey =
+      existingDe?.coverImageKey
+      ?? existingEn?.coverImageKey
+      ?? null
+    let coverImageMobileKey =
+      existingDe?.coverImageMobileKey
+      ?? existingEn?.coverImageMobileKey
+      ?? null
+    const previousObjectKeys = [coverImageKey, coverImageMobileKey]
+    let uploadedObjectKeys: string[] = []
 
     const photoEntry = formData.get('cover')
     if (photoEntry instanceof File && photoEntry.size > 0) {
       const processed = await processCoverImage(photoEntry)
       coverImage = processed.coverImage
       coverImageMobile = processed.coverImageMobile
+      coverImageKey = processed.coverImageKey
+      coverImageMobileKey = processed.coverImageMobileKey
+      uploadedObjectKeys = [processed.coverImageKey, processed.coverImageMobileKey]
     }
 
-    const entry = await saveNewsArticles({
-      slug,
-      originalSlug: originalSlug || undefined,
-      author: normalizeText(formData.get('author'), 100) || 'Neue Liebe',
-      publishedAt,
-      draft: formData.get('draft') === 'true',
-      coverImage,
-      coverImageMobile,
-      de,
-      en,
-    })
+    let entry
+    try {
+      entry = await saveNewsArticles({
+        slug,
+        originalSlug: originalSlug || undefined,
+        author: normalizeText(formData.get('author'), 100) || 'Neue Liebe',
+        publishedAt,
+        draft: formData.get('draft') === 'true',
+        coverImage,
+        coverImageMobile,
+        coverImageKey,
+        coverImageMobileKey,
+        de,
+        en,
+      })
+    } catch (error) {
+      await deleteNewsMediaBestEffort(uploadedObjectKeys)
+      throw error
+    }
+
+    if (uploadedObjectKeys.length > 0) {
+      await deleteNewsMediaBestEffort(previousObjectKeys)
+    }
 
     revalidateNewsPaths(slug, originalSlug)
     return NextResponse.json({ success: true, entry })
@@ -266,6 +317,24 @@ export async function POST(req: NextRequest) {
     }
     if (code === 'IMAGE_TOO_LARGE') {
       return NextResponse.json({ error: 'Das Bild ist zu groß. Maximum: 25 MB.' }, { status: 400 })
+    }
+    if (code === 'OBJECT_STORAGE_NOT_CONFIGURED') {
+      return NextResponse.json(
+        { error: 'Der Object Storage ist noch nicht konfiguriert.' },
+        { status: 503 }
+      )
+    }
+    if (code === 'INVALID_OBJECT_STORAGE_PUBLIC_URL') {
+      return NextResponse.json(
+        { error: 'OBJECT_STORAGE_PUBLIC_URL ist ungültig konfiguriert.' },
+        { status: 500 }
+      )
+    }
+    if (code === 'INVALID_NEWS_STORAGE_DRIVER') {
+      return NextResponse.json(
+        { error: 'NEWS_STORAGE_DRIVER muss "local" oder "s3" sein.' },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json({ error: 'Nachrichten konnten nicht gespeichert werden.' }, { status: 500 })

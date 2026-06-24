@@ -23,6 +23,8 @@ type LocalizedForm = {
 
 type ApiResponse = {
   entries?: AdminNewsEntry[]
+  storageConfigured?: boolean
+  storageDriver?: 'local' | 's3'
   success?: boolean
   error?: string
 }
@@ -198,6 +200,8 @@ export default function AdminNewsManager() {
   const { lang, setLang, t } = useAdminLang()
   const coverInputRef = useRef<HTMLInputElement | null>(null)
   const [entries, setEntries] = useState<AdminNewsEntry[]>([])
+  const [storageConfigured, setStorageConfigured] = useState(false)
+  const [storageDriver, setStorageDriver] = useState<'local' | 's3'>('local')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState('')
@@ -231,6 +235,8 @@ export default function AdminNewsManager() {
       }
 
       setEntries(payload.entries ?? [])
+      setStorageConfigured(payload.storageConfigured ?? false)
+      setStorageDriver(payload.storageDriver ?? 'local')
     } catch (loadError) {
       console.error('[Admin news load]', loadError)
       setError(t('Fehler beim Laden der Nachrichten.', 'Ошибка загрузки новостей.'))
@@ -414,6 +420,23 @@ export default function AdminNewsManager() {
         </header>
 
         <form className={styles.newsForm} onSubmit={handleSave}>
+          {!storageConfigured && (
+            <div className={`${styles.alert} ${styles.alertError}`}>
+              {t(
+                'Object Storage ist nicht konfiguriert. Nachrichten können ohne neue Titelgrafik gespeichert werden.',
+                'Object Storage не настроен. Новости можно сохранять без новой обложки.'
+              )}
+            </div>
+          )}
+          {storageConfigured && storageDriver === 'local' && (
+            <div className={`${styles.alert} ${styles.alertOk}`}>
+              {t(
+                'Lokaler Bildspeicher ist aktiv: public/uploads/news.',
+                'Активно локальное хранение изображений: public/uploads/news.'
+              )}
+            </div>
+          )}
+
           <section className={styles.queueSection}>
             <div className={styles.queueHead}>
               <h3>{isEditing ? t('Nachricht bearbeiten', 'Редактирование новости') : t('Neue Nachricht erstellen', 'Создание новости')}</h3>
@@ -434,7 +457,12 @@ export default function AdminNewsManager() {
               </div>
               <div className={styles.newsCoverField}>
                 <span className={styles.label}>{t('Titelgrafik', 'Обложка')}</span>
-                <button type="button" className={styles.pickBtn} onClick={() => coverInputRef.current?.click()}>
+                <button
+                  type="button"
+                  className={styles.pickBtn}
+                  onClick={() => coverInputRef.current?.click()}
+                  disabled={!storageConfigured}
+                >
                   {cover ? cover.name : t('Bild auswählen (optional)', 'Выбрать изображение (optional)')}
                 </button>
                 <input ref={coverInputRef} type="file" accept="image/*" className={styles.fileInput} onChange={(event: ChangeEvent<HTMLInputElement>) => setCover(event.target.files?.[0] ?? null)} />

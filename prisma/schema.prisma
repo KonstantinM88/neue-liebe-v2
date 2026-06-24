@@ -54,16 +54,18 @@ model Reservation {
 }
 
 model NewsPost {
-  id               String            @id @default(cuid())
-  slug             String            @unique
-  author           String            @default("Neue Liebe")
-  publishedAt      DateTime
-  draft            Boolean           @default(true)
-  coverImage       String
-  coverImageMobile String
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  translations     NewsTranslation[]
+  id                  String            @id @default(cuid())
+  slug                String            @unique
+  author              String            @default("Neue Liebe")
+  publishedAt         DateTime
+  draft               Boolean           @default(true)
+  coverImage          String
+  coverImageMobile    String
+  coverImageKey       String?
+  coverImageMobileKey String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  translations        NewsTranslation[]
 
   @@index([publishedAt])
   @@index([draft, publishedAt])

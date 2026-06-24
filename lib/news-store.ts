@@ -1,7 +1,5 @@
 import 'server-only'
 
-import path from 'node:path'
-import { mkdir } from 'node:fs/promises'
 import { NewsLocale as PrismaNewsLocale } from '@/generated/prisma/enums'
 import type {
   NewsPost as PrismaNewsPost,
@@ -14,8 +12,6 @@ import type {
   NewsLocale,
   SaveNewsInput,
 } from '@/lib/news-types'
-
-export const NEWS_UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'news')
 
 type NewsPostWithTranslations = PrismaNewsPost & {
   translations: PrismaNewsTranslation[]
@@ -43,10 +39,6 @@ export function isValidNewsSlug(value: string): boolean {
   return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)
 }
 
-export async function ensureNewsStorage(): Promise<void> {
-  await mkdir(NEWS_UPLOAD_DIR, { recursive: true })
-}
-
 function mapNewsArticle(
   post: PrismaNewsPost,
   translation: PrismaNewsTranslation
@@ -67,6 +59,8 @@ function mapNewsArticle(
     updatedAt: post.updatedAt.toISOString(),
     coverImage: post.coverImage,
     coverImageMobile: post.coverImageMobile,
+    coverImageKey: post.coverImageKey,
+    coverImageMobileKey: post.coverImageMobileKey,
     coverAlt: translation.coverAlt,
     draft: post.draft,
   }
@@ -180,6 +174,8 @@ export async function saveNewsArticles(input: SaveNewsInput): Promise<AdminNewsE
           draft: input.draft,
           coverImage: input.coverImage,
           coverImageMobile: input.coverImageMobile,
+          coverImageKey: input.coverImageKey,
+          coverImageMobileKey: input.coverImageMobileKey,
           translations: {
             create: [
               {
@@ -206,6 +202,8 @@ export async function saveNewsArticles(input: SaveNewsInput): Promise<AdminNewsE
         draft: input.draft,
         coverImage: input.coverImage,
         coverImageMobile: input.coverImageMobile,
+        coverImageKey: input.coverImageKey,
+        coverImageMobileKey: input.coverImageMobileKey,
         translations: {
           upsert: [
             {
@@ -244,7 +242,28 @@ export async function saveNewsArticles(input: SaveNewsInput): Promise<AdminNewsE
   return mapAdminEntry(saved)
 }
 
-export async function deleteNewsArticles(slug: string): Promise<void> {
-  if (!isValidNewsSlug(slug)) return
-  await prisma.newsPost.deleteMany({ where: { slug } })
+export async function deleteNewsArticles(slug: string): Promise<{
+  coverImageKey: string | null
+  coverImageMobileKey: string | null
+}> {
+  if (!isValidNewsSlug(slug)) {
+    return { coverImageKey: null, coverImageMobileKey: null }
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const post = await tx.newsPost.findUnique({
+      where: { slug },
+      select: {
+        coverImageKey: true,
+        coverImageMobileKey: true,
+      },
+    })
+
+    await tx.newsPost.deleteMany({ where: { slug } })
+
+    return {
+      coverImageKey: post?.coverImageKey ?? null,
+      coverImageMobileKey: post?.coverImageMobileKey ?? null,
+    }
+  })
 }

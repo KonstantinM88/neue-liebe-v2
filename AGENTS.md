@@ -42,6 +42,7 @@ Production URL: `https://www.neueliebe-nebra.de`.
 - Prisma / Prisma Client `7.7.0`
 - PostgreSQL через `@prisma/adapter-pg`
 - `sharp` для серверной обработки изображений
+- `@aws-sdk/client-s3` для AWS S3 и S3-compatible object storage
 - `react-markdown` + `remark-gfm` для безопасного Markdown rendering без raw HTML
 - ESLint 9 + `eslint-config-next`
 - npm и `package-lock.json`
@@ -85,7 +86,7 @@ generated/prisma/            сгенерированный Prisma Client, иг�
 data/gallery.json            управляемая галерея, отслеживается Git
 data/menu.json               управляемое меню, создаётся во время работы; сейчас отсутствует
 public/                      статические изображения, видео и uploads
-  uploads/news/              WebP-обложки новостей 1600x900 и 900x675
+  uploads/news/              временное локальное хранилище news-обложек при NEWS_STORAGE_DRIVER=local
 scripts/                     генерация brand assets
 ```
 
@@ -228,6 +229,8 @@ Admin API умеет создавать/обновлять категории и
 
 - типы: `lib/news-types.ts`;
 - Prisma storage и mapping: `lib/news-store.ts`;
+- переключатель local/S3 media storage: `lib/news-media-storage.ts`;
+- S3-compatible media storage: `lib/object-storage.ts`;
 - JSON-LD/GEO: `lib/news-structured-data.ts`;
 - public UI: `components/news/*`;
 - routes: `app/news/*`, `app/en/news/*`;
@@ -236,14 +239,17 @@ Admin API умеет создавать/обновлять категории и
 
 Новости хранятся в PostgreSQL через две Prisma-модели:
 
-- `NewsPost` — общий slug, author, publish/draft state, дата и URL обложек;
+- `NewsPost` — общий slug, author, publish/draft state, дата, публичные URL обложек и nullable object keys;
 - `NewsTranslation` — локаль `DE | EN`, title, excerpt, Markdown body, SEO, keywords, GEO/AI key facts, category и alt;
 - `@@unique([postId, locale])` гарантирует одну запись каждой локали на публикацию;
 - relation использует `onDelete: Cascade`.
 
 Markdown хранится в поле `NewsTranslation.body` типа PostgreSQL `TEXT` и рендерится через `react-markdown` + `remark-gfm`. Raw HTML не рендерится.
 
-Миграция: `prisma/migrations/20260623235000_add_news_posts/migration.sql`.
+Миграции:
+
+- `prisma/migrations/20260623235000_add_news_posts/migration.sql`;
+- `prisma/migrations/20260624003000_add_news_cover_object_keys/migration.sql`.
 
 Публичные правила:
 
@@ -254,7 +260,14 @@ Markdown хранится в поле `NewsTranslation.body` типа PostgreSQL
 - `keyFacts` выводятся отдельным блоком «Kurz erklärt / At a glance» для GEO/AI extraction;
 - sitemap динамически добавляет обе локали только для полных DE+EN пар.
 
-Admin API поддерживает создание, обновление, переименование slug, draft/publish и удаление. Общие данные и обе локали сохраняются одной Prisma-транзакцией, поэтому частичная DE/EN запись невозможна. Обложка optional; при загрузке создаются WebP 1600x900 и 900x675, максимум 25 MB. Удаление статьи каскадно удаляет переводы, но не удаляет ранее загруженные файлы обложек.
+Admin API поддерживает создание, обновление, переименование slug, draft/publish и удаление. Общие данные и обе локали сохраняются одной Prisma-транзакцией, поэтому частичная DE/EN запись невозможна. Тексты всегда хранятся в PostgreSQL. Обложка optional; при загрузке создаются WebP 1600x900 и 900x675, максимум 25 MB.
+
+`NEWS_STORAGE_DRIVER` выбирает media backend:
+
+- `local` — временный режим: файлы пишутся в `public/uploads/news`;
+- `s3` — production-режим через AWS S3 или S3-compatible provider.
+
+В БД хранятся публичные URL и managed media keys. При замене обложки новые файлы сначала сохраняются и записываются в БД, после успешной транзакции старые удаляются best-effort. При ошибке БД новые файлы очищаются best-effort. Удаление статьи сначала каскадно удаляет данные из БД, затем удаляет связанные managed media. Переключение backend не ломает старые URL: локальные ключи удаляются локально, S3 keys — через object storage. Старые записи без managed keys остаются совместимыми и автоматически не очищаются.
 
 ## Бронирования и Prisma
 
@@ -337,9 +350,22 @@ ADMIN_SESSION_SECRET      required для безопасной подписи с
 GOOGLE_MAPS_API_KEY       optional
 GOOGLE_PLACE_ID           optional
 GOOGLE_PLACE_QUERY        optional, fallback "Neue Liebe Nebra"
+NEWS_STORAGE_DRIVER       "local" или "s3", default "local"
+OBJECT_STORAGE_ENDPOINT   optional только для AWS S3; required для R2/B2/MinIO и аналогов
+OBJECT_STORAGE_REGION     required; для Cloudflare R2 обычно "auto"
+OBJECT_STORAGE_BUCKET     required для загрузки обложек
+OBJECT_STORAGE_ACCESS_KEY_ID      required для загрузки/удаления объектов
+OBJECT_STORAGE_SECRET_ACCESS_KEY  required для загрузки/удаления объектов
+OBJECT_STORAGE_PUBLIC_URL         required публичный base URL bucket/CDN
+OBJECT_STORAGE_FORCE_PATH_STYLE   optional boolean, обычно нужен для локального MinIO
+OBJECT_STORAGE_PREFIX             optional, default "neue-liebe"
 ```
 
-Текущий `.gitignore` игнорирует и `.env`, и `.env.example`. Локальный `.env.example` содержит credential-like значения вместо безопасных placeholders. Не копировать их в документы или сообщения. Рекомендуемое отдельное исправление: заменить значения placeholders и изменить ignore rule на явное разрешение `!.env.example`.
+`.env` и остальные локальные env-файлы игнорируются. `.env.example` явно разрешён через `!.env.example` и содержит только безопасные placeholders.
+
+`NEWS_STORAGE_DRIVER=local` не требует object-storage credentials и включает загрузку через админку в `public/uploads/news`. Этот режим подходит для локальной разработки и обычного Node hosting с постоянным writable filesystem. Он не гарантирует сохранность файлов на Vercel/serverless/immutable/ephemeral hosting.
+
+При `NEWS_STORAGE_DRIVER=s3` конфигурация читается серверным `lib/object-storage.ts`. Без полного набора `OBJECT_STORAGE_*` существующие новости и сохранение без новой обложки продолжают работать, но выбор нового изображения в admin UI отключён. `OBJECT_STORAGE_PUBLIC_URL` также читается `next.config.ts` во время build для создания `images.remotePatterns`, поэтому public URL должен присутствовать уже в build environment.
 
 ## SEO и контент
 
@@ -376,9 +402,9 @@ app/robots.ts
 ### Deployment/storage
 
 - Menu/gallery admin writes JSON и media прямо в локальную файловую систему.
-- News-текст, переводы, SEO/GEO и publish state хранятся устойчиво в PostgreSQL; только загруженные news-обложки пока пишутся в локальную файловую систему.
-- На serverless/immutable/ephemeral hosting такие записи могут исчезнуть, не реплицироваться между instances или завершиться ошибкой.
-- Для надёжного production CMS нужны постоянное object storage для media и БД/другое durable storage для metadata.
+- News-текст, переводы, SEO/GEO и publish state хранятся в PostgreSQL. News-обложки используют выбранный `NEWS_STORAGE_DRIVER`.
+- Временный `local` режим работает только на hosting с постоянным writable filesystem; для serverless/immutable hosting нужен `s3`.
+- На serverless/immutable/ephemeral hosting локальные записи menu/gallery всё ещё могут исчезнуть, не реплицироваться между instances или завершиться ошибкой.
 - Запись JSON не защищена lock/transaction; одновременные admin requests могут потерять обновления.
 
 ### Качество и сопровождение
@@ -388,12 +414,12 @@ app/robots.ts
 - Логика DE/EN страниц и JSON-LD местами дублируется.
 - `data/gallery.json` и загруженные gallery assets отслеживаются Git, а `data/menu.json` сейчас отсутствует.
 - У upload API галереи нет явного общего лимита размера файла, только лимит количества.
-- Удаление или замена news-обложки оставляет старый файл в `public/uploads/news`; автоматического garbage collection нет.
+- Best-effort удаление news objects может оставить orphan при недоступном storage; ошибка логируется и не откатывает уже сохранённую БД-транзакцию.
 - `npm audit --omit=dev` после обновления Next.js показывает transitive advisories в Prisma CLI/Hono/fast-uri и bundled PostCSS; прямого безопасного non-breaking fix для текущего Prisma 7.7.0 audit не предлагает.
 
 ## Проверенный baseline
 
-Дата последней полной проверки: **2026-06-23**.
+Дата последней полной проверки: **2026-06-24**.
 
 - `npm run build`: проходит.
 - Next.js build: 43 статически генерируемые page/asset route; news, admin и API routes динамические.
@@ -438,6 +464,8 @@ Build может проходить при красном lint, поэтому �
 
 Записи добавляются сверху, формат: `YYYY-MM-DD — краткое изменение; затронутые области; выполненные проверки`.
 
+- **2026-06-24** — добавлен временный `NEWS_STORAGE_DRIVER=local`: `lib/news-media-storage.ts` переключает news-обложки между локальным `public/uploads/news` и S3, сохраняет backend-aware managed keys и очищает файлы при замене, удалении или ошибке БД. Рабочий `.env` и безопасный `.env.example` настроены на `local`; admin UI показывает активный локальный режим. Проверки: scoped ESLint и `tsc --noEmit` успешно; production build успешно; end-to-end admin API тест вошёл в админку, создал draft с PNG, сформировал два WebP, проверил локальные URL/keys и удалил запись вместе с обоими файлами; полный lint сохранил прежние 41 error и 2 warning.
+- **2026-06-24** — news-обложки перенесены с локальной файловой системы на AWS S3/S3-compatible object storage: добавлен `lib/object-storage.ts`, immutable WebP upload, public URL generation, managed object keys, cleanup при замене/удалении и компенсационное удаление при ошибке БД; Prisma получил nullable `coverImageKey`/`coverImageMobileKey`, миграция `20260624003000_add_news_cover_object_keys` применена к настроенной БД. Admin UI показывает состояние конфигурации storage, `next.config.ts` разрешает remote images из `OBJECT_STORAGE_PUBLIC_URL`, `.env.example` очищен до placeholders и разрешён в Git. Проверки: Prisma validate/generate/migrate/status успешно; scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning. Live upload не запускался, потому что object-storage credentials в текущем environment не заданы.
 - **2026-06-23** — news persistence перенесён с Markdown-файлов на PostgreSQL/Prisma: добавлены `NewsPost`, `NewsTranslation`, `NewsLocale`, cascade relation, уникальность локали и миграция `20260623235000_add_news_posts`; Markdown теперь хранится как `TEXT`, а DE/EN создаются и обновляются одной транзакцией. Миграция применена к настроенной БД. Проверки: Prisma validate/generate/status успешно; production build успешно; production CRUD-тест создал запись с двумя переводами, транзакционно переименовал slug, проверил DE/EN/JSON-LD/sitemap и каскадно удалил тестовые данные.
 - **2026-06-23** — немецкая локализация news-модуля приведена к слову `Nachrichten` во всех пользовательских местах: header/footer navigation, public metadata и заголовки, breadcrumbs, admin UI, default category и `llms.txt`; английская локаль сохраняет `News`, технические URL `/news` не изменены.
 - **2026-06-23** — добавлен двуязычный Markdown news-модуль: `/news`, `/en/news`, динамические article routes, `/admin/news`, защищённый CRUD API, WebP-обложки, SEO metadata, `NewsArticle`/Restaurant/Breadcrumb/Speakable JSON-LD, dynamic sitemap и навигация; Next.js обновлён с 16.2.3 до security patch 16.2.9. Проверки: `tsc --noEmit` успешно; production build успешно; end-to-end production test успешно создал, отрендерил DE/EN, проверил JSON-LD/sitemap и удалил временную новость; lint сохранил только прежние 41 error и 2 warning.
