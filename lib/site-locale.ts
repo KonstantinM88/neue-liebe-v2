@@ -3,7 +3,7 @@ export type SitePath = `/${string}` | '/'
 export type SiteAnchor = `#${string}`
 
 export const DEFAULT_SITE_LOCALE: SiteLocale = 'de'
-export const LOCALIZED_SITE_PATHS = new Set<SitePath>(['/', '/about', '/experience', '/menu', '/gallery', '/events', '/reviews', '/contact'])
+export const LOCALIZED_SITE_PATHS = new Set<SitePath>(['/', '/about', '/experience', '/menu', '/gallery', '/events', '/news', '/reviews', '/contact'])
 
 export function getPathLocale(pathname: string | null | undefined): SiteLocale {
   if (!pathname) {
@@ -54,8 +54,11 @@ export function getHomeSectionHref(pathname: string, anchor: SiteAnchor): string
 
 export function switchLocalePath(pathname: string, targetLocale: SiteLocale): SitePath {
   const basePath = stripLocalePrefix(pathname)
+  const hasLocalizedPath =
+    LOCALIZED_SITE_PATHS.has(basePath)
+    || basePath.startsWith('/news/')
 
-  if (targetLocale === 'en' && !LOCALIZED_SITE_PATHS.has(basePath)) {
+  if (targetLocale === 'en' && !hasLocalizedPath) {
     return buildLocalizedPath(targetLocale, '/')
   }
 

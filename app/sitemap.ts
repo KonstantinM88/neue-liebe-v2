@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { listNewsArticles } from '@/lib/news-store'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
   const siteUrl = 'https://www.neueliebe-nebra.de'
 
@@ -30,7 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   })
 
-  return [
+  const [germanNews, englishNews] = await Promise.all([
+    listNewsArticles('de'),
+    listNewsArticles('en'),
+  ])
+
+  const staticEntries: MetadataRoute.Sitemap = [
     buildSitemapEntry({
       path: '/',
       dePath: '/',
@@ -116,6 +122,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     }),
     buildSitemapEntry({
+      path: '/news',
+      dePath: '/news',
+      enPath: '/en/news',
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }),
+    buildSitemapEntry({
+      path: '/en/news',
+      dePath: '/news',
+      enPath: '/en/news',
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }),
+    buildSitemapEntry({
       path: '/reviews',
       dePath: '/reviews',
       enPath: '/en/reviews',
@@ -144,4 +164,43 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     }),
   ]
+
+  const germanBySlug = new Map(germanNews.map((article) => [article.slug, article]))
+  const englishBySlug = new Map(englishNews.map((article) => [article.slug, article]))
+  const newsSlugs = Array.from(new Set([...germanBySlug.keys(), ...englishBySlug.keys()]))
+  const newsEntries: MetadataRoute.Sitemap = newsSlugs.flatMap((slug) => {
+    const german = germanBySlug.get(slug)
+    const english = englishBySlug.get(slug)
+
+    if (!german || !english) return []
+
+    const deUrl = `${siteUrl}/news/${slug}`
+    const enUrl = `${siteUrl}/en/news/${slug}`
+    const alternates = {
+      languages: {
+        'de-DE': deUrl,
+        'en-US': enUrl,
+        'x-default': deUrl,
+      },
+    }
+
+    return [
+      {
+        url: deUrl,
+        lastModified: new Date(german.updatedAt),
+        changeFrequency: 'monthly' as const,
+        priority: 0.72,
+        alternates,
+      },
+      {
+        url: enUrl,
+        lastModified: new Date(english.updatedAt),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+        alternates,
+      },
+    ]
+  })
+
+  return [...staticEntries, ...newsEntries]
 }

@@ -544,6 +544,17 @@ nav.menu-open .nav-cta { display: none !important; }
   transition: all 0.3s ease;
 }
 
+@media (max-width: 1180px) {
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
 /* ─── HERO ─── */
 .hero-section {
   position: relative;

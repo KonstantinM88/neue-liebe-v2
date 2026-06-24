@@ -21,6 +21,7 @@ type ApiMutationResponse = {
 const navItems = [
   { href: '/admin/gallery', titleDe: 'Galerie', titleRu: 'Галерея', subtitleDe: 'Fotos und Konvertierung', subtitleRu: 'Фото и конвертация' },
   { href: '/admin/menu', active: true, titleDe: 'Menü', titleRu: 'Меню', subtitleDe: 'Kategorien und Gerichte', subtitleRu: 'Категории и блюда' },
+  { href: '/admin/news', titleDe: 'Nachrichten', titleRu: 'Новости', subtitleDe: 'Markdown und SEO', subtitleRu: 'Markdown и SEO' },
   { href: '/', titleDe: 'Website', titleRu: 'Сайт', subtitleDe: 'Startseite öffnen', subtitleRu: 'Открыть главную' },
 ]
 

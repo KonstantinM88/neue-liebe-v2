@@ -14,6 +14,7 @@ export const PRIMARY_NAV_ITEMS: SiteNavItem[] = [
   { key: 'menu', de: 'Speisekarte', en: 'Menu', pageHref: { de: '/menu', en: '/en/menu' } },
   { key: 'gallery', de: 'Galerie', en: 'Gallery', pageHref: { de: '/gallery', en: '/en/gallery' } },
   { key: 'events', de: 'Events', en: 'Events', pageHref: { de: '/events', en: '/en/events' } },
+  { key: 'news', de: 'Nachrichten', en: 'News', pageHref: { de: '/news', en: '/en/news' } },
   { key: 'reviews', de: 'Bewertungen', en: 'Reviews', pageHref: { de: '/reviews', en: '/en/reviews' } },
   { key: 'contact', de: 'Kontakt', en: 'Contact', pageHref: { de: '/contact', en: '/en/contact' } },
 ]
@@ -24,6 +25,7 @@ export const FOOTER_NAV_ITEMS: SiteNavItem[] = [
   { key: 'menu', de: 'Speisekarte', en: 'Menu', pageHref: { de: '/menu', en: '/en/menu' } },
   { key: 'gallery', de: 'Galerie', en: 'Gallery', pageHref: { de: '/gallery', en: '/en/gallery' } },
   { key: 'events', de: 'Events', en: 'Events', pageHref: { de: '/events', en: '/en/events' } },
+  { key: 'news', de: 'Nachrichten', en: 'News', pageHref: { de: '/news', en: '/en/news' } },
 ]
 
 export function resolveSiteHref(pathname: string, item: SiteNavItem): string {

@@ -26,6 +26,11 @@ enum ReservationStatus {
   NO_SHOW
 }
 
+enum NewsLocale {
+  DE
+  EN
+}
+
 model Reservation {
   id             String            @id @default(cuid())
   firstName      String
@@ -46,4 +51,43 @@ model Reservation {
   @@index([email])
   @@index([status])
   @@map("reservations")
+}
+
+model NewsPost {
+  id               String            @id @default(cuid())
+  slug             String            @unique
+  author           String            @default("Neue Liebe")
+  publishedAt      DateTime
+  draft            Boolean           @default(true)
+  coverImage       String
+  coverImageMobile String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  translations     NewsTranslation[]
+
+  @@index([publishedAt])
+  @@index([draft, publishedAt])
+  @@map("news_posts")
+}
+
+model NewsTranslation {
+  id             String     @id @default(cuid())
+  postId         String
+  locale         NewsLocale
+  title          String
+  excerpt        String     @db.Text
+  body           String     @db.Text
+  seoTitle       String
+  seoDescription String     @db.Text
+  keywords       String[]
+  keyFacts       String[]
+  category       String
+  coverAlt       String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  post           NewsPost   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, locale])
+  @@index([locale])
+  @@map("news_translations")
 }
