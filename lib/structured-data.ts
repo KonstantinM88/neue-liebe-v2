@@ -56,7 +56,7 @@ function buildRestaurantEntity(locale: SiteLocale, description: string) {
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Thursday', 'Friday', 'Saturday'],
+        dayOfWeek: ['Wednesday', 'Thursday', 'Friday', 'Saturday'],
         opens: '15:00',
         closes: '23:00',
       },

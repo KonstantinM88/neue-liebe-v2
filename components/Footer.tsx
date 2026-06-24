@@ -72,9 +72,9 @@ export default function Footer() {
           <div className="footer-col">
             <h3 className="footer-heading">{t('Öffnungszeiten', 'Hours')}</h3>
             <div className="footer-contact-copy">
-              <p>{t('Do – Sa: 15:00 – 23:00 Uhr', 'Thu – Sat: 15:00 – 23:00')}</p>
+              <p>{t('Mi – Sa: 15:00 – 23:00 Uhr', 'Wed – Sat: 15:00 – 23:00')}</p>
               <p>{t('So: 10:00 – 16:00 Uhr', 'Sun: 10:00 – 16:00')}</p>
-              <p>{t('Mo – Mi: Ruhetag', 'Mon – Wed: Closed')}</p>
+              <p>{t('Mo – Di: Ruhetag', 'Mon – Tue: Closed')}</p>
             </div>
           </div>
         </div>

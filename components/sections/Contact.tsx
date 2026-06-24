@@ -65,11 +65,11 @@ export default function Contact({
       titleDe: 'Öffnungszeiten', titleEn: 'Opening Hours',
       content: (
         <p>
-          {t('Do – Sa: 15:00 – 23:00', 'Thu – Sat: 15:00 – 23:00')}
+          {t('Mi – Sa: 15:00 – 23:00', 'Wed – Sat: 15:00 – 23:00')}
           <br />
           {t('So: 10:00 – 16:00', 'Sun: 10:00 – 16:00')}
           <br />
-          {t('Mo – Mi: Ruhetag', 'Mon – Wed: Closed')}
+          {t('Mo – Di: Ruhetag', 'Mon – Tue: Closed')}
         </p>
       ),
     },

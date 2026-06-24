@@ -69,7 +69,7 @@ export default function InfoBar() {
     },
     {
       kind: 'hours' as const,
-      text: t('Do–Sa 15-23 · So 10-16', 'Thu–Sat 15-23 · Sun 10-16'),
+      text: t('Mi–Sa 15-23 · So 10-16', 'Wed–Sat 15-23 · Sun 10-16'),
       href: '#contact',
       label: t('Öffnungszeiten ansehen', 'View opening hours'),
     },

@@ -326,7 +326,7 @@ const PAGE_FAQ_CONTENT: Record<PageFaqKey, Record<SiteLocale, PageFaqContent>> =
         {
           question: 'Wann hat das Restaurant Neue Liebe geöffnet?',
           answer:
-            'Wir sind Donnerstag bis Samstag von 15:00 bis 23:00 Uhr sowie sonntags von 10:00 bis 16:00 Uhr für Sie da. Montag bis Mittwoch haben wir Ruhetag.',
+            'Wir sind Mittwoch bis Samstag von 15:00 bis 23:00 Uhr sowie sonntags von 10:00 bis 16:00 Uhr für Sie da. Montag und Dienstag haben wir Ruhetag.',
         },
         {
           question: 'Können Events auch außerhalb der Öffnungszeiten stattfinden?',
@@ -354,7 +354,7 @@ const PAGE_FAQ_CONTENT: Record<PageFaqKey, Record<SiteLocale, PageFaqContent>> =
         {
           question: 'When is Restaurant Neue Liebe open?',
           answer:
-            'We are open for you from Thursday to Saturday between 15:00 and 23:00, and on Sundays from 10:00 to 16:00. We are closed from Monday to Wednesday.',
+            'We are open for you from Wednesday to Saturday between 15:00 and 23:00, and on Sundays from 10:00 to 16:00. We are closed on Monday and Tuesday.',
         },
         {
           question: 'Can events be hosted outside of regular opening hours?',
