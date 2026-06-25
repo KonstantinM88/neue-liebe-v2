@@ -157,6 +157,8 @@ scripts/                     генерация brand assets
 
 Общие интерактивные элементы: custom cursor, scroll progress, desktop/mobile navigation, toast и reveal-анимации через `IntersectionObserver`.
 
+Нижняя строка Footer содержит локализованные ссылки Impressum/Datenschutz и прозрачный sponsored-credit `Werbung · Webentwicklung: SaaleWeb` на `https://saaleweb.de/`.
+
 Основные дизайн-токены находятся в начале `app/globals.css`:
 
 - gold `#c9a96e`;
@@ -255,12 +257,15 @@ Markdown хранится в поле `NewsTranslation.body` типа PostgreSQL
 
 - draft-статьи не попадают в списки, sitemap и public routes;
 - public news routes используют dynamic SSR, чтобы изменения из PostgreSQL были видны без нового build;
+- обложки статей и карточек на mobile сохраняют пропорцию 16:9, чтобы `object-fit: cover` не обрезал боковые части подготовленных постеров;
 - DE/EN canonical, hreflang, Open Graph Article и Twitter metadata генерируются из DB-полей;
 - JSON-LD включает `NewsArticle`, `WebPage`, `BreadcrumbList`, Restaurant/PostalAddress, `contentLocation` и `SpeakableSpecification`;
 - `keyFacts` выводятся отдельным блоком «Kurz erklärt / At a glance» для GEO/AI extraction;
 - sitemap динамически добавляет обе локали только для полных DE+EN пар.
 
 Admin API поддерживает создание, обновление, переименование slug, draft/publish и удаление. Общие данные и обе локали сохраняются одной Prisma-транзакцией, поэтому частичная DE/EN запись невозможна. Тексты всегда хранятся в PostgreSQL. Обложка optional; при загрузке создаются WebP 1600x900 и 900x675, максимум 25 MB.
+
+Admin UI рекомендует исходник не менее 1600x900 с пропорцией 16:9 и центральной композицией, объясняет автоматическую WebP-конвертацию и показывает preview выбранной либо текущей обложки до сохранения.
 
 `NEWS_STORAGE_DRIVER` выбирает media backend:
 
@@ -372,6 +377,7 @@ OBJECT_STORAGE_PREFIX             optional, default "neue-liebe"
 - Общий metadata base и базовые Open Graph/Twitter settings — `app/layout.tsx`.
 - Page-specific metadata находится рядом с каждой page.
 - Общие JSON-LD builders — `lib/structured-data.ts`.
+- Сущность `WebSite` указывает SaaleWeb (`https://saaleweb.de/`) как `creator`; Impressum и `llms.txt` также фиксируют техническую реализацию и веб-разработку.
 - FAQ content и FAQPage JSON-LD — `lib/page-faqs.ts`.
 - Production URL, адрес, телефон, часы работы и ресторанные сведения повторяются в нескольких местах.
 - Текущий график работы: среда–суббота 15:00–23:00; воскресенье 10:00–16:00; понедельник и вторник — выходные.
@@ -465,6 +471,10 @@ Build может проходить при красном lint, поэтому �
 
 Записи добавляются сверху, формат: `YYYY-MM-DD — краткое изменение; затронутые области; выполненные проверки`.
 
+- **2026-06-25** — атрибуция SaaleWeb расширена для прозрачности и AI/GEO: footer-credit изменён на `Werbung · Webentwicklung: SaaleWeb` с `rel="sponsored"`, в DE/EN Impressum добавлен блок технической реализации, `WebSite.creator` в JSON-LD указывает Organization SaaleWeb, а `llms.txt` фиксирует связь разработчика с сайтом. Проверено: scoped ESLint и `tsc --noEmit` проходят, production build успешно собрал 43/43 маршрута, итоговый HTML и `/llms.txt` содержат требуемую атрибуцию. Полный lint сохраняет прежний baseline: 41 ошибка `react-hooks/static-components` в `app/datenschutz/DatenschutzClient.tsx` и 2 предупреждения `no-img-element`.
+- **2026-06-25** — в нижнюю строку Footer рядом с Impressum/Datenschutz добавлена локализованная рекламная ссылка `Webentwicklung: SaaleWeb` на `https://saaleweb.de/`; ссылка открывается в новой вкладке, а группа адаптирована для переноса на мобильных экранах. Проверки: scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.
+- **2026-06-25** — mobile-отображение news-обложек адаптировано под исходные постеры 16:9: статья и карточки больше не переключаются на 4:3/16:10 на узких экранах, поэтому боковые части изображения не обрезаются. Проверки: реальные desktop-варианты подтверждены как 1600x900; scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.
+- **2026-06-25** — поле news-обложки в админке дополнено рекомендацией исходного размера `1600x900+`, указанием автоматической WebP-конвертации в desktop/mobile варианты и предварительным просмотром выбранной или текущей обложки; preview показывает имя, размер файла и фактическое разрешение, выбранный файл можно убрать до сохранения. Проверки: scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.
 - **2026-06-25** — среда добавлена как рабочий день: график синхронно обновлён на `среда–суббота 15:00–23:00`, `воскресенье 10:00–16:00`, `понедельник–вторник закрыто` в DE/EN UI, Footer, FAQ, Restaurant JSON-LD и `llms.txt`. Проверки: старые формулировки больше не найдены; scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.
 - **2026-06-24** — добавлен временный `NEWS_STORAGE_DRIVER=local`: `lib/news-media-storage.ts` переключает news-обложки между локальным `public/uploads/news` и S3, сохраняет backend-aware managed keys и очищает файлы при замене, удалении или ошибке БД. Рабочий `.env` и безопасный `.env.example` настроены на `local`; admin UI показывает активный локальный режим. Проверки: scoped ESLint и `tsc --noEmit` успешно; production build успешно; end-to-end admin API тест вошёл в админку, создал draft с PNG, сформировал два WebP, проверил локальные URL/keys и удалил запись вместе с обоими файлами; полный lint сохранил прежние 41 error и 2 warning.
 - **2026-06-24** — news-обложки перенесены с локальной файловой системы на AWS S3/S3-compatible object storage: добавлен `lib/object-storage.ts`, immutable WebP upload, public URL generation, managed object keys, cleanup при замене/удалении и компенсационное удаление при ошибке БД; Prisma получил nullable `coverImageKey`/`coverImageMobileKey`, миграция `20260624003000_add_news_cover_object_keys` применена к настроенной БД. Admin UI показывает состояние конфигурации storage, `next.config.ts` разрешает remote images из `OBJECT_STORAGE_PUBLIC_URL`, `.env.example` очищен до placeholders и разрешён в Git. Проверки: Prisma validate/generate/migrate/status успешно; scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning. Live upload не запускался, потому что object-storage credentials в текущем environment не заданы.

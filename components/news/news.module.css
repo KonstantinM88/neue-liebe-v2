@@ -388,9 +388,18 @@
     border-radius: 22px 22px 52px 22px;
   }
 
+  .cardImageLink {
+    aspect-ratio: 16 / 9;
+  }
+
   .cover {
     width: 92vw;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
+  }
+
+  .coverImage,
+  .cardImage {
+    object-position: center;
   }
 
   .articleLayout {

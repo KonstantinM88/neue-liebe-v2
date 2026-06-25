@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -213,6 +214,9 @@ export default function AdminNewsManager() {
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10))
   const [draft, setDraft] = useState(true)
   const [cover, setCover] = useState<File | null>(null)
+  const [currentCoverUrl, setCurrentCoverUrl] = useState('')
+  const [coverPreviewUrl, setCoverPreviewUrl] = useState('')
+  const [coverDimensions, setCoverDimensions] = useState('')
   const [de, setDe] = useState<LocalizedForm>(() => emptyLocalizedForm('de'))
   const [en, setEn] = useState<LocalizedForm>(() => emptyLocalizedForm('en'))
   const isEditing = Boolean(originalSlug)
@@ -249,6 +253,20 @@ export default function AdminNewsManager() {
     void loadEntries()
   }, [loadEntries])
 
+  useEffect(() => {
+    if (!cover) {
+      setCoverPreviewUrl('')
+      setCoverDimensions('')
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(cover)
+    setCoverPreviewUrl(objectUrl)
+    setCoverDimensions('')
+
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [cover])
+
   function updateLocalized(locale: 'de' | 'en', key: keyof LocalizedForm, value: string) {
     const setter = locale === 'de' ? setDe : setEn
     setter((current) => ({ ...current, [key]: value }))
@@ -261,6 +279,7 @@ export default function AdminNewsManager() {
     setPublishedAt(new Date().toISOString().slice(0, 10))
     setDraft(true)
     setCover(null)
+    setCurrentCoverUrl('')
     setDe(emptyLocalizedForm('de'))
     setEn(emptyLocalizedForm('en'))
     if (coverInputRef.current) coverInputRef.current.value = ''
@@ -274,6 +293,7 @@ export default function AdminNewsManager() {
     setPublishedAt((base?.publishedAt ?? new Date().toISOString()).slice(0, 10))
     setDraft(base?.draft ?? true)
     setCover(null)
+    setCurrentCoverUrl(base?.coverImage ?? '')
     setDe(articleToForm(entry.de, 'de'))
     setEn(articleToForm(entry.en, 'en'))
     if (coverInputRef.current) coverInputRef.current.value = ''
@@ -368,6 +388,8 @@ export default function AdminNewsManager() {
       router.refresh()
     }
   }
+
+  const displayedCoverUrl = coverPreviewUrl || currentCoverUrl
 
   return (
     <div className={styles.page}>
@@ -466,8 +488,60 @@ export default function AdminNewsManager() {
                   {cover ? cover.name : t('Bild auswählen (optional)', 'Выбрать изображение (optional)')}
                 </button>
                 <input ref={coverInputRef} type="file" accept="image/*" className={styles.fileInput} onChange={(event: ChangeEvent<HTMLInputElement>) => setCover(event.target.files?.[0] ?? null)} />
+                <p className={styles.newsCoverHint}>
+                  {t(
+                    'Empfohlen: mindestens 1600 × 900 px, Seitenverhältnis 16:9, wichtiges Motiv mittig. Das Bild wird automatisch in WebP umgewandelt und als 1600 × 900 sowie 900 × 675 px gespeichert. Maximal 25 MB.',
+                    'Рекомендуется: минимум 1600 × 900 px, соотношение 16:9, важные детали по центру. Изображение автоматически преобразуется в WebP и сохраняется в размерах 1600 × 900 и 900 × 675 px. Максимум 25 МБ.'
+                  )}
+                </p>
               </div>
             </div>
+
+            {displayedCoverUrl && (
+              <div className={styles.newsCoverPreview}>
+                <div className={styles.newsCoverPreviewHead}>
+                  <div>
+                    <span className={styles.newsCoverPreviewLabel}>
+                      {cover
+                        ? t('Vorschau der neuen Titelgrafik', 'Предпросмотр новой обложки')
+                        : t('Aktuelle Titelgrafik', 'Текущая обложка')}
+                    </span>
+                    <p className={styles.newsCoverPreviewMeta}>
+                      {cover
+                        ? `${cover.name} · ${(cover.size / 1024 / 1024).toFixed(2)} MB${coverDimensions ? ` · ${coverDimensions}` : ''}`
+                        : t('Beim Speichern ohne neue Auswahl bleibt dieses Bild erhalten.', 'Если не выбирать новое изображение, эта обложка сохранится.')}
+                    </p>
+                  </div>
+                  {cover && (
+                    <button
+                      type="button"
+                      className={styles.ghostAction}
+                      onClick={() => {
+                        setCover(null)
+                        if (coverInputRef.current) coverInputRef.current.value = ''
+                      }}
+                    >
+                      {t('Auswahl entfernen', 'Убрать выбранное')}
+                    </button>
+                  )}
+                </div>
+                <div className={styles.newsCoverPreviewFrame}>
+                  <Image
+                    src={displayedCoverUrl}
+                    alt={de.coverAlt || en.coverAlt || t('Vorschau der Titelgrafik', 'Предпросмотр обложки')}
+                    width={1600}
+                    height={900}
+                    sizes="(max-width: 980px) 100vw, 900px"
+                    unoptimized
+                    className={styles.newsCoverPreviewImage}
+                    onLoad={(event) => {
+                      const image = event.currentTarget
+                      setCoverDimensions(`${image.naturalWidth} × ${image.naturalHeight} px`)
+                    }}
+                  />
+                </div>
+              </div>
+            )}
 
             <label className={styles.newsCheckbox}>
               <input type="checkbox" checked={draft} onChange={(event) => setDraft(event.target.checked)} />

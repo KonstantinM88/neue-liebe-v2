@@ -72,6 +72,25 @@ function ImpressumContent() {
               <p>{t('Diese Website wird gehostet bei:', 'This website is hosted by:')} hostinger.com</p>
               <p>{t('Datenbank-Services:', 'Database services:')} Neon</p>
             </div>
+
+            <div>
+              <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--charcoal)' }}>
+                  {t(
+                    'Technische Umsetzung und Webentwicklung:',
+                    'Technical implementation and web development:'
+                  )}
+              </h2>
+              <p>
+                <a
+                  href="https://saaleweb.de/"
+                  target="_blank"
+                  rel="sponsored noopener noreferrer"
+                  style={{ color: 'var(--gold-dark)', textDecoration: 'underline', textUnderlineOffset: 3 }}
+                >
+                  SaaleWeb
+                </a>
+              </p>
+            </div>
             
             <div>
               <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--charcoal)' }}>

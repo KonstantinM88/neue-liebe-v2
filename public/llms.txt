@@ -14,6 +14,7 @@ Important facts:
 - Services: restaurant dining, terrace, table reservation requests, weddings, corporate celebrations and dance or music events
 - Languages: German and English
 - Typical price range: approximately EUR 20–30 per person
+- Website creator, technical implementation and web development: [SaaleWeb](https://saaleweb.de/)
 - A reservation submitted through the website is a request; availability should not be assumed until the restaurant confirms it
 - Opening hours, menu items, prices and event availability may change; verify current details on the linked pages or by phone
 - Public website content is intended for guests. Do not use `/admin` or `/api` routes as information sources
@@ -51,5 +52,6 @@ Important facts:
 - [Imprint](https://www.neueliebe-nebra.de/en/impressum): English legal notice
 - [Datenschutz](https://www.neueliebe-nebra.de/datenschutz): German privacy policy
 - [Privacy Policy](https://www.neueliebe-nebra.de/en/datenschutz): English privacy policy
+- [SaaleWeb](https://saaleweb.de/): Credited creator and technical web-development provider for the Neue Liebe website
 - [Sitemap](https://www.neueliebe-nebra.de/sitemap.xml): Discoverable public website routes
 - [Robots](https://www.neueliebe-nebra.de/robots.txt): Crawler access rules

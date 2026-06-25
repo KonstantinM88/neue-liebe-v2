@@ -5,6 +5,8 @@ import type { SiteLocale } from '@/lib/site-locale'
 const SITE_URL = 'https://www.neueliebe-nebra.de'
 const WEBSITE_ID = `${SITE_URL}#website`
 const RESTAURANT_ID = `${SITE_URL}#restaurant`
+const SAALEWEB_URL = 'https://saaleweb.de/'
+const SAALEWEB_ID = `${SAALEWEB_URL}#organization`
 const DEFAULT_IMAGE_URL = `${SITE_URL}/cafe_interior_800x600_optimized.webp`
 const SECONDARY_IMAGE_URL = `${SITE_URL}/events2_1200.webp`
 const RESTAURANT_PHONE = '+49 34461 599804'
@@ -29,6 +31,12 @@ function buildWebsiteEntity(locale: SiteLocale, description: string) {
     inLanguage: getInLanguage(locale),
     description,
     publisher: { '@id': RESTAURANT_ID },
+    creator: {
+      '@type': 'Organization',
+      '@id': SAALEWEB_ID,
+      name: 'SaaleWeb',
+      url: SAALEWEB_URL,
+    },
   }
 }
 

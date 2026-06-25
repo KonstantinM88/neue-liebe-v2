@@ -449,6 +449,11 @@
   background: linear-gradient(180deg, #e2c58e 0%, #d1af73 100%);
 }
 
+.pickBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .fileInput {
   display: none;
 }
@@ -697,6 +702,58 @@
 
 .newsCoverField {
   min-width: 0;
+}
+
+.newsCoverHint {
+  margin-top: 0.48rem;
+  color: rgba(255,255,255,0.58);
+  font-size: 0.68rem;
+  line-height: 1.55;
+}
+
+.newsCoverPreview {
+  margin-top: 0.82rem;
+  border-radius: 18px 18px 38px 18px;
+  border: 1px solid rgba(201,169,110,0.22);
+  background: rgba(17,16,14,0.5);
+  padding: 0.7rem;
+}
+
+.newsCoverPreviewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.62rem;
+}
+
+.newsCoverPreviewLabel {
+  display: block;
+  color: rgba(232,213,163,0.94);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.newsCoverPreviewMeta {
+  margin-top: 0.28rem;
+  color: rgba(255,255,255,0.58);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.newsCoverPreviewFrame {
+  overflow: hidden;
+  border-radius: 14px 14px 30px 14px;
+  background: rgba(0,0,0,0.24);
+  aspect-ratio: 16 / 9;
+}
+
+.newsCoverPreviewImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .newsColumns {
@@ -970,6 +1027,11 @@
 
   .newsEntryActions {
     justify-content: flex-start;
+  }
+
+  .newsCoverPreviewHead {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 

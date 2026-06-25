@@ -2764,6 +2764,29 @@ section { overflow: hidden; }
   line-height: 1.6;
 }
 
+.footer-legal-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-legal-links a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.footer-legal-links a:hover,
+.footer-legal-links a:focus-visible {
+  color: rgba(232,213,163,0.9);
+}
+
+.footer-legal-links .footer-credit-link {
+  color: rgba(201,169,110,0.68);
+}
+
 /* ─── REVIEWS ─── */
 .reviews-section {
   background:
@@ -3330,7 +3353,12 @@ section { overflow: hidden; }
     padding-top: 0;
   }
   .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
     padding-top: 1.25rem;
+  }
+  .footer-legal-links {
+    justify-content: flex-start;
   }
   .menu-grid { grid-template-columns: 1fr; }
   .menu-card,
