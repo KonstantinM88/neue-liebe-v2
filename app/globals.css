@@ -1734,43 +1734,13 @@ section { overflow: hidden; }
 .menu-video-toggle {
   position: absolute;
   inset: 0.8rem 0.8rem 0 0.8rem;
-  display: grid;
-  place-items: center;
   width: calc(100% - 1.6rem);
   border: 0;
   border-radius: 24px 24px 56px 24px;
   background: transparent;
   cursor: pointer;
   z-index: 2;
-}
-
-.menu-video-icon {
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 50%;
-  color: #fff;
-  background: rgba(26,23,20,0.68);
-  font-size: 1.25rem;
-  line-height: 1;
-  box-shadow: 0 8px 26px rgba(26,23,20,0.22);
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.menu-video-toggle:hover .menu-video-icon,
-.menu-video-toggle:focus-visible .menu-video-icon {
-  transform: scale(1.1);
-}
-
-.menu-video-toggle.is-playing .menu-video-icon {
-  opacity: 0.3;
-}
-
-.menu-video-toggle.is-playing:hover .menu-video-icon,
-.menu-video-toggle.is-playing:focus-visible .menu-video-icon {
-  opacity: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menu-video-toggle:focus-visible {
@@ -3426,6 +3396,11 @@ section { overflow: hidden; }
     border-radius: 18px 18px 42px 18px;
     inset: 0.65rem 0.65rem 0 0.65rem;
   }
+  .menu-video-toggle {
+    inset: 0.65rem 0.65rem 0 0.65rem;
+    width: calc(100% - 1.3rem);
+    border-radius: 18px 18px 42px 18px;
+  }
   .menu-tag {
     top: 1.2rem;
     left: 1.2rem;
@@ -3504,11 +3479,6 @@ section { overflow: hidden; }
   .nav-logo {
     font-size: 1.2rem;
     letter-spacing: 0.09em;
-  }
-  .menu-video-toggle {
-    inset: 0.65rem 0.65rem 0 0.65rem;
-    width: calc(100% - 1.3rem);
-    border-radius: 18px 18px 42px 18px;
   }
   .nav-logo span {
     display: none;

@@ -74,18 +74,12 @@ function MenuDishMedia({ dish, playLabel, stopLabel, alt, tag, activeVideoId, se
       )}
       {dish.video && (
         <button
-          className={`menu-video-toggle${isPlaying ? ' is-playing' : ''}`}
+          className="menu-video-toggle"
           type="button"
           aria-label={isPlaying ? stopLabel : playLabel}
           aria-pressed={isPlaying}
           onClick={() => setActiveVideoId((current) => current === dish.id ? null : dish.id)}
-        >
-          <span className="menu-video-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" focusable="false">
-              {isPlaying ? <path d="M6 5h4v14H6zm8 0h4v14h-4z" /> : <path d="M8 5v14l11-7z" />}
-            </svg>
-          </span>
-        </button>
+        />
       )}
       <div className="menu-tag">{tag}</div>
     </div>
