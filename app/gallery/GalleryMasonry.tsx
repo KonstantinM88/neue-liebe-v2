@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type TouchEvent as ReactTouchEvent } from 'react'
+import Image from 'next/image'
 import type { GalleryPhoto } from '@/lib/gallery-types'
 import styles from './gallery.module.css'
 
@@ -182,9 +183,12 @@ export default function GalleryMasonry({ photos, labels = DEFAULT_LABELS }: Gall
             onTouchStart={handleLightboxTouchStart}
             onTouchEnd={handleLightboxTouchEnd}
           >
-            <img
+            <Image
               src={activePhoto.desktop}
               alt={activePhoto.alt}
+              width={1600}
+              height={1200}
+              unoptimized
               className={styles.lightboxImage}
               style={lightboxImageStyle}
               onLoad={(event) => {

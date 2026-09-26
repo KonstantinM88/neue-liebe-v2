@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from 'react'
 import { useLang } from '@/context/LangContext'
 import { STATIC_MENU_CATEGORIES, STATIC_MENU_DISHES } from '@/lib/menu-static'
 import type { MenuCategory, MenuDish } from '@/lib/menu-types'
@@ -25,6 +25,73 @@ const ALL_FILTER: MenuCategory & { key: 'all' } = {
   en: 'All',
 }
 
+function MenuDishMedia({ dish, playLabel, stopLabel, alt, tag, activeVideoId, setActiveVideoId }: {
+  dish: MenuDish
+  playLabel: string
+  stopLabel: string
+  alt: string
+  tag: string
+  activeVideoId: string | null
+  setActiveVideoId: Dispatch<SetStateAction<string | null>>
+}) {
+  const isPlaying = activeVideoId === dish.id
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    if (!isPlaying) return
+    const video = videoRef.current
+    if (!video) return
+    let cancelled = false
+    void video.play().catch(() => {
+      if (!cancelled) {
+        setActiveVideoId((current) => current === dish.id ? null : current)
+      }
+    })
+    return () => {
+      cancelled = true
+      video.pause()
+    }
+  }, [dish.id, isPlaying, setActiveVideoId])
+
+  return (
+    <div className="menu-img">
+      {dish.video && isPlaying ? (
+        <video
+          ref={videoRef}
+          src={dish.video}
+          poster={dish.imgDesktop}
+          muted
+          loop
+          playsInline
+          preload="none"
+          onError={() => setActiveVideoId((current) => current === dish.id ? null : current)}
+        />
+      ) : (
+        <picture>
+          <source media="(max-width: 768px)" srcSet={dish.imgMobile} />
+          <img src={dish.imgDesktop} alt={alt} loading="lazy" decoding="async" />
+        </picture>
+      )}
+      {dish.video && (
+        <button
+          className={`menu-video-toggle${isPlaying ? ' is-playing' : ''}`}
+          type="button"
+          aria-label={isPlaying ? stopLabel : playLabel}
+          aria-pressed={isPlaying}
+          onClick={() => setActiveVideoId((current) => current === dish.id ? null : dish.id)}
+        >
+          <span className="menu-video-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" focusable="false">
+              {isPlaying ? <path d="M6 5h4v14H6zm8 0h4v14h-4z" /> : <path d="M8 5v14l11-7z" />}
+            </svg>
+          </span>
+        </button>
+      )}
+      <div className="menu-tag">{tag}</div>
+    </div>
+  )
+}
+
 export default function MenuSection({
   initialCategories = STATIC_MENU_CATEGORIES,
   initialDishes = STATIC_MENU_DISHES,
@@ -32,6 +99,7 @@ export default function MenuSection({
 }: MenuSectionProps) {
   const { t } = useLang()
   const [active, setActive] = useState<CategoryKey>('all')
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null)
   const [categories, setCategories] = useState<MenuCategory[]>(initialCategories)
   const [dishes, setDishes] = useState<MenuDish[]>(initialDishes)
   const gridRef = useRef<HTMLDivElement | null>(null)
@@ -157,7 +225,10 @@ export default function MenuSection({
           <button
             key={filter.key}
             className={`filter-btn${active === filter.key ? ' active' : ''}`}
-            onClick={() => setActive(filter.key)}
+            onClick={() => {
+              setActive(filter.key)
+              setActiveVideoId(null)
+            }}
             type="button"
             data-active={active === filter.key ? 'true' : 'false'}
             aria-pressed={active === filter.key}
@@ -181,17 +252,15 @@ export default function MenuSection({
             className="menu-card reveal"
             style={{ transitionDelay: `${(index % 3) * 0.1}s` }}
           >
-            <div className="menu-img">
-              <picture>
-                <source media="(max-width: 768px)" srcSet={dish.imgMobile} />
-                <img
-                  src={dish.imgDesktop}
-                  alt={t(dish.nameDe, dish.nameEn)}
-                  loading="lazy"
-                />
-              </picture>
-              <div className="menu-tag">{t(dish.tagDe, dish.tagEn)}</div>
-            </div>
+            <MenuDishMedia
+              dish={dish}
+              alt={t(dish.nameDe, dish.nameEn)}
+              tag={t(dish.tagDe, dish.tagEn)}
+              playLabel={t(`Video zu ${dish.nameDe} abspielen`, `Play video for ${dish.nameEn}`)}
+              stopLabel={t(`Video zu ${dish.nameDe} anhalten`, `Stop video for ${dish.nameEn}`)}
+              activeVideoId={activeVideoId}
+              setActiveVideoId={setActiveVideoId}
+            />
 
             <div className="menu-body">
               <div className="menu-name">{t(dish.nameDe, dish.nameEn)}</div>

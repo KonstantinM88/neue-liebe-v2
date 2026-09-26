@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 import { useInViewOnce } from '@/hooks/useInViewOnce'
 
@@ -199,7 +200,7 @@ export default function Reviews() {
               <header className="review-head">
                 <span className="review-avatar" aria-hidden="true">
                   {review.photoUrl ? (
-                    <img src={review.photoUrl} alt="" loading="lazy" />
+                    <Image src={review.photoUrl} alt="" width={40} height={40} unoptimized loading="lazy" />
                   ) : (
                     review.author.charAt(0).toUpperCase()
                   )}

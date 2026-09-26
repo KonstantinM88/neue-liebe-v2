@@ -8,6 +8,7 @@ export type MenuDish = {
   id: string
   imgDesktop: string
   imgMobile: string
+  video?: string
   tagDe: string
   tagEn: string
   nameDe: string

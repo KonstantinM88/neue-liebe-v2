@@ -3,26 +3,26 @@
 import { type Lang, useLang } from '@/context/LangContext'
 import SitePageShell from '@/components/SitePageShell'
 
+const H2 = ({ children }: { children: React.ReactNode }) => (
+  <h2 style={{ fontSize: '1.4rem', marginTop: '2.5rem', marginBottom: '1rem', color: 'var(--charcoal)', fontWeight: 500 }}>
+    {children}
+  </h2>
+)
+
+const H3 = ({ children }: { children: React.ReactNode }) => (
+  <h3 style={{ fontSize: '1.15rem', marginTop: '1.8rem', marginBottom: '0.6rem', color: 'var(--charcoal)', fontWeight: 500 }}>
+    {children}
+  </h3>
+)
+
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>
+    {children}
+  </p>
+)
+
 function DatenschutzContent() {
   const { t } = useLang()
-
-  const H2 = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: '1.4rem', marginTop: '2.5rem', marginBottom: '1rem', color: 'var(--charcoal)', fontWeight: 500 }}>
-      {children}
-    </h2>
-  )
-
-  const H3 = ({ children }: { children: React.ReactNode }) => (
-    <h3 style={{ fontSize: '1.15rem', marginTop: '1.8rem', marginBottom: '0.6rem', color: 'var(--charcoal)', fontWeight: 500 }}>
-      {children}
-    </h3>
-  )
-
-  const P = ({ children }: { children: React.ReactNode }) => (
-    <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>
-      {children}
-    </p>
-  )
 
   return (
     <main style={{ background: 'var(--cream)', paddingTop: '80px', minHeight: '100vh' }}>

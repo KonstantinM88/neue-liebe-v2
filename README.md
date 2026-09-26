@@ -1,6 +1,6 @@
 # Neue Liebe — Restaurant Website
 
-> **Stack:** Next.js 15.2.8 · React 19 · TypeScript 5.9.3 · Tailwind CSS 4 · Prisma 6.19.2 · Node.js 22.14 · PostgreSQL
+> **Stack:** Next.js 16.3.6 · React 19.3.0 · TypeScript 6.0.2 · Tailwind CSS 4.3.3 · Prisma 7.10.0 · Node.js 22.x · PostgreSQL
 
 ---
 

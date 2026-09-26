@@ -35,19 +35,20 @@ Production URL: `https://www.neueliebe-nebra.de`.
 Источником истины для версий является `package.json`, а не README.
 
 - Node.js `22.x`
-- Next.js `16.2.9`, App Router, Turbopack production build
-- React / React DOM `19.2.5`
-- TypeScript `5.9.3`, `strict: true`, `noEmit: true`
-- Tailwind CSS `4.x` подключён через PostCSS, но большая часть интерфейса оформлена обычным CSS
-- Prisma / Prisma Client `7.7.0`
+- Next.js `16.3.6`, App Router, Turbopack production build
+- React / React DOM `19.3.0`
+- TypeScript `6.0.2`, `strict: true`, `noEmit: true`
+- Tailwind CSS `4.3.3` подключён через PostCSS, но большая часть интерфейса оформлена обычным CSS
+- Prisma / Prisma Client `7.10.0`
+- npm `overrides` закрепляют исправленные `deepmerge-ts` `8.0.2` и `mysql2` `3.24.4` только внутри зависимостей Prisma CLI; после обновления Prisma проверять, нужны ли overrides дальше
 - PostgreSQL через `@prisma/adapter-pg`
 - `sharp` для серверной обработки изображений
 - `@aws-sdk/client-s3` для AWS S3 и S3-compatible object storage
 - `react-markdown` + `remark-gfm` для безопасного Markdown rendering без raw HTML
-- ESLint 9 + `eslint-config-next`
+- ESLint `9.39.5` + `eslint-config-next` `16.3.6`
 - npm и `package-lock.json`
 
-README содержит устаревшие версии Next.js и Prisma. При расхождениях ориентироваться на `package.json` и рабочий build.
+Версии в шапке README обновлены; остальные разделы README могут быть устаревшими. При расхождениях ориентироваться на `package.json` и рабочий build. Prisma 8 пока доступен как release candidate; TypeScript 7 и ESLint 10 пока несовместимы с используемыми инструментами, поэтому закреплены последние совместимые стабильные major-версии.
 
 ## Основные команды
 
@@ -86,6 +87,7 @@ generated/prisma/            сгенерированный Prisma Client, иг�
 data/gallery.json            управляемая галерея, отслеживается Git
 data/menu.json               управляемое меню, создаётся во время работы; сейчас отсутствует
 public/                      статические изображения, видео и uploads
+  menu-media/               WebP-постеры блюд и WebM-ролики для статического меню
   uploads/news/              временное локальное хранилище news-обложек при NEWS_STORAGE_DRIVER=local
 scripts/                     генерация brand assets
 ```
@@ -157,7 +159,7 @@ scripts/                     генерация brand assets
 
 Общие интерактивные элементы: custom cursor, scroll progress, desktop/mobile navigation, toast и reveal-анимации через `IntersectionObserver`.
 
-Нижняя строка Footer содержит локализованные ссылки Impressum/Datenschutz и прозрачный sponsored-credit `Werbung · Webentwicklung: SaaleWeb` на `https://saaleweb.de/`.
+Нижняя строка Footer содержит локализованные ссылки Impressum/Datenschutz и прозрачный sponsored-credit `Werbung · Webentwicklung: SaaleWeb` на `https://saaleweb.de/` с UTM-метками `utm_source=www.neueliebe-nebra.de`, `utm_medium=referral`, `utm_campaign=footer_credit` для атрибуции переходов с сайта ресторана.
 
 Основные дизайн-токены находятся в начале `app/globals.css`:
 
@@ -182,6 +184,8 @@ scripts/                     генерация brand assets
 - UI: `components/sections/MenuSection.tsx`, `components/admin/AdminMenuManager.tsx`.
 
 Текущий baseline: 7 статических категорий и 25 статических блюд.
+
+Для 21 статического блюда в `public/menu-media` есть короткий WebM-ролик и WebP-постеры двух размеров (до 1024 и 640 px); для `Nebraer Bier St. Georg` добавлены только постеры. Поле `video` в `MenuDish` опционально. На главной и страницах `/menu`, `/en/menu` карточка показывает адаптивный постер, а видео загружается и воспроизводится без звука по нажатию, циклично; повторное нажатие возвращает постер. В пределах одной секции меню одновременно воспроизводится только одно видео: запуск другой карточки останавливает предыдущее, смена категории также останавливает видео. Managed dish с тем же `id` полностью заменяет static dish, поэтому его видео не сохраняется при таком override.
 
 Алгоритм данных:
 
@@ -224,6 +228,8 @@ Admin API умеет создавать/обновлять категории и
 Удаление изображений и очистка файлов сейчас не реализованы.
 
 Важно: секция Gallery на главной (`components/sections/Gallery.tsx`) использует собственный фиксированный набор из шести media items и не читает managed gallery. Полная страница `/gallery` использует managed + static gallery.
+
+17 фотографий блюд в статической полной галерее используют те же адаптивные WebP из `public/menu-media`, что и карточки меню.
 
 ## Новости
 
@@ -422,22 +428,18 @@ app/robots.ts
 - `data/gallery.json` и загруженные gallery assets отслеживаются Git, а `data/menu.json` сейчас отсутствует.
 - У upload API галереи нет явного общего лимита размера файла, только лимит количества.
 - Best-effort удаление news objects может оставить orphan при недоступном storage; ошибка логируется и не откатывает уже сохранённую БД-транзакцию.
-- `npm audit --omit=dev` после обновления Next.js показывает transitive advisories в Prisma CLI/Hono/fast-uri и bundled PostCSS; прямого безопасного non-breaking fix для текущего Prisma 7.7.0 audit не предлагает.
+- Prisma CLI закрепляет версии `deepmerge-ts` и `mysql2` с опубликованными advisories. Локальные npm `overrides` устраняют предупреждения аудита, но `deepmerge-ts` повышен на major-версию внутри Prisma; после обновления Prisma повторно проверить CLI-команды и убрать overrides, когда upstream исправит зависимости.
 
 ## Проверенный baseline
 
-Дата последней полной проверки: **2026-06-24**.
+Дата последней полной проверки: **2026-09-26**.
 
-- `npm run build`: проходит.
+- `npm ci`, `npm run lint`, `npm run build` и `npm audit --omit=dev`: проходят; аудит показывает 0 уязвимостей.
 - Next.js build: 43 статически генерируемые page/asset route; news, admin и API routes динамические.
-- `npm run lint`: не проходит — 41 error и 2 warning.
-  - Все 41 error: `app/datenschutz/DatenschutzClient.tsx`, правило `react-hooks/static-components`; `H2`, `H3`, `P` объявлены внутри render.
-  - Warning: `<img>` в `app/gallery/GalleryMasonry.tsx`.
-  - Warning: `<img>` в `components/sections/Reviews.tsx`.
-- Git branch на момент анализа: `main`.
-- Рабочее дерево до добавления этого файла было чистым.
+- В Datenschutz-компоненте `H2`, `H3`, `P` объявлены вне render; изображения lightbox и Google-аватаров используют `next/image` с `unoptimized` для уже подготовленных или внешних изображений.
+- Обновление зависимостей выполнялось поверх незавершённых изменений меню и медиа в рабочем дереве; они сохранены.
 
-Build может проходить при красном lint, поэтому обе проверки обязательны и не заменяют друг друга.
+Lint и build остаются отдельными обязательными проверками. Визуальная desktop/mobile проверка после этих изменений не выполнена: браузер в текущей среде недоступен.
 
 ## Code conventions
 
@@ -471,6 +473,11 @@ Build может проходить при красном lint, поэтому �
 
 Записи добавляются сверху, формат: `YYYY-MM-DD — краткое изменение; затронутые области; выполненные проверки`.
 
+- **2026-09-27** — ссылка SaaleWeb в DE/EN футере дополнена UTM-метками источника, типа перехода и размещения; целевой URL проверен HTTP HEAD (200, параметры сохранены). Проверки: `npm run lint`, production build (43/43), итоговый `href` в DE/EN HTML и `git diff --check`.
+- **2026-09-26** — исправлены 41 ошибка `react-hooks/static-components` в Datenschutz и два предупреждения `<img>` в галерее/отзывах; для зависимостей Prisma CLI добавлены точечные overrides `deepmerge-ts` 8.0.2 и `mysql2` 3.24.4. Проверки: `npm ci`, полный lint, production build (43/43) и `npm audit --omit=dev` проходят с 0 уязвимостей; браузерная desktop/mobile проверка недоступна в текущей среде.
+- **2026-09-26** — обновлены стабильные совместимые версии Next.js 16.3.6, React 19.3.0, Prisma 7.10.0, TypeScript 6.0.2, Tailwind 4.3.3, ESLint 9.39.5 и прочих прямых зависимостей; обновлены lockfile, README и комментарий Prisma schema. Проверки: `npm ci`, `npm run build` (43/43), `prisma validate`, WebP-конвертация `sharp` проходят; полный lint сохраняет прежние 41 ошибку Datenschutz и 2 предупреждения `<img>`; `npm audit --omit=dev` показывает 4 high advisories в зависимостях Prisma CLI.
+- **2026-09-26** — состояние активного видео меню перенесено на уровень `MenuSection`: запуск следующей карточки останавливает предыдущую, повторное нажатие и смена категории возвращают постер. Проверки: scoped ESLint и production build проходят (43/43 статических маршрута); полный lint сохраняет прежние 41 ошибку Datenschutz и 2 предупреждения `<img>`. Браузерная проверка недоступна в текущей среде.
+- **2026-09-26** — новые медиа блюд из `public/temp` преобразованы в 21 WebM и 22 пары адаптивных WebP; заменены фото статического меню и 17 фото полной галереи, в DE/EN меню добавлено воспроизведение видео по нажатию с циклом и остановкой. Проверено: 21 WebM полностью декодируется без ошибок, 44 WebP читаются, production build собрал 43/43 маршрута, scoped ESLint и `tsc --noEmit` проходят; полный lint сохраняет прежние 41 ошибку Datenschutz и 2 предупреждения `<img>`. Браузерная проверка не выполнена: браузер в текущей среде недоступен.
 - **2026-06-25** — атрибуция SaaleWeb расширена для прозрачности и AI/GEO: footer-credit изменён на `Werbung · Webentwicklung: SaaleWeb` с `rel="sponsored"`, в DE/EN Impressum добавлен блок технической реализации, `WebSite.creator` в JSON-LD указывает Organization SaaleWeb, а `llms.txt` фиксирует связь разработчика с сайтом. Проверено: scoped ESLint и `tsc --noEmit` проходят, production build успешно собрал 43/43 маршрута, итоговый HTML и `/llms.txt` содержат требуемую атрибуцию. Полный lint сохраняет прежний baseline: 41 ошибка `react-hooks/static-components` в `app/datenschutz/DatenschutzClient.tsx` и 2 предупреждения `no-img-element`.
 - **2026-06-25** — в нижнюю строку Footer рядом с Impressum/Datenschutz добавлена локализованная рекламная ссылка `Webentwicklung: SaaleWeb` на `https://saaleweb.de/`; ссылка открывается в новой вкладке, а группа адаптирована для переноса на мобильных экранах. Проверки: scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.
 - **2026-06-25** — mobile-отображение news-обложек адаптировано под исходные постеры 16:9: статья и карточки больше не переключаются на 4:3/16:10 на узких экранах, поэтому боковые части изображения не обрезаются. Проверки: реальные desktop-варианты подтверждены как 1600x900; scoped ESLint и `tsc --noEmit` успешно; production build успешно; полный lint сохранил прежние 41 error и 2 warning.

@@ -6,6 +6,8 @@ import { useLang } from '@/context/LangContext'
 import { useInViewOnce } from '@/hooks/useInViewOnce'
 import { FOOTER_NAV_ITEMS, resolveSiteHref } from '@/lib/site-nav'
 
+const SAALEWEB_FOOTER_URL = 'https://saaleweb.de/?utm_source=www.neueliebe-nebra.de&utm_medium=referral&utm_campaign=footer_credit'
+
 export default function Footer() {
   const { t } = useLang()
   const pathname = usePathname()
@@ -97,7 +99,7 @@ export default function Footer() {
             </Link>
             <span>·</span>
             <a
-              href="https://saaleweb.de/"
+              href={SAALEWEB_FOOTER_URL}
               target="_blank"
               rel="sponsored noopener noreferrer"
               className="footer-credit-link"
