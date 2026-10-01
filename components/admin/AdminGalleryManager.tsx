@@ -33,6 +33,7 @@ function formatDate(isoDate: string, lang: AdminLang): string {
 }
 
 const sidebarItems = [
+  { href: '/admin/reservations', titleDe: 'Reservierungen', titleRu: 'Бронирования', subtitleDe: 'Anfragen und Tische', subtitleRu: 'Заявки и столики' },
   { href: '/admin/gallery', active: true, titleDe: 'Galerie', titleRu: 'Галерея', subtitleDe: 'Fotos und Konvertierung', subtitleRu: 'Фото и конвертация' },
   { href: '/admin/menu', titleDe: 'Menü', titleRu: 'Меню', subtitleDe: 'Kategorien und Gerichte', subtitleRu: 'Категории и блюда' },
   { href: '/admin/news', titleDe: 'Nachrichten', titleRu: 'Новости', subtitleDe: 'Markdown und SEO', subtitleRu: 'Markdown и SEO' },

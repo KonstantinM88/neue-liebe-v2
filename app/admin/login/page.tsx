@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
         return
       }
 
-      router.push('/admin/gallery')
+      router.push('/admin/reservations')
       router.refresh()
     } catch (submitError) {
       console.error('[Admin login]', submitError)

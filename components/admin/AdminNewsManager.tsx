@@ -31,6 +31,7 @@ type ApiResponse = {
 }
 
 const navItems = [
+  { href: '/admin/reservations', titleDe: 'Reservierungen', titleRu: 'Бронирования', subtitleDe: 'Anfragen und Tische', subtitleRu: 'Заявки и столики' },
   { href: '/admin/gallery', titleDe: 'Galerie', titleRu: 'Галерея', subtitleDe: 'Fotos und Konvertierung', subtitleRu: 'Фото и конвертация' },
   { href: '/admin/menu', titleDe: 'Menü', titleRu: 'Меню', subtitleDe: 'Kategorien und Gerichte', subtitleRu: 'Категории и блюда' },
   { href: '/admin/news', active: true, titleDe: 'Nachrichten', titleRu: 'Новости', subtitleDe: 'Markdown und SEO', subtitleRu: 'Markdown и SEO' },

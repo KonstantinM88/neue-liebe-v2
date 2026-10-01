@@ -1,0 +1,27 @@
+.reasonField {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.reasonField label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.reasonField textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b6a793;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1714;
+  font: inherit;
+  resize: vertical;
+}
+
+.reasonField textarea:focus-visible {
+  outline: 2px solid #8b6914;
+  outline-offset: 2px;
+}

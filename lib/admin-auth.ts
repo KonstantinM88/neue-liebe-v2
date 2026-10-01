@@ -10,20 +10,23 @@ type AdminSessionPayload = {
 export const ADMIN_COOKIE_NAME = 'nl_admin_session'
 export const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 24 * 7
 
-function getAdminSecret(): string {
-  return process.env.ADMIN_SESSION_SECRET ?? process.env.ADMIN_PASSWORD ?? 'change-this-admin-secret'
+function getAdminSecret(): string | null {
+  const secret = process.env.ADMIN_SESSION_SECRET
+  return secret && secret.length >= 32 ? secret : null
 }
 
-function getAdminUsername(): string {
-  return process.env.ADMIN_USERNAME ?? 'admin'
+function getAdminUsername(): string | null {
+  return process.env.ADMIN_USERNAME?.trim() || null
 }
 
-function getAdminPassword(): string {
-  return process.env.ADMIN_PASSWORD ?? 'admin12345'
+function getAdminPassword(): string | null {
+  return process.env.ADMIN_PASSWORD || null
 }
 
-function signPayload(payloadBase64: string): string {
-  return createHmac('sha256', getAdminSecret())
+function signPayload(payloadBase64: string): string | null {
+  const secret = getAdminSecret()
+  if (!secret) return null
+  return createHmac('sha256', secret)
     .update(payloadBase64)
     .digest('base64url')
 }
@@ -40,10 +43,13 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export function checkAdminCredentials(username: string, password: string): boolean {
+  const configuredUsername = getAdminUsername()
+  const configuredPassword = getAdminPassword()
+  if (!configuredUsername || !configuredPassword || !getAdminSecret()) return false
   const normalizedUsername = String(username).trim()
   const normalizedPassword = String(password)
 
-  return safeEqual(normalizedUsername, getAdminUsername()) && safeEqual(normalizedPassword, getAdminPassword())
+  return safeEqual(normalizedUsername, configuredUsername) && safeEqual(normalizedPassword, configuredPassword)
 }
 
 export function createAdminSessionToken(username: string): string {
@@ -54,6 +60,7 @@ export function createAdminSessionToken(username: string): string {
 
   const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString('base64url')
   const signature = signPayload(payloadBase64)
+  if (!signature) throw new Error('Admin session secret is not configured')
   return `${payloadBase64}.${signature}`
 }
 
@@ -69,7 +76,7 @@ export function verifyAdminSessionToken(token?: string | null): boolean {
   }
 
   const expectedSignature = signPayload(payloadBase64)
-  if (!safeEqual(signature, expectedSignature)) {
+  if (!expectedSignature || !safeEqual(signature, expectedSignature)) {
     return false
   }
 

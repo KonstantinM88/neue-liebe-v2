@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/admin/*', '/api/admin/*'],
+        disallow: ['/admin', '/admin/*', '/api/admin/*', '/reservations/confirm', '/reservations/cancel'],
       },
     ],
     sitemap: 'https://www.neueliebe-nebra.de/sitemap.xml',
